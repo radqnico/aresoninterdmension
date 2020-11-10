@@ -1,7 +1,6 @@
 package it.areson.interdimension.commands;
 
 import it.areson.interdimension.AresonInterdimension;
-import it.areson.interdimension.portals.PortalsManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -18,17 +17,17 @@ public class TestPortalCommand implements CommandExecutor {
         this.plugin = plugin;
         this.messages = plugin.messagesFile.getConfig();
         PluginCommand testportal = plugin.getCommand("testportal");
-        if(testportal!=null){
+        if (testportal != null) {
             testportal.setExecutor(this);
         }
     }
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
-        if(commandSender instanceof Player) {
+        if (commandSender instanceof Player) {
             Player player = (Player) commandSender;
-            plugin.portalsManager.createNewPortal(player.getLocation(), null);
-        }else {
+            plugin.portalsManager.createNewPortal(player.getLocation().clone().add(0, 0.5, 0), null);
+        } else {
             commandSender.sendMessage("Non sei un player");
         }
         return true;
