@@ -20,7 +20,7 @@ public class Portal {
         this.isActive = false;
     }
 
-    public void activate(){
+    public void activate() {
         isActive = true;
         particleTaskId = plugin.getServer().getScheduler().scheduleSyncRepeatingTask(
                 plugin,
@@ -29,7 +29,14 @@ public class Portal {
                             Particle.END_ROD,
                             location,
                             100,
-                            0,1,0,
+                            1, 1, 1,
+                            0.
+                    );
+                    plugin.getServer().getWorld("world").spawnParticle(
+                            Particle.REVERSE_PORTAL,
+                            location,
+                            100,
+                            1, 1, 1,
                             0.
                     );
                 },
@@ -38,7 +45,7 @@ public class Portal {
         );
     }
 
-    public void deactivate(){
+    public void deactivate() {
         isActive = false;
         plugin.getServer().getScheduler().cancelTask(particleTaskId);
     }
