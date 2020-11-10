@@ -26,7 +26,7 @@ public class TestPortalCommand implements CommandExecutor {
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
         if (commandSender instanceof Player) {
             Player player = (Player) commandSender;
-            plugin.portalsManager.createNewPortal(player.getLocation().clone().add(0, 0.5, 0), null);
+            plugin.portalsManager.createNewPortal(player.getLocation().clone().add(0, 1, 0), null);
         } else {
             commandSender.sendMessage("Non sei un player");
         }
