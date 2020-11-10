@@ -7,6 +7,8 @@ import org.bukkit.SoundCategory;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.Objects;
+
 public class Portal {
 
     private JavaPlugin plugin;
@@ -43,9 +45,16 @@ public class Portal {
                             1f,
                             0.6f
                     );
+                    plugin.getServer().getWorld("world").playSound(
+                            location,
+                            Sound.AMBIENT_CRIMSON_FOREST_MOOD,
+                            SoundCategory.MASTER,
+                            1f,
+                            0.6f
+                    );
                 },
                 0,
-                50
+                80
         );
         particleTaskId = plugin.getServer().getScheduler().scheduleSyncRepeatingTask(
                 plugin,
@@ -53,28 +62,28 @@ public class Portal {
                     plugin.getServer().getWorld("world").spawnParticle(
                             Particle.END_ROD,
                             location,
-                            5,
+                            3,
                             .2, 1, .2,
                             0.01
                     );
                     plugin.getServer().getWorld("world").spawnParticle(
                             Particle.REVERSE_PORTAL,
                             location,
-                            5,
+                            10,
                             .2, 1, .2,
                             0.01
                     );
                     plugin.getServer().getWorld("world").spawnParticle(
                             Particle.PORTAL,
                             location,
-                            10,
+                            20,
                             .2, 1, .2,
                             0.1
                     );
                     plugin.getServer().getWorld("world").spawnParticle(
                             Particle.DRIPPING_OBSIDIAN_TEAR,
                             location,
-                            2,
+                            4,
                             .2, 1, .2,
                             0.1
                     );
@@ -99,4 +108,16 @@ public class Portal {
         player.teleport(location);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Portal)) return false;
+        Portal portal = (Portal) o;
+        return Objects.equals(location, portal.location);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(location);
+    }
 }
