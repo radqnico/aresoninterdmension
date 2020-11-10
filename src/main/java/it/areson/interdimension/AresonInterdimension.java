@@ -1,5 +1,6 @@
 package it.areson.interdimension;
 
+import it.areson.interdimension.commands.SetDestinationCommand;
 import it.areson.interdimension.commands.TestPortalCommand;
 import it.areson.interdimension.portals.PortalsManager;
 import it.areson.interdimension.utils.FileManager;
@@ -21,5 +22,6 @@ public class AresonInterdimension extends JavaPlugin {
 
     public void registerCommands(){
         new TestPortalCommand(this);
+        new SetDestinationCommand(this);
     }
 }

@@ -11,17 +11,25 @@ public class Portal {
     private Location location;
     private Location destination;
     private int particleTaskId;
+    private int timeoutTaskId;
     private boolean isActive;
+    private int secondsTimeout;
 
-    public Portal(JavaPlugin plugin, Location location, Location destination) {
+    public Portal(JavaPlugin plugin, Location location, Location destination, int secondsTimeout) {
         this.plugin = plugin;
         this.location = location;
         this.destination = destination;
+        this.secondsTimeout = secondsTimeout;
         this.isActive = false;
     }
 
     public void activate() {
         isActive = true;
+        timeoutTaskId = plugin.getServer().getScheduler().scheduleSyncDelayedTask(
+                plugin,
+                this::deactivate,
+                secondsTimeout*20
+        );
         particleTaskId = plugin.getServer().getScheduler().scheduleSyncRepeatingTask(
                 plugin,
                 () -> {
@@ -59,9 +67,14 @@ public class Portal {
         );
     }
 
+    public boolean isActive() {
+        return isActive;
+    }
+
     public void deactivate() {
         isActive = false;
         plugin.getServer().getScheduler().cancelTask(particleTaskId);
+        plugin.getServer().getScheduler().cancelTask(timeoutTaskId);
     }
 
     public void teleport(Player player) {
