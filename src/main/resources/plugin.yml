@@ -1,0 +1,5 @@
+name: ${project.artifactId}
+version: ${project.version}
+main: ${project.groupId}.interdimension.${project.artifactId}
+author: Areson
+api-version: 1.16
