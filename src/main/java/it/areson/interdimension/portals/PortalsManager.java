@@ -16,10 +16,11 @@ public class PortalsManager {
         this.plugin = plugin;
     }
 
-    public void createNewPortal(Location location, Location destination) {
+    public synchronized int createNewPortal(Location location, Location destination) {
         Portal portal = new Portal(plugin, location, destination);
         portals.add(portal);
         portal.activate();
+        return portals.size()-1;
     }
 
     public void removePortal(Location location) {
