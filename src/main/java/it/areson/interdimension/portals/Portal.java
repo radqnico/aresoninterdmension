@@ -29,15 +29,15 @@ public class Portal {
                             Particle.END_ROD,
                             location,
                             100,
-                            1, 1, 1,
-                            0.
+                            .1, .1, .1,
+                            0.01
                     );
                     plugin.getServer().getWorld("world").spawnParticle(
                             Particle.REVERSE_PORTAL,
                             location,
                             100,
                             1, 1, 1,
-                            0.
+                            0.01
                     );
                 },
                 0,
