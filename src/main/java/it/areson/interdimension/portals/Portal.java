@@ -28,7 +28,9 @@ public class Portal {
                     plugin.getServer().getWorld("world").spawnParticle(
                             Particle.END_ROD,
                             location,
-                            100
+                            100,
+                            0,1,0,
+                            0.
                     );
                 },
                 0,
