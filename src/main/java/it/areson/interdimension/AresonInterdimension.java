@@ -15,6 +15,7 @@ public class AresonInterdimension extends JavaPlugin {
     public void onEnable() {
         instance = this;
         portalsManager = new PortalsManager(this);
+        messagesFile = new FileManager(this, "messages.yml");
         registerCommands();
     }
 
