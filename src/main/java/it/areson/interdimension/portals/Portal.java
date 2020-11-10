@@ -2,6 +2,8 @@ package it.areson.interdimension.portals;
 
 import org.bukkit.Location;
 import org.bukkit.Particle;
+import org.bukkit.Sound;
+import org.bukkit.SoundCategory;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -12,6 +14,7 @@ public class Portal {
     private Location destination;
     private int particleTaskId;
     private int timeoutTaskId;
+    private int soundTask;
     private boolean isActive;
     private int secondsTimeout;
 
@@ -29,6 +32,20 @@ public class Portal {
                 plugin,
                 this::deactivate,
                 secondsTimeout*20
+        );
+        soundTask = plugin.getServer().getScheduler().scheduleSyncRepeatingTask(
+                plugin,
+                () -> {
+                    plugin.getServer().getWorld("world").playSound(
+                            location,
+                            Sound.AMBIENT_NETHER_WASTES_MOOD,
+                            SoundCategory.MASTER,
+                            1f,
+                            0.6f
+                    );
+                },
+                0,
+                50
         );
         particleTaskId = plugin.getServer().getScheduler().scheduleSyncRepeatingTask(
                 plugin,
@@ -75,6 +92,7 @@ public class Portal {
         isActive = false;
         plugin.getServer().getScheduler().cancelTask(particleTaskId);
         plugin.getServer().getScheduler().cancelTask(timeoutTaskId);
+        plugin.getServer().getScheduler().cancelTask(soundTask);
     }
 
     public void teleport(Player player) {
