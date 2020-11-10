@@ -5,6 +5,7 @@ import it.areson.interdimension.portals.PortalsManager;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.PluginCommand;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
@@ -16,6 +17,10 @@ public class TestPortalCommand implements CommandExecutor {
     public TestPortalCommand(AresonInterdimension plugin) {
         this.plugin = plugin;
         this.messages = plugin.messagesFile.getConfig();
+        PluginCommand testportal = plugin.getCommand("testportal");
+        if(testportal!=null){
+            testportal.setExecutor(this);
+        }
     }
 
     @Override
