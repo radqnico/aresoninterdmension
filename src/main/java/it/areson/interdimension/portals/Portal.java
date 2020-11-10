@@ -40,6 +40,13 @@ public class Portal {
                             0.01
                     );
                     plugin.getServer().getWorld("world").spawnParticle(
+                            Particle.PORTAL,
+                            location,
+                            5,
+                            .2, 1, .2,
+                            0.1
+                    );
+                    plugin.getServer().getWorld("world").spawnParticle(
                             Particle.DRIPPING_OBSIDIAN_TEAR,
                             location,
                             10,
