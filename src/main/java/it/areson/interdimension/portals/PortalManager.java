@@ -30,7 +30,7 @@ public class PortalManager {
                 (float)destinationConfig.getDouble("yaw"),
                 (float)destinationConfig.getDouble("pitch")
         );
-        probability = plugin.getConfig().getDouble("spawn-probability-per-night-second");
+        probability = plugin.getConfig().getDouble("spawn-probability-every-five-seconds");
         assert probability>0 && probability <= 1;
     }
 

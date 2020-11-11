@@ -14,11 +14,11 @@ public class ConfigValidator {
     }
 
     public static boolean isProbabilityPresent() {
-        return configuration.isDouble("spawn-probability-per-night");
+        return configuration.isDouble("spawn-probability-every-five-seconds");
     }
 
     public static boolean isProbabilityValid() {
-        return configuration.getDouble("spawn-probability-per-night-tick") > 0 && configuration.getDouble("spawn-probability-per-night-tick") <= 1;
+        return configuration.getDouble("spawn-probability-every-five-seconds") > 0 && configuration.getDouble("spawn-probability-every-five-seconds") <= 1;
     }
 
     public static boolean isDestinationPresent() {
