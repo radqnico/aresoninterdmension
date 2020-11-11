@@ -17,9 +17,9 @@ public class SetDestinationCommand implements CommandExecutor {
     public SetDestinationCommand(AresonInterdimension plugin) {
         this.plugin = plugin;
         this.messages = plugin.messagesFile.getConfig();
-        PluginCommand testportal = plugin.getCommand("setdestination");
-        if (testportal != null) {
-            testportal.setExecutor(this);
+        PluginCommand command = plugin.getCommand("setdestination");
+        if (command != null) {
+            command.setExecutor(this);
         }
     }
 
@@ -29,11 +29,13 @@ public class SetDestinationCommand implements CommandExecutor {
             Player player = (Player) commandSender;
             checkSection();
             Location location = player.getLocation();
+            plugin.getConfig().getConfigurationSection("destination").set("world",location.getWorld().getName());
             plugin.getConfig().getConfigurationSection("destination").set("x",location.getX());
             plugin.getConfig().getConfigurationSection("destination").set("y",location.getY());
             plugin.getConfig().getConfigurationSection("destination").set("z",location.getZ());
-            plugin.getConfig().getConfigurationSection("destination").set("y",location.getYaw());
-            plugin.getConfig().getConfigurationSection("destination").set("p",location.getPitch());
+            plugin.getConfig().getConfigurationSection("destination").set("yaw",location.getYaw());
+            plugin.getConfig().getConfigurationSection("destination").set("pitch",location.getPitch());
+            plugin.saveConfig();
             commandSender.sendMessage("Destinazione portali interdimensionali impostata.");
         } else {
             commandSender.sendMessage("Non sei un player");

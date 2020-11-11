@@ -1,9 +1,6 @@
 package it.areson.interdimension.portals;
 
-import org.bukkit.Location;
-import org.bukkit.Particle;
-import org.bukkit.Sound;
-import org.bukkit.SoundCategory;
+import org.bukkit.*;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -38,14 +35,14 @@ public class Portal {
         soundTask = plugin.getServer().getScheduler().scheduleSyncRepeatingTask(
                 plugin,
                 () -> {
-                    plugin.getServer().getWorld("world").playSound(
+                    location.getWorld().playSound(
                             location,
                             Sound.AMBIENT_NETHER_WASTES_MOOD,
                             SoundCategory.MASTER,
                             1f,
                             0.6f
                     );
-                    plugin.getServer().getWorld("world").playSound(
+                    location.getWorld().playSound(
                             location,
                             Sound.AMBIENT_CRIMSON_FOREST_MOOD,
                             SoundCategory.MASTER,
@@ -59,28 +56,28 @@ public class Portal {
         particleTaskId = plugin.getServer().getScheduler().scheduleSyncRepeatingTask(
                 plugin,
                 () -> {
-                    plugin.getServer().getWorld("world").spawnParticle(
+                    location.getWorld().spawnParticle(
                             Particle.END_ROD,
                             location,
                             3,
                             .2, 1, .2,
                             0.01
                     );
-                    plugin.getServer().getWorld("world").spawnParticle(
+                    location.getWorld().spawnParticle(
                             Particle.REVERSE_PORTAL,
                             location,
                             10,
                             .2, 1, .2,
                             0.01
                     );
-                    plugin.getServer().getWorld("world").spawnParticle(
+                    location.getWorld().spawnParticle(
                             Particle.PORTAL,
                             location,
                             20,
                             .2, 1, .2,
                             0.1
                     );
-                    plugin.getServer().getWorld("world").spawnParticle(
+                    location.getWorld().spawnParticle(
                             Particle.DRIPPING_OBSIDIAN_TEAR,
                             location,
                             4,
@@ -104,6 +101,16 @@ public class Portal {
         plugin.getServer().getScheduler().cancelTask(soundTask);
     }
 
+    public void spark(){
+        plugin.getServer().getWorld("world").spawnParticle(
+                Particle.END_ROD,
+                location,
+                100,
+                .2, 1, .2,
+                1
+        );
+    }
+
     public void teleport(Player player) {
         player.teleport(location);
     }
@@ -116,8 +123,16 @@ public class Portal {
         return Objects.equals(location, portal.location);
     }
 
+    public Chunk getPortalChunk(){
+        return location.getChunk();
+    }
+
     @Override
     public int hashCode() {
         return Objects.hash(location);
+    }
+
+    public Location getLocation() {
+        return location;
     }
 }
