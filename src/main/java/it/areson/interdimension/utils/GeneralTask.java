@@ -33,6 +33,7 @@ public class GeneralTask {
                 0,
                 100
         );
+        plugin.getLogger().info("Interdimensional Portals task started!");
     }
 
 
@@ -57,6 +58,7 @@ public class GeneralTask {
     public void stopTask(){
         if(taskId!=-1) {
             plugin.getServer().getScheduler().cancelTask(taskId);
+            plugin.getLogger().info("Interdimensional Portals task stopped!");
         }
     }
 }

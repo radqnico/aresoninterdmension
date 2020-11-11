@@ -15,7 +15,7 @@ public class ReloadCommand implements CommandExecutor {
     public ReloadCommand(AresonInterdimension plugin) {
         this.plugin = plugin;
         this.messages = plugin.messagesFile.getConfig();
-        PluginCommand testportal = plugin.getCommand("testportal");
+        PluginCommand testportal = plugin.getCommand("interdimreload");
         if (testportal != null) {
             testportal.setExecutor(this);
         }
@@ -24,7 +24,7 @@ public class ReloadCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
         plugin.reloadConfig();
-        plugin.portalManager.reload();
+        plugin.reloadAllConfigs();
         return true;
     }
 }

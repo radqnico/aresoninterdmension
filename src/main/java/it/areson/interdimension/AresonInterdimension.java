@@ -24,20 +24,25 @@ public class AresonInterdimension extends JavaPlugin {
         instance = this;
         saveDefaultConfig();
         if (!validateConfig()) {
-            this.getPluginLoader().disablePlugin(this);
-        } else {
-            portalManager = new PortalManager(this);
-            messagesFile = new FileManager(this, "messages.yml");
-            passPortalEvents = new PlayerPassPortalEvents(this);
-            generalTask = new GeneralTask(this);
-            generalTask.startTask();
             registerCommands();
-            portalsWorld = getServer().getWorld("world");
+            getLogger().warning("Config is not complete. Use commands to se all values, then /interdimreload");
+        } else {
+            init();
         }
     }
 
-    public void reloadPortalManager() {
-        portalManager.reload();
+    public void reloadAllConfigs() {
+        generalTask.stopTask();
+        init();
+    }
+
+    public void init() {
+        portalsWorld = getServer().getWorld("world");
+        portalManager = new PortalManager(this);
+        messagesFile = new FileManager(this, "messages.yml");
+        passPortalEvents = new PlayerPassPortalEvents(this);
+        generalTask = new GeneralTask(this);
+        generalTask.startTask();
     }
 
     public void registerCommands() {
