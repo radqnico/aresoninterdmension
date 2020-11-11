@@ -106,7 +106,7 @@ public class Portal {
         location.getWorld().spawnParticle(
                 Particle.END_ROD,
                 location,
-                100,
+                500,
                 .2, 1, .2,
                 1
         );
@@ -116,7 +116,7 @@ public class Portal {
                     destination.getWorld().spawnParticle(
                             Particle.END_ROD,
                             destination,
-                            100,
+                            500,
                             .2, 1, .2,
                             1
                     );
