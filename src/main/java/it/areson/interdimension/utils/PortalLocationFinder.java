@@ -28,9 +28,17 @@ public class PortalLocationFinder {
     }
 
     public static boolean isPortalSpaceAir(Location location) {
-        return location.getBlock().getType().equals(Material.AIR) &&
-                location.clone().subtract(0, 1, 0).getBlock().getType().equals(Material.AIR) &&
-                location.clone().add(0, 1, 0).getBlock().getType().equals(Material.AIR);
+        return (location.getBlock().getType().equals(Material.AIR) ||
+                location.getBlock().getType().equals(Material.GRASS) ||
+                location.getBlock().getType().equals(Material.TALL_GRASS))
+                &&
+                (location.clone().add(0, 1, 0).getBlock().getType().equals(Material.AIR) ||
+                        location.clone().add(0, 1, 0).getBlock().getType().equals(Material.GRASS) ||
+                        location.clone().add(0, 1, 0).getBlock().getType().equals(Material.TALL_GRASS))
+                &&
+                (location.clone().subtract(0, 1, 0).getBlock().getType().equals(Material.AIR) ||
+                        location.clone().subtract(0, 1, 0).getBlock().getType().equals(Material.GRASS) ||
+                        location.clone().subtract(0, 1, 0).getBlock().getType().equals(Material.TALL_GRASS));
     }
 
 }
