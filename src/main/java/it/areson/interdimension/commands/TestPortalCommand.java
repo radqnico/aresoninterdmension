@@ -1,6 +1,7 @@
 package it.areson.interdimension.commands;
 
 import it.areson.interdimension.AresonInterdimension;
+import it.areson.interdimension.utils.PortalLocationFinder;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
@@ -51,7 +52,8 @@ public class TestPortalCommand implements CommandExecutor {
                         (float)destinationConfig.getDouble("yaw"),
                         (float)destinationConfig.getDouble("pitch")
                 );
-                plugin.portalmanager.createNewPortal(selectedPlayer.getLocation().add(2,0,0), destination, 20);
+                Location optimalLocationForPortal = PortalLocationFinder.findOptimalLocationForPortal(selectedPlayer);
+                plugin.portalmanager.createNewPortal(optimalLocationForPortal, destination, 20);
                 plugin.getServer().broadcastMessage("Portale spawnato a " + selectedPlayer.getName());
             }else{
                 plugin.getServer().broadcastMessage("Portale non a " + selectedPlayer.getName());
