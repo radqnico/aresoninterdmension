@@ -2,6 +2,7 @@ package it.areson.interdimension.portals;
 
 import it.areson.interdimension.AresonInterdimension;
 import org.bukkit.Location;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
@@ -11,10 +12,26 @@ public class PortalManager {
 
     private Optional<Portal> activePortal;
     private AresonInterdimension plugin;
+    private Location destination;
+    private double probability;
 
     public PortalManager(AresonInterdimension plugin) {
         this.activePortal = Optional.empty();
         this.plugin = plugin;
+        ConfigurationSection destinationConfig = plugin.getConfig().getConfigurationSection("destination");
+        assert destinationConfig!=null;
+        String world = destinationConfig.getString("world");
+        assert world!=null;
+        destination = new Location(
+                plugin.getServer().getWorld(world),
+                destinationConfig.getDouble("x"),
+                destinationConfig.getDouble("y"),
+                destinationConfig.getDouble("z"),
+                (float)destinationConfig.getDouble("yaw"),
+                (float)destinationConfig.getDouble("pitch")
+        );
+        probability = plugin.getConfig().getDouble("spawn-probability-per-night-second");
+        assert probability>0 && probability <= 1;
     }
 
     public boolean createNewPortal(Location location, Location destination, int secondsTimeout) {
@@ -37,4 +54,30 @@ public class PortalManager {
         return activePortal;
     }
 
+    public Location getDestination() {
+        return destination;
+    }
+
+    public double getProbability() {
+        return probability;
+    }
+
+    public void reload() {
+        if(plugin.validateConfig()){
+            ConfigurationSection destinationConfig = plugin.getConfig().getConfigurationSection("destination");
+            assert destinationConfig!=null;
+            String world = destinationConfig.getString("world");
+            assert world!=null;
+            destination = new Location(
+                    plugin.getServer().getWorld(world),
+                    destinationConfig.getDouble("x"),
+                    destinationConfig.getDouble("y"),
+                    destinationConfig.getDouble("z"),
+                    (float)destinationConfig.getDouble("yaw"),
+                    (float)destinationConfig.getDouble("pitch")
+            );
+            probability = plugin.getConfig().getDouble("spawn-probability-per-night-second");
+            assert probability>0 && probability <= 1;
+        }
+    }
 }

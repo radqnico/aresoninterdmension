@@ -1,3 +1,7 @@
 # Messages
 
 not-player: "Non sei un player"
+probability-not-set: "Non hai impostato il valore 'spawn-probability-per-night-second' nella configurazione. Impostalo con /setprobability <prob>"
+probability-not-valid: "Il valore della probabilita' deve essere >0 e <=1. Impostalo con /setprobability <prob>"
+destination-not-set: "Non hai impostato la destinazione del portale. Impostala con /setdestination"
+destination-not-valid: "Il valore della destinazione non e' corretto. Impostala con /setdestination"

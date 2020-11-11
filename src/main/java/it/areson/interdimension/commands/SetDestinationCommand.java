@@ -6,6 +6,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
@@ -29,14 +30,19 @@ public class SetDestinationCommand implements CommandExecutor {
             Player player = (Player) commandSender;
             checkSection();
             Location location = player.getLocation();
-            plugin.getConfig().getConfigurationSection("destination").set("world",location.getWorld().getName());
-            plugin.getConfig().getConfigurationSection("destination").set("x",location.getX());
-            plugin.getConfig().getConfigurationSection("destination").set("y",location.getY());
-            plugin.getConfig().getConfigurationSection("destination").set("z",location.getZ());
-            plugin.getConfig().getConfigurationSection("destination").set("yaw",location.getYaw());
-            plugin.getConfig().getConfigurationSection("destination").set("pitch",location.getPitch());
-            plugin.saveConfig();
-            commandSender.sendMessage("Destinazione portali interdimensionali impostata.");
+            ConfigurationSection destination = plugin.getConfig().getConfigurationSection("destination");
+            if(destination!=null){
+                destination.set("world",location.getWorld().getName());
+                destination.set("x",location.getX());
+                destination.set("y",location.getY());
+                destination.set("z",location.getZ());
+                destination.set("yaw",location.getYaw());
+                destination.set("pitch",location.getPitch());
+                plugin.saveConfig();
+                commandSender.sendMessage("Destinazione portali interdimensionali impostata.");
+            }else{
+                commandSender.sendMessage("Destinazione portali: errore nel file.");
+            }
         } else {
             commandSender.sendMessage("Non sei un player");
         }

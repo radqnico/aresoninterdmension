@@ -2,15 +2,11 @@ package it.areson.interdimension.events;
 
 import it.areson.interdimension.AresonInterdimension;
 import it.areson.interdimension.portals.Portal;
-import it.areson.interdimension.portals.PortalManager;
 import org.bukkit.Location;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.event.server.PluginEvent;
-import org.bukkit.plugin.PluginManager;
 
 public class PlayerPassPortalEvents implements Listener {
 
@@ -37,15 +33,18 @@ public class PlayerPassPortalEvents implements Listener {
 
     @EventHandler
     public void onPlayerMoveEvent(PlayerMoveEvent e){
-        if (plugin.portalmanager.getActivePortal().isPresent()) {
-            Portal portal = plugin.portalmanager.getActivePortal().get();
-            if (e.getTo().getChunk().equals(portal.getPortalChunk())) {
-                Location to = e.getTo();
-                if(to.distance(portal.getLocation())<0.5){
-                    portal.teleport(e.getPlayer());
-                    portal.spark();
-                    portal.deactivate();
-                    plugin.portalmanager.removePortal();
+        if (plugin.portalManager.getActivePortal().isPresent()) {
+            Portal portal = plugin.portalManager.getActivePortal().get();
+            Location toLocation = e.getTo();
+            if(toLocation!=null) {
+                if (toLocation.getChunk().equals(portal.getPortalChunk())) {
+                    Location to = toLocation;
+                    if (to.distance(portal.getLocation()) < 0.5) {
+                        portal.teleport(e.getPlayer());
+                        portal.spark();
+                        portal.deactivate();
+                        plugin.portalManager.removePortal();
+                    }
                 }
             }
         }

@@ -13,19 +13,19 @@ public class ConfigValidator {
         configuration = fileConfiguration;
     }
 
-    public boolean isProbabilityPresent() {
+    public static boolean isProbabilityPresent() {
         return configuration.isDouble("spawn-probability-per-night");
     }
 
-    public boolean isProbabilityValid() {
-        return configuration.getDouble("spawn-probability-per-night") >= 0 && configuration.getDouble("spawn-probability-per-night") <= 1;
+    public static boolean isProbabilityValid() {
+        return configuration.getDouble("spawn-probability-per-night-tick") > 0 && configuration.getDouble("spawn-probability-per-night-tick") <= 1;
     }
 
-    public boolean isDestinationPresent() {
+    public static boolean isDestinationPresent() {
         return configuration.isConfigurationSection("destination");
     }
 
-    public boolean isDestinationValid() {
+    public static boolean isDestinationValid() {
         ConfigurationSection destination = configuration.getConfigurationSection("destination");
         if(Objects.isNull(destination)){
             return false;

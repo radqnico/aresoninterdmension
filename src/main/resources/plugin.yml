@@ -5,8 +5,14 @@ author: Areson
 api-version: 1.16
 
 commands:
-  testportal:
+  reload:
     usage: /<command>
+    permission: areson.interdimension.admin
 
   setdestination:
     usage: /<command>
+    permission: areson.interdimension.admin
+
+permissions:
+  areson.interdimension.admin:
+    default: op

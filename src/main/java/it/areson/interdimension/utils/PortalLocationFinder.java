@@ -10,8 +10,10 @@ public class PortalLocationFinder {
         Location playerLocation = player.getLocation().clone();
         Location behind = playerLocation.clone().subtract(playerLocation.getDirection().multiply(2));
         Location testLocation = behind.clone();
-        while(testLocation.getBlock().getType().equals(Material.AIR) && testLocation.getY()<=200){
-            testLocation.add(0,2,0);
+        while(testLocation.getBlock().getType().equals(Material.AIR) &&
+                testLocation.clone().subtract(0,1,0).getBlock().getType().equals(Material.AIR) &&
+                testLocation.getY()<=200){
+            testLocation.add(0,3,0);
         }
         if(testLocation.getY()>=200){
             testLocation = behind.clone();

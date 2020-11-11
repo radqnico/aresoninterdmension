@@ -1,32 +1,69 @@
 package it.areson.interdimension;
 
+import it.areson.interdimension.commands.ReloadCommand;
 import it.areson.interdimension.commands.SetDestinationCommand;
-import it.areson.interdimension.commands.TestPortalCommand;
 import it.areson.interdimension.events.PlayerPassPortalEvents;
 import it.areson.interdimension.portals.PortalManager;
+import it.areson.interdimension.utils.ConfigValidator;
 import it.areson.interdimension.utils.FileManager;
+import it.areson.interdimension.utils.GeneralTask;
+import org.bukkit.World;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class AresonInterdimension extends JavaPlugin {
 
     public static AresonInterdimension instance;
     public FileManager messagesFile;
-    public PortalManager portalmanager;
-
+    public PortalManager portalManager;
+    public World portalsWorld;
     public PlayerPassPortalEvents passPortalEvents;
+    public GeneralTask generalTask;
 
     @Override
     public void onEnable() {
         instance = this;
-        portalmanager = new PortalManager(this);
-        messagesFile = new FileManager(this, "messages.yml");
-
-        passPortalEvents = new PlayerPassPortalEvents(this);
-        registerCommands();
+        saveDefaultConfig();
+        if (!validateConfig()) {
+            this.getPluginLoader().disablePlugin(this);
+        } else {
+            portalManager = new PortalManager(this);
+            messagesFile = new FileManager(this, "messages.yml");
+            passPortalEvents = new PlayerPassPortalEvents(this);
+            generalTask = new GeneralTask(this);
+            generalTask.startTask();
+            registerCommands();
+            portalsWorld = getServer().getWorld("world");
+        }
     }
 
-    public void registerCommands(){
-        new TestPortalCommand(this);
+    public void reloadPortalManager() {
+        portalManager.reload();
+    }
+
+    public void registerCommands() {
+        new ReloadCommand(this);
         new SetDestinationCommand(this);
+    }
+
+    public boolean validateConfig() {
+        if (!ConfigValidator.isProbabilityPresent()) {
+            getServer().getLogger().warning(messagesFile.getConfig().getString("probability-not-set"));
+            return false;
+        } else {
+            if (!ConfigValidator.isProbabilityValid()) {
+                getServer().getLogger().warning(messagesFile.getConfig().getString("probability-not-valid"));
+                return false;
+            }
+        }
+        if (!ConfigValidator.isDestinationPresent()) {
+            getServer().getLogger().warning(messagesFile.getConfig().getString("destination-not-set"));
+            return false;
+        } else {
+            if (!ConfigValidator.isDestinationValid()) {
+                getServer().getLogger().warning(messagesFile.getConfig().getString("destination-not-valid"));
+                return false;
+            }
+        }
+        return true;
     }
 }

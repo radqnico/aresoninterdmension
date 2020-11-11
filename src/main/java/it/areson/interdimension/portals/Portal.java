@@ -3,7 +3,6 @@ package it.areson.interdimension.portals;
 import it.areson.interdimension.AresonInterdimension;
 import org.bukkit.*;
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.Objects;
 
@@ -100,11 +99,11 @@ public class Portal {
         plugin.getServer().getScheduler().cancelTask(particleTaskId);
         plugin.getServer().getScheduler().cancelTask(timeoutTaskId);
         plugin.getServer().getScheduler().cancelTask(soundTask);
-        plugin.portalmanager.removePortal();
+        plugin.portalManager.removePortal();
     }
 
     public void spark(){
-        plugin.getServer().getWorld("world").spawnParticle(
+        location.getWorld().spawnParticle(
                 Particle.END_ROD,
                 location,
                 100,
