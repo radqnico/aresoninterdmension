@@ -17,30 +17,30 @@ public class PlayerPassPortalEvents implements Listener {
         this.plugin = plugin;
     }
 
-    public void registerThisEvents(){
-        if(!isRegistered){
+    public void registerThisEvents() {
+        if (!isRegistered) {
             plugin.getServer().getPluginManager().registerEvents(this, plugin);
             isRegistered = true;
         }
     }
 
-    public void unregisterThisEvents(){
-        if(isRegistered){
+    public void unregisterThisEvents() {
+        if (isRegistered) {
             HandlerList.unregisterAll(this);
             isRegistered = false;
         }
     }
 
     @EventHandler
-    public void onPlayerMoveEvent(PlayerMoveEvent e){
+    public void onPlayerMoveEvent(PlayerMoveEvent e) {
         if (plugin.portalManager.getActivePortal().isPresent()) {
             Portal portal = plugin.portalManager.getActivePortal().get();
             Location toLocation = e.getTo();
-            if(toLocation!=null) {
+            if (toLocation != null) {
                 if (toLocation.getChunk().equals(portal.getPortalChunk())) {
                     Location to = toLocation;
                     if (to.distance(portal.getLocation()) < .5 ||
-                        e.getPlayer().getEyeLocation().distance(portal.getLocation()) < .5
+                            to.subtract(0, 1, 0).distance(portal.getLocation()) < .5
                     ) {
                         portal.teleport(e.getPlayer());
                         portal.spark();
