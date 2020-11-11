@@ -23,9 +23,9 @@ public class AresonInterdimension extends JavaPlugin {
     public void onEnable() {
         instance = this;
         saveDefaultConfig();
-        registerCommands();
         ConfigValidator.setFileConfiguration(getConfig());
         init();
+        registerCommands();
     }
 
     public void reloadAllConfigs() {
