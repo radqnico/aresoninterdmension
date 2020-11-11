@@ -35,25 +35,27 @@ public class TestPortalCommand implements CommandExecutor {
         Collection<? extends Player> onlinePlayers = plugin.getServer().getOnlinePlayers();
         List<Player> users = onlinePlayers.stream().filter(player -> (!player.isOp())&&(player.getGameMode().equals(GameMode.SURVIVAL))).collect(Collectors.toList());
         int size = users.size();
-        System.out.println("Size: " + size);
-        Random random = new Random();
-        int randomIndex = random.nextInt(size);
-        Player selectedPlayer = users.get(randomIndex);
-        double probability = plugin.getConfig().getDouble("probability");
-        if(random.nextDouble()<probability){
-            ConfigurationSection destinationConfig = plugin.getConfig().getConfigurationSection("destination");
-            Location destination = new Location(
-                    plugin.getServer().getWorld(destinationConfig.getString("world")),
-                    destinationConfig.getDouble("x"),
-                    destinationConfig.getDouble("y"),
-                    destinationConfig.getDouble("z"),
-                    (float)destinationConfig.getDouble("yaw"),
-                    (float)destinationConfig.getDouble("pitch")
-            );
-            plugin.portalmanager.createNewPortal(selectedPlayer.getLocation(), destination, 20);
-            plugin.getServer().broadcastMessage("Portale non spawnato a " + selectedPlayer.getName());
-        }else{
-            plugin.getServer().broadcastMessage("Portale spawnato a " + selectedPlayer.getName());
+        if(size>0){
+            System.out.println("Size: " + size);
+            Random random = new Random();
+            int randomIndex = random.nextInt(size);
+            Player selectedPlayer = users.get(randomIndex);
+            double probability = plugin.getConfig().getDouble("probability");
+            if(random.nextDouble()<probability){
+                ConfigurationSection destinationConfig = plugin.getConfig().getConfigurationSection("destination");
+                Location destination = new Location(
+                        plugin.getServer().getWorld(destinationConfig.getString("world")),
+                        destinationConfig.getDouble("x"),
+                        destinationConfig.getDouble("y"),
+                        destinationConfig.getDouble("z"),
+                        (float)destinationConfig.getDouble("yaw"),
+                        (float)destinationConfig.getDouble("pitch")
+                );
+                plugin.portalmanager.createNewPortal(selectedPlayer.getLocation(), destination, 20);
+                plugin.getServer().broadcastMessage("Portale non spawnato a " + selectedPlayer.getName());
+            }else{
+                plugin.getServer().broadcastMessage("Portale spawnato a " + selectedPlayer.getName());
+            }
         }
         return true;
     }
