@@ -35,13 +35,13 @@ public class AresonInterdimension extends JavaPlugin {
     }
 
     public void init() {
+        messagesFile = new FileManager(this, "messages.yml");
         if (!validateConfig()) {
             registerCommands();
             getLogger().warning("Config is not complete. Use commands to se all values, then /interdimreload");
         } else {
             portalsWorld = getServer().getWorld("world");
             portalManager = new PortalManager(this);
-            messagesFile = new FileManager(this, "messages.yml");
             passPortalEvents = new PlayerPassPortalEvents(this);
             generalTask = new GeneralTask(this);
             generalTask.startTask();
