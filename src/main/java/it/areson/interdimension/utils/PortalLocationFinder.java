@@ -24,7 +24,7 @@ public class PortalLocationFinder {
                 testLocation.subtract(0, 1, 0);
             }
         }
-        return testLocation;
+        return testLocation.subtract(0,1,0);
     }
 
     public static boolean isPortalSpaceAir(Location location) {
