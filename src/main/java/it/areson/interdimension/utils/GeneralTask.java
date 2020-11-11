@@ -3,6 +3,8 @@ package it.areson.interdimension.utils;
 import it.areson.interdimension.AresonInterdimension;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.Sound;
+import org.bukkit.SoundCategory;
 import org.bukkit.entity.Player;
 
 import java.util.Collection;
@@ -50,6 +52,7 @@ public class GeneralTask {
                 Location optimalLocationForPortal = PortalLocationFinder.findOptimalLocationForPortal(selectedPlayer);
                 plugin.portalManager.createNewPortal(optimalLocationForPortal, destination, 20);
                 plugin.getServer().getLogger().info("Portal spawned at player '" + selectedPlayer.getName() + "'");
+                selectedPlayer.playSound(selectedPlayer.getLocation(), Sound.AMBIENT_NETHER_WASTES_MOOD, SoundCategory.MASTER, 1, 0.7f);
             }
         }
     }
