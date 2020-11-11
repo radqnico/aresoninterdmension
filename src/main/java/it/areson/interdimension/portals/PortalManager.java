@@ -61,23 +61,4 @@ public class PortalManager {
     public double getProbability() {
         return probability;
     }
-
-    public void reload() {
-        if(plugin.validateConfig()){
-            ConfigurationSection destinationConfig = plugin.getConfig().getConfigurationSection("destination");
-            assert destinationConfig!=null;
-            String world = destinationConfig.getString("world");
-            assert world!=null;
-            destination = new Location(
-                    plugin.getServer().getWorld(world),
-                    destinationConfig.getDouble("x"),
-                    destinationConfig.getDouble("y"),
-                    destinationConfig.getDouble("z"),
-                    (float)destinationConfig.getDouble("yaw"),
-                    (float)destinationConfig.getDouble("pitch")
-            );
-            probability = plugin.getConfig().getDouble("spawn-probability-per-night-second");
-            assert probability>0 && probability <= 1;
-        }
-    }
 }

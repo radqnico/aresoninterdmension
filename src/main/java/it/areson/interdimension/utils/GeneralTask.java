@@ -39,7 +39,7 @@ public class GeneralTask {
 
     public void trySpawnPortal(){
         Collection<? extends Player> onlinePlayers = plugin.getServer().getOnlinePlayers();
-        List<Player> users = onlinePlayers.stream().filter(player -> (player.getGameMode().equals(GameMode.SURVIVAL))).collect(Collectors.toList());
+        List<Player> users = onlinePlayers.stream().filter(player -> (player.getGameMode().equals(GameMode.SURVIVAL))&&(!player.isDead())).collect(Collectors.toList());
         int size = users.size();
         if(size>0){
             Random random = new Random();
