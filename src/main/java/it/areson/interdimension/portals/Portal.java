@@ -112,7 +112,7 @@ public class Portal {
     }
 
     public void teleport(Player player) {
-        player.teleport(location);
+        player.teleport(destination);
     }
 
     @Override
