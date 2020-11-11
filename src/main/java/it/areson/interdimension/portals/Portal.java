@@ -60,28 +60,28 @@ public class Portal {
                             Particle.END_ROD,
                             location,
                             3,
-                            .2, 1, .2,
+                            .2, .5, .2,
                             0.01
                     );
                     location.getWorld().spawnParticle(
                             Particle.REVERSE_PORTAL,
                             location,
                             10,
-                            .2, 1, .2,
+                            .2, .5, .2,
                             0.01
                     );
                     location.getWorld().spawnParticle(
                             Particle.PORTAL,
                             location,
                             20,
-                            .2, 1, .2,
+                            .2, .5, .2,
                             0.1
                     );
                     location.getWorld().spawnParticle(
                             Particle.DRIPPING_OBSIDIAN_TEAR,
                             location,
                             4,
-                            .2, 1, .2,
+                            .2, .5, .2,
                             0.1
                     );
                 },
@@ -106,6 +106,13 @@ public class Portal {
         location.getWorld().spawnParticle(
                 Particle.END_ROD,
                 location,
+                100,
+                .2, 1, .2,
+                1
+        );
+        destination.getWorld().spawnParticle(
+                Particle.END_ROD,
+                destination,
                 100,
                 .2, 1, .2,
                 1

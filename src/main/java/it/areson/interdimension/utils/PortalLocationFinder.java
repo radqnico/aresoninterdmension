@@ -31,7 +31,6 @@ public class PortalLocationFinder {
         return location.getBlock().getType().equals(Material.AIR) &&
                 location.clone().subtract(0, 1, 0).getBlock().getType().equals(Material.AIR) &&
                 location.clone().add(0, 1, 0).getBlock().getType().equals(Material.AIR);
-
     }
 
 }
