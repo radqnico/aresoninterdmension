@@ -25,6 +25,7 @@ public class ReloadCommand implements CommandExecutor {
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
         plugin.reloadConfig();
         plugin.reloadAllConfigs();
+        commandSender.sendMessage(plugin.messagesFile.getConfig().getString("reloaded"));
         return true;
     }
 }

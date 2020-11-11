@@ -23,6 +23,7 @@ public class AresonInterdimension extends JavaPlugin {
     public void onEnable() {
         instance = this;
         saveDefaultConfig();
+        registerCommands();
         ConfigValidator.setFileConfiguration(getConfig());
         init();
     }
@@ -39,7 +40,6 @@ public class AresonInterdimension extends JavaPlugin {
     public void init() {
         messagesFile = new FileManager(this, "messages.yml");
         if (!validateConfig()) {
-            registerCommands();
             getLogger().warning("Config is not complete. Use commands to se all values, then /interdimreload");
         } else {
             portalsWorld = getServer().getWorld("world");
