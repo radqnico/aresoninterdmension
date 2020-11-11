@@ -113,6 +113,27 @@ public class Portal {
 
     public void teleport(Player player) {
         player.teleport(destination);
+        location.getWorld().playSound(
+                location,
+                Sound.ENTITY_ENDERMAN_TELEPORT,
+                SoundCategory.MASTER,
+                1f,
+                0.6f
+        );
+        player.getWorld().playSound(
+                destination,
+                Sound.ENTITY_ENDERMAN_TELEPORT,
+                SoundCategory.MASTER,
+                1f,
+                0.6f
+        );
+        player.getWorld().spawnParticle(
+                Particle.END_ROD,
+                location,
+                100,
+                .2, .2, .2,
+                1
+        );
     }
 
     @Override

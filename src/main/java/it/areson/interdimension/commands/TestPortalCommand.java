@@ -52,9 +52,9 @@ public class TestPortalCommand implements CommandExecutor {
                         (float)destinationConfig.getDouble("pitch")
                 );
                 plugin.portalmanager.createNewPortal(selectedPlayer.getLocation().add(2,0,0), destination, 20);
-                plugin.getServer().broadcastMessage("Portale non spawnato a " + selectedPlayer.getName());
-            }else{
                 plugin.getServer().broadcastMessage("Portale spawnato a " + selectedPlayer.getName());
+            }else{
+                plugin.getServer().broadcastMessage("Portale non a " + selectedPlayer.getName());
             }
         }
         return true;
