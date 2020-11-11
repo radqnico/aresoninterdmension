@@ -29,7 +29,9 @@ public class AresonInterdimension extends JavaPlugin {
 
     public void reloadAllConfigs() {
         reloadConfig();
-        generalTask.stopTask();
+        if(generalTask!=null) {
+            generalTask.stopTask();
+        }
         ConfigValidator.setFileConfiguration(getConfig());
         init();
     }
