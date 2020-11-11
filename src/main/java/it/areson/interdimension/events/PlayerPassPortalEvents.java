@@ -2,6 +2,7 @@ package it.areson.interdimension.events;
 
 import it.areson.interdimension.AresonInterdimension;
 import it.areson.interdimension.portals.Portal;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
@@ -47,6 +48,10 @@ public class PlayerPassPortalEvents implements Listener {
                         portal.spark();
                         portal.deactivate();
                         plugin.portalManager.removePortal();
+                        plugin.getServer().broadcastMessage(
+                                ChatColor.translateAlternateColorCodes('&', plugin.messagesFile.getConfig().getString("portal-entered-broadcast")
+                                .replaceAll("%PLAYER%", e.getPlayer().getName()))
+                        );
                     }
                 }
             }

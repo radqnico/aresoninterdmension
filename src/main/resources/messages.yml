@@ -6,3 +6,5 @@ probability-not-valid: "Il valore della probabilita' deve essere >0 e <=1. Impos
 destination-not-set: "Non hai impostato la destinazione del portale. Impostala con /setdestination"
 destination-not-valid: "Il valore della destinazione non e' corretto. Impostala con /setdestination"
 reloaded: "Configurazione aggiornata."
+
+portal-entered-broadcast: "&6&lIl giocatore %PLAYER% ha appena attraversato uno squarcio spaziale misterioso!"

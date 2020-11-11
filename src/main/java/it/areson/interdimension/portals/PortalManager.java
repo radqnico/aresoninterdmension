@@ -61,4 +61,12 @@ public class PortalManager {
     public double getProbability() {
         return probability;
     }
+
+    public void setDestination(Location destination) {
+        this.destination = destination;
+    }
+
+    public void setProbability(double probability) {
+        this.probability = probability;
+    }
 }

@@ -1,12 +1,13 @@
 package it.areson.interdimension;
 
-import it.areson.interdimension.commands.ReloadCommand;
 import it.areson.interdimension.commands.SetDestinationCommand;
+import it.areson.interdimension.commands.SetProbabilityCommand;
 import it.areson.interdimension.events.PlayerPassPortalEvents;
 import it.areson.interdimension.portals.PortalManager;
 import it.areson.interdimension.utils.ConfigValidator;
 import it.areson.interdimension.utils.FileManager;
 import it.areson.interdimension.utils.GeneralTask;
+import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -28,15 +29,6 @@ public class AresonInterdimension extends JavaPlugin {
         registerCommands();
     }
 
-    public void reloadAllConfigs() {
-        reloadConfig();
-        if(generalTask!=null) {
-            generalTask.stopTask();
-        }
-        ConfigValidator.setFileConfiguration(getConfig());
-        init();
-    }
-
     public void init() {
         messagesFile = new FileManager(this, "messages.yml");
         if (!validateConfig()) {
@@ -51,26 +43,26 @@ public class AresonInterdimension extends JavaPlugin {
     }
 
     public void registerCommands() {
-        new ReloadCommand(this);
+        new SetProbabilityCommand(this);
         new SetDestinationCommand(this);
     }
 
     public boolean validateConfig() {
         if (!ConfigValidator.isProbabilityPresent()) {
-            getServer().getLogger().warning(messagesFile.getConfig().getString("probability-not-set"));
+            getServer().getLogger().warning(ChatColor.translateAlternateColorCodes('&', messagesFile.getConfig().getString("probability-not-set")));
             return false;
         } else {
             if (!ConfigValidator.isProbabilityValid()) {
-                getServer().getLogger().warning(messagesFile.getConfig().getString("probability-not-valid"));
+                getServer().getLogger().warning(ChatColor.translateAlternateColorCodes('&', messagesFile.getConfig().getString("probability-not-valid")));
                 return false;
             }
         }
         if (!ConfigValidator.isDestinationPresent()) {
-            getServer().getLogger().warning(messagesFile.getConfig().getString("destination-not-set"));
+            getServer().getLogger().warning(ChatColor.translateAlternateColorCodes('&', messagesFile.getConfig().getString("destination-not-set")));
             return false;
         } else {
             if (!ConfigValidator.isDestinationValid()) {
-                getServer().getLogger().warning(messagesFile.getConfig().getString("destination-not-valid"));
+                getServer().getLogger().warning(ChatColor.translateAlternateColorCodes('&', messagesFile.getConfig().getString("destination-not-valid")));
                 return false;
             }
         }

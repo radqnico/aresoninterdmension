@@ -39,20 +39,22 @@ public class GeneralTask {
 
 
     public void trySpawnPortal() {
-        Collection<? extends Player> onlinePlayers = plugin.getServer().getOnlinePlayers();
-        List<Player> users = onlinePlayers.stream().filter(player -> (player.getGameMode().equals(GameMode.SURVIVAL)) && (!player.isDead())).collect(Collectors.toList());
-        int size = users.size();
-        if (size > 0) {
-            Random random = new Random();
-            int randomIndex = random.nextInt(size);
-            Player selectedPlayer = users.get(randomIndex);
-            double probability = plugin.portalManager.getProbability();
-            if (random.nextDouble() < probability) {
-                Location destination = plugin.portalManager.getDestination();
-                Location optimalLocationForPortal = PortalLocationFinder.findOptimalLocationForPortal(selectedPlayer);
-                plugin.portalManager.createNewPortal(optimalLocationForPortal, destination, 20);
-                plugin.getServer().getLogger().info("Portal spawned at player '" + selectedPlayer.getName() + "'");
-                selectedPlayer.playSound(selectedPlayer.getLocation(), Sound.AMBIENT_NETHER_WASTES_MOOD, SoundCategory.MASTER, 1, 0.7f);
+        if(!plugin.portalManager.getActivePortal().isPresent()) {
+            Collection<? extends Player> onlinePlayers = plugin.getServer().getOnlinePlayers();
+            List<Player> users = onlinePlayers.stream().filter(player -> (player.getGameMode().equals(GameMode.SURVIVAL)) && (!player.isDead())).collect(Collectors.toList());
+            int size = users.size();
+            if (size > 0) {
+                Random random = new Random();
+                int randomIndex = random.nextInt(size);
+                Player selectedPlayer = users.get(randomIndex);
+                double probability = plugin.portalManager.getProbability();
+                if (random.nextDouble() < probability) {
+                    Location destination = plugin.portalManager.getDestination();
+                    Location optimalLocationForPortal = PortalLocationFinder.findOptimalLocationForPortal(selectedPlayer);
+                    plugin.portalManager.createNewPortal(optimalLocationForPortal, destination, 20);
+                    plugin.getServer().getLogger().info("Portal spawned at player '" + selectedPlayer.getName() + "'");
+                    selectedPlayer.playSound(selectedPlayer.getLocation(), Sound.AMBIENT_NETHER_WASTES_MOOD, SoundCategory.MASTER, 1, 0.7f);
+                }
             }
         }
     }

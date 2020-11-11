@@ -10,15 +10,15 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
-public class SetDestinationCommand implements CommandExecutor {
+public class SetProbabilityCommand implements CommandExecutor {
 
     private AresonInterdimension plugin;
     private FileConfiguration messages;
 
-    public SetDestinationCommand(AresonInterdimension plugin) {
+    public SetProbabilityCommand(AresonInterdimension plugin) {
         this.plugin = plugin;
         this.messages = plugin.messagesFile.getConfig();
-        PluginCommand command = plugin.getCommand("setdestination");
+        PluginCommand command = plugin.getCommand("setprobability");
         if (command != null) {
             command.setExecutor(this);
         }
@@ -27,23 +27,19 @@ public class SetDestinationCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
         if (commandSender instanceof Player) {
-            Player player = (Player) commandSender;
-            checkSection();
-            Location location = player.getLocation();
-            ConfigurationSection destination = plugin.getConfig().getConfigurationSection("destination");
-            if(destination!=null){
-                destination.set("world",location.getWorld().getName());
-                destination.set("x",location.getX());
-                destination.set("y",location.getY());
-                destination.set("z",location.getZ());
-                destination.set("yaw",location.getYaw());
-                destination.set("pitch",location.getPitch());
-                plugin.saveConfig();
-                plugin.portalManager.setDestination(location);
-                commandSender.sendMessage("Destinazione portali interdimensionali impostata.");
-            }else{
-                commandSender.sendMessage("Destinazione portali: errore nel file.");
+            if(strings.length == 1){
+                try {
+                    double probability = Double.parseDouble(strings[0]);
+                    FileConfiguration config = plugin.getConfig();
+                    config.set("spawn-probability-every-five-seconds", probability);
+                    plugin.saveConfig();
+                    plugin.portalManager.setProbability(probability);
+                    commandSender.sendMessage("Destinazione portali interdimensionali impostata.");
+                }catch (NumberFormatException ex){
+                    commandSender.sendMessage("Inserisci un numero decimale.");
+                }
             }
+
         } else {
             commandSender.sendMessage("Non sei un player");
         }
