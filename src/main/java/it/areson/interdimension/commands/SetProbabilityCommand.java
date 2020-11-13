@@ -16,7 +16,7 @@ public class SetProbabilityCommand implements CommandExecutor {
 
     public SetProbabilityCommand(AresonInterdimension plugin) {
         this.plugin = plugin;
-        PluginCommand command = plugin.getCommand("setprobability");
+        PluginCommand command = plugin.getCommand("setportalprobability");
         if (command != null) {
             command.setExecutor(this);
         }
@@ -38,6 +38,8 @@ public class SetProbabilityCommand implements CommandExecutor {
                 }catch (NumberFormatException ex){
                     commandSender.sendMessage("Inserisci un numero decimale.");
                 }
+            }else{
+                commandSender.sendMessage("Inserisci un numero decimale.");
             }
 
         } else {

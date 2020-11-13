@@ -12,7 +12,7 @@ public class ReloadInterdimensionCommand implements CommandExecutor {
 
     public ReloadInterdimensionCommand(AresonInterdimension plugin) {
         this.plugin = plugin;
-        PluginCommand command = plugin.getCommand("reloadinterdimension");
+        PluginCommand command = plugin.getCommand("reloadportals");
         if (command != null) {
             command.setExecutor(this);
         }

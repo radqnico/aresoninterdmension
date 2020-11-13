@@ -5,15 +5,15 @@ author: Areson
 api-version: 1.16
 
 commands:
-  reloadinterdimension:
+  reloadportals:
     usage: /<command>
     permission: areson.interdimension.admin
 
-  setprobability:
+  setportalprobability:
     usage: /<command>
     permission: areson.interdimension.admin
 
-  setdestination:
+  setportaldestination:
     usage: /<command>
     permission: areson.interdimension.admin
 

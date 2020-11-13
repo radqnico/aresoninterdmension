@@ -17,7 +17,7 @@ public class SetDestinationCommand implements CommandExecutor {
 
     public SetDestinationCommand(AresonInterdimension plugin) {
         this.plugin = plugin;
-        PluginCommand command = plugin.getCommand("setdestination");
+        PluginCommand command = plugin.getCommand("setportaldestination");
         if (command != null) {
             command.setExecutor(this);
         }
