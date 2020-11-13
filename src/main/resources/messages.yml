@@ -1,5 +1,7 @@
 # Messages
 
+prefix: "&4[AresonInterdimension] &f"
+
 not-player: "Non sei un player"
 probability-not-set: "Non hai impostato il valore 'spawn-probability-every-five-seconds' nella configurazione. Impostalo con /setprobability <prob>"
 probability-not-valid: "Il valore della probabilita' deve essere >0 e <=1. Impostalo con /setprobability <prob>"

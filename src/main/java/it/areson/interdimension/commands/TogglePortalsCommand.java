@@ -22,6 +22,7 @@ public class TogglePortalsCommand implements CommandExecutor {
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
         if (plugin.generalTask.isRunning()) {
             plugin.generalTask.stopTask();
+            plugin.portalManager.removePortal();
             commandSender.sendMessage(plugin.messages.getPlainMessage("portals-deactivated"));
         } else {
             plugin.generalTask.startTask();

@@ -57,8 +57,8 @@ public class GeneralTask {
                         if (destinationOptional.isPresent()) {
                             Location destination = destinationOptional.get();
                             Location optimalLocationForPortal = PortalLocationFinder.findOptimalLocationForPortal(selectedPlayer);
-                            boolean newPortal = plugin.portalManager.createNewPortal(optimalLocationForPortal, destination, 120);
-                            if (newPortal) {
+                            boolean newPortalIsCreated = plugin.portalManager.createNewPortal(optimalLocationForPortal, destination, 120);
+                            if (newPortalIsCreated) {
                                 plugin.getServer().getLogger().info(plugin.messages.getPlainMessage("console-log-portal-spawned")
                                         .replaceAll("%player%", selectedPlayer.getName()));
                                 selectedPlayer.playSound(selectedPlayer.getLocation(), Sound.AMBIENT_NETHER_WASTES_MOOD, SoundCategory.MASTER, 1, 0.7f);
