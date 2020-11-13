@@ -31,7 +31,7 @@ public class SetProbabilityCommand implements CommandExecutor {
                     if(probability>0 && probability<1) {
                         plugin.data.getFileConfiguration().set("spawn-probability-every-five-seconds", probability);
                         plugin.data.save();
-                        commandSender.sendMessage("Destinazione portali interdimensionali impostata.");
+                        commandSender.sendMessage("Probabilita' portali interdimensionali impostata.");
                     }else{
                         commandSender.sendMessage("Probabilita' deve essere tra 0 e 1.");
                     }
