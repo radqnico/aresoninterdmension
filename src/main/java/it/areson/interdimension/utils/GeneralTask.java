@@ -51,7 +51,7 @@ public class GeneralTask {
                 int randomIndex = random.nextInt(size);
                 Player selectedPlayer = users.get(randomIndex);
                 if(ConfigValidator.isProbabilityValid()) {
-                    double probability = plugin.getConfig().getDouble("spawn-probability-every-five-seconds");
+                    double probability = plugin.data.getFileConfiguration().getDouble("spawn-probability-every-five-seconds");
                     if (random.nextDouble() < probability) {
                         Optional<Location> destinationOptional = plugin.data.getLocation("destination");
                         if (destinationOptional.isPresent()) {
