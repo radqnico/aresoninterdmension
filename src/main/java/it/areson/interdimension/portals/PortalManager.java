@@ -31,6 +31,9 @@ public class PortalManager {
 
     public void removePortal() {
         if (Objects.nonNull(activePortal)) {
+            if(activePortal.isActive()) {
+                activePortal.deactivate();
+            }
             activePortal = null;
             playerPassPortalEvents.unregisterEvents();
         }
