@@ -1,5 +1,7 @@
 # Messages
 
+# Per calcolare la probabilità di avere almeno un portale a notte usa https://stattrek.com/online-calculator/binomial.aspx o chiama Nico
+
 prefix: "&4[AresonInterdimension] &f"
 
 not-player: "Non sei un player"
@@ -9,7 +11,7 @@ destination-not-set: "Non hai impostato la destinazione del portale. Impostala c
 destination-not-valid: "Il valore della destinazione non e' corretto. Impostala con /setdestination"
 reloaded: "Configurazione aggiornata."
 
-portal-entered-broadcast: "&6&lIl giocatore %PLAYER% ha appena attraversato uno squarcio spaziale misterioso!"
+portal-entered-broadcast: "&6Il giocatore &c&l%PLAYER%&6 ha appena attraversato uno squarcio spaziale misterioso!"
 
 console-log-portal-spawned: "&6Portale apparso a &c%player%"
 
