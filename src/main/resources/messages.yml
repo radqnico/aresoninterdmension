@@ -8,3 +8,8 @@ destination-not-valid: "Il valore della destinazione non e' corretto. Impostala 
 reloaded: "Configurazione aggiornata."
 
 portal-entered-broadcast: "&6&lIl giocatore %PLAYER% ha appena attraversato uno squarcio spaziale misterioso!"
+
+console-log-portal-spawned: "&6Portale apparso a &c%player%"
+
+portals-deactivated: "&cPortali interdimensionali disattivati"
+portals-activated: "&4Portali interdimensionali attivati"

@@ -13,11 +13,9 @@ import org.bukkit.entity.Player;
 public class SetProbabilityCommand implements CommandExecutor {
 
     private AresonInterdimension plugin;
-    private FileConfiguration messages;
 
     public SetProbabilityCommand(AresonInterdimension plugin) {
         this.plugin = plugin;
-        this.messages = plugin.messagesFile.getConfig();
         PluginCommand command = plugin.getCommand("setprobability");
         if (command != null) {
             command.setExecutor(this);
@@ -30,11 +28,13 @@ public class SetProbabilityCommand implements CommandExecutor {
             if(strings.length == 1){
                 try {
                     double probability = Double.parseDouble(strings[0]);
-                    FileConfiguration config = plugin.getConfig();
-                    config.set("spawn-probability-every-five-seconds", probability);
-                    plugin.saveConfig();
-                    plugin.portalManager.setProbability(probability);
-                    commandSender.sendMessage("Destinazione portali interdimensionali impostata.");
+                    if(probability>0 && probability<1) {
+                        plugin.data.getFileConfiguration().set("spawn-probability-every-five-seconds", probability);
+                        plugin.data.save();
+                        commandSender.sendMessage("Destinazione portali interdimensionali impostata.");
+                    }else{
+                        commandSender.sendMessage("Probabilita' deve essere tra 0 e 1.");
+                    }
                 }catch (NumberFormatException ex){
                     commandSender.sendMessage("Inserisci un numero decimale.");
                 }
@@ -44,11 +44,5 @@ public class SetProbabilityCommand implements CommandExecutor {
             commandSender.sendMessage("Non sei un player");
         }
         return true;
-    }
-
-    public void checkSection(){
-        if(!plugin.getConfig().isConfigurationSection("destination")){
-            plugin.getConfig().createSection("destination");
-        }
     }
 }

@@ -13,6 +13,10 @@ commands:
     usage: /<command>
     permission: areson.interdimension.admin
 
+  toggleportals:
+    usage: /<command>
+    permission: areson.interdimension.admin
+
 permissions:
   areson.interdimension.admin:
     default: op

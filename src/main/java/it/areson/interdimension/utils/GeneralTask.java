@@ -9,17 +9,19 @@ import org.bukkit.entity.Player;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Collectors;
 
 public class GeneralTask {
 
+    private boolean isRunning;
     private int taskId = -1;
     private AresonInterdimension plugin;
 
     public GeneralTask(AresonInterdimension plugin) {
         this.plugin = plugin;
-
+        isRunning = false;
     }
 
     public void startTask() {
@@ -34,12 +36,13 @@ public class GeneralTask {
                 0,
                 100
         );
-        plugin.getLogger().info("Interdimensional Portals task started!");
+        isRunning = true;
+        plugin.getLogger().info("Interdimensional Portals task started");
     }
 
 
     public void trySpawnPortal() {
-        if(!plugin.portalManager.getActivePortal().isPresent()) {
+        if (!plugin.portalManager.getActivePortal().isPresent()) {
             Collection<? extends Player> onlinePlayers = plugin.getServer().getOnlinePlayers();
             List<Player> users = onlinePlayers.stream().filter(player -> (player.getGameMode().equals(GameMode.SURVIVAL)) && (!player.isDead())).collect(Collectors.toList());
             int size = users.size();
@@ -47,22 +50,39 @@ public class GeneralTask {
                 Random random = new Random();
                 int randomIndex = random.nextInt(size);
                 Player selectedPlayer = users.get(randomIndex);
-                double probability = plugin.portalManager.getProbability();
-                if (random.nextDouble() < probability) {
-                    Location destination = plugin.portalManager.getDestination();
-                    Location optimalLocationForPortal = PortalLocationFinder.findOptimalLocationForPortal(selectedPlayer);
-                    plugin.portalManager.createNewPortal(optimalLocationForPortal, destination, 20);
-                    plugin.getServer().getLogger().info("Portal spawned at player '" + selectedPlayer.getName() + "'");
-                    selectedPlayer.playSound(selectedPlayer.getLocation(), Sound.AMBIENT_NETHER_WASTES_MOOD, SoundCategory.MASTER, 1, 0.7f);
+                if(ConfigValidator.isProbabilityValid()) {
+                    double probability = plugin.getConfig().getDouble("spawn-probability-every-five-seconds");
+                    if (random.nextDouble() < probability) {
+                        Optional<Location> destinationOptional = plugin.data.getLocation("destination");
+                        if (destinationOptional.isPresent()) {
+                            Location destination = destinationOptional.get();
+                            Location optimalLocationForPortal = PortalLocationFinder.findOptimalLocationForPortal(selectedPlayer);
+                            boolean newPortal = plugin.portalManager.createNewPortal(optimalLocationForPortal, destination, 120);
+                            if (newPortal) {
+                                plugin.getServer().getLogger().info(plugin.messages.getPlainMessage("console-log-portal-spawned")
+                                        .replaceAll("%player%", selectedPlayer.getName()));
+                                selectedPlayer.playSound(selectedPlayer.getLocation(), Sound.AMBIENT_NETHER_WASTES_MOOD, SoundCategory.MASTER, 1, 0.7f);
+                            }
+                        } else {
+                            plugin.getLogger().severe(plugin.messages.getPlainMessage("destination-not-set"));
+                        }
+                    }
+                }else{
+                    plugin.getLogger().warning(plugin.messages.getPlainMessage("probability-not-valid"));
                 }
             }
         }
     }
 
     public void stopTask() {
-        if (taskId != -1) {
+        if (isRunning) {
+            isRunning = false;
             plugin.getServer().getScheduler().cancelTask(taskId);
-            plugin.getLogger().info("Interdimensional Portals task stopped!");
+            plugin.getLogger().info("Interdimensional Portals task stopped");
         }
+    }
+
+    public boolean isRunning() {
+        return isRunning;
     }
 }

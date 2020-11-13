@@ -18,7 +18,7 @@ public class ConfigValidator {
     }
 
     public static boolean isProbabilityValid() {
-        return configuration.getDouble("spawn-probability-every-five-seconds") > 0 && configuration.getDouble("spawn-probability-every-five-seconds") <= 1;
+        return configuration.getDouble("spawn-probability-every-five-seconds") > 0 && configuration.getDouble("spawn-probability-every-five-seconds") < 1;
     }
 
     public static boolean isDestinationPresent() {

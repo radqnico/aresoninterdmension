@@ -18,14 +18,14 @@ public class PlayerPassPortalEvents implements Listener {
         this.plugin = plugin;
     }
 
-    public void registerThisEvents() {
+    public void registerEvents() {
         if (!isRegistered) {
             plugin.getServer().getPluginManager().registerEvents(this, plugin);
             isRegistered = true;
         }
     }
 
-    public void unregisterThisEvents() {
+    public void unregisterEvents() {
         if (isRegistered) {
             HandlerList.unregisterAll(this);
             isRegistered = false;
@@ -39,17 +39,16 @@ public class PlayerPassPortalEvents implements Listener {
             Location toLocation = e.getTo();
             if (toLocation != null) {
                 if (toLocation.getChunk().equals(portal.getPortalChunk())) {
-                    Location to = toLocation;
-                    if (to.distance(portal.getLocation()) < .5 ||
+                    if (toLocation.distance(portal.getLocation()) < .5 ||
                             e.getPlayer().getEyeLocation().clone().distance(portal.getLocation()) < .5 ||
-                            to.distance(portal.getLocation().clone().subtract(0,1,0)) < .5
+                            toLocation.distance(portal.getLocation().clone().subtract(0,1,0)) < .5
                     ) {
                         portal.teleport(e.getPlayer());
                         portal.spark();
                         portal.deactivate();
                         plugin.portalManager.removePortal();
                         plugin.getServer().broadcastMessage(
-                                ChatColor.translateAlternateColorCodes('&', plugin.messagesFile.getConfig().getString("portal-entered-broadcast")
+                                ChatColor.translateAlternateColorCodes('&', plugin.messages.getPlainMessage("portal-entered-broadcast")
                                 .replaceAll("%PLAYER%", e.getPlayer().getName()))
                         );
                     }

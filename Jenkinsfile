@@ -48,6 +48,17 @@ pipeline {
                                 )
                         ]
                 )
+                sshPublisher(
+                                        failOnError: false,
+                                        publishers: [
+                                                sshPublisherDesc(
+                                                        configName: "Areson",
+                                                        transfers: [
+                                                                sshTransfer(execCommand: "screen -S test -X stuff ^[^M^Mstop^M")
+                                                        ]
+                                                )
+                                        ]
+                                )
             }
         }
 
