@@ -65,15 +65,4 @@ public class PlayerEvents implements Listener {
             }
         }
     }
-
-    @EventHandler
-    public void onInventoryCloseEvent(InventoryCloseEvent e){
-        InventoryHolder holder = e.getInventory().getHolder();
-        if(holder instanceof Chest){
-            Chest chest = (Chest) holder;
-            chest.getInventory().clear();
-            chest.setNextRefill(ZonedDateTime.now().toInstant().toEpochMilli()+30000);
-            plugin.getLogger().info("Chest will refill in 30 seconds.");
-        }
-    }
 }

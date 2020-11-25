@@ -9,12 +9,6 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Player;
-import org.bukkit.loot.LootTable;
-import org.bukkit.loot.LootTables;
-import org.bukkit.loot.Lootable;
-
-import java.time.LocalDateTime;
-import java.time.ZonedDateTime;
 
 public class SetPortalChestCommand implements CommandExecutor {
 
@@ -33,17 +27,15 @@ public class SetPortalChestCommand implements CommandExecutor {
         if (commandSender instanceof Player) {
             Player player = (Player) commandSender;
             Block targetBlockExact = player.getTargetBlockExact(100);
-            if(targetBlockExact!=null){
+            if (targetBlockExact != null) {
                 BlockState state = targetBlockExact.getState();
-                if(state instanceof Chest){
-                    Chest chest = (Chest) state;
-                    chest.setLootTable(LootTables.END_CITY_TREASURE.getLootTable());
-                    chest.update();
+                if (state instanceof Chest) {
+                    plugin.data.setLocation("chest", targetBlockExact.getLocation());
                     player.sendMessage("Chest impostata.");
-                }else{
+                } else {
                     player.sendMessage("Guarda una chest");
                 }
-            }else{
+            } else {
                 player.sendMessage("Guarda una chest");
             }
         } else {
