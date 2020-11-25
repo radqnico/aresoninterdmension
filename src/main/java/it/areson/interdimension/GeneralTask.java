@@ -99,8 +99,8 @@ public class GeneralTask {
         BlockState blockState = location.getBlock().getState();
         if (blockState instanceof Chest) {
             Chest chest = (Chest) blockState;
-            chest.setLootTable(LootTables.END_CITY_TREASURE.getLootTable());
-            chest.setNextRefill(Long.MAX_VALUE);
+            NamespacedKey namespacedKey = new NamespacedKey(plugin, "loot_portal");
+            chest.setLootTable(plugin.getServer().getLootTable(namespacedKey));
             chest.update();
         }
     }
