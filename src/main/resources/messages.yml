@@ -5,13 +5,14 @@
 prefix: "&4[AresonInterdimension] &f"
 
 not-player: "Non sei un player"
-probability-not-set: "Non hai impostato il valore 'spawn-probability-every-five-seconds' nella configurazione. Impostalo con /setprobability <prob>"
-probability-not-valid: "Il valore della probabilita' deve essere >0 e <=1. Impostalo con /setprobability <prob>"
-destination-not-set: "Non hai impostato la destinazione del portale. Impostala con /setdestination"
+probability-not-set: "Non hai impostato il valore 'spawn-probability-every-five-seconds' nella configurazione"
+probability-not-valid: "Il valore della probabilita' deve essere >0 e <=1"
+destination-not-set: "Non hai impostato la destinazione del portale"
+chest-not-set: "Non hai impostato la chest"
 destination-not-valid: "Il valore della destinazione non e' corretto. Impostala con /setdestination"
 reloaded: "Configurazione aggiornata."
 
-portal-entered-broadcast: "&6Il giocatore &c&l%PLAYER%&6 ha appena attraversato uno squarcio spaziale misterioso!"
+portal-entered-broadcast: "&c&l%PLAYER%&6 ha appena attraversato uno squarcio spaziale misterioso!"
 
 console-log-portal-spawned: "&6Portale apparso a &c%player%"
 
