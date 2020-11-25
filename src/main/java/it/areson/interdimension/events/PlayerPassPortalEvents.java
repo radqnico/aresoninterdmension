@@ -49,7 +49,7 @@ public class PlayerPassPortalEvents implements Listener {
                         portal.spark();
                         plugin.portalManager.setPortalPassed(true);
                         plugin.portalManager.startGoBackTask(portal.getLocation().clone(), e.getPlayer());
-                        e.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, Integer.MAX_VALUE, 1));
+                        e.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, Integer.MAX_VALUE, 1, false, false, false));
                         portal.deactivate();
                         plugin.portalManager.removePortal();
                         plugin.getServer().broadcastMessage(

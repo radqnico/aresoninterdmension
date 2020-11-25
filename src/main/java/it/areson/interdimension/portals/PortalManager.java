@@ -7,6 +7,7 @@ import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.SoundCategory;
 import org.bukkit.entity.Player;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.Objects;
 import java.util.Optional;
@@ -83,6 +84,7 @@ public class PortalManager {
                             2
                     );
                     setPortalPassed(false);
+                    player.removePotionEffect(PotionEffectType.BLINDNESS);
                 },
                 600
         );
