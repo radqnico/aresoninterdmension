@@ -8,9 +8,7 @@ import it.areson.interdimension.events.PlayerPassPortalEvents;
 import it.areson.interdimension.portals.PortalManager;
 import it.areson.interdimension.utils.ConfigValidator;
 import it.areson.interdimension.utils.FileManager;
-import it.areson.interdimension.utils.GeneralTask;
 import it.areson.interdimension.utils.MessageManager;
-import org.bukkit.ChatColor;
 import org.bukkit.World;
 import org.bukkit.plugin.java.JavaPlugin;
 

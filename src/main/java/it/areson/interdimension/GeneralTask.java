@@ -1,6 +1,8 @@
-package it.areson.interdimension.utils;
+package it.areson.interdimension;
 
 import it.areson.interdimension.AresonInterdimension;
+import it.areson.interdimension.utils.ConfigValidator;
+import it.areson.interdimension.utils.PortalLocationFinder;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Sound;
