@@ -36,6 +36,7 @@ public class SetPortalChestCommand implements CommandExecutor {
                     Chest chest = (Chest) state;
                     chest.setLootTable(LootTables.END_CITY_TREASURE.getLootTable());
                     chest.setNextRefill(600);
+                    chest.update();
                     player.sendMessage("Chest impostata.");
                 }else{
                     player.sendMessage("Guarda una chest");
