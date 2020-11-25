@@ -21,6 +21,10 @@ commands:
     usage: /<command>
     permission: areson.interdimension.admin
 
+  setportalchest:
+    usage: /<command>
+    permission: areson.interdimension.admin
+
 permissions:
   areson.interdimension.admin:
     default: op

@@ -1,9 +1,6 @@
 package it.areson.interdimension;
 
-import it.areson.interdimension.commands.ReloadInterdimensionCommand;
-import it.areson.interdimension.commands.SetDestinationCommand;
-import it.areson.interdimension.commands.SetProbabilityCommand;
-import it.areson.interdimension.commands.TogglePortalsCommand;
+import it.areson.interdimension.commands.*;
 import it.areson.interdimension.events.PlayerPassPortalEvents;
 import it.areson.interdimension.portals.PortalManager;
 import it.areson.interdimension.utils.ConfigValidator;
@@ -43,6 +40,7 @@ public class AresonInterdimension extends JavaPlugin {
         new SetDestinationCommand(this);
         new TogglePortalsCommand(this);
         new ReloadInterdimensionCommand(this);
+        new SetPortalChestCommand(this);
     }
 
     public boolean validateConfig() {

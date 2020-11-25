@@ -19,7 +19,7 @@ public class SetPortalChestCommand implements CommandExecutor {
 
     public SetPortalChestCommand(AresonInterdimension plugin) {
         this.plugin = plugin;
-        PluginCommand command = plugin.getCommand("setportalprobability");
+        PluginCommand command = plugin.getCommand("setportalchest");
         if (command != null) {
             command.setExecutor(this);
         }
