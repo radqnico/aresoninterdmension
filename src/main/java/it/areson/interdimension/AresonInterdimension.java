@@ -1,7 +1,7 @@
 package it.areson.interdimension;
 
 import it.areson.interdimension.commands.*;
-import it.areson.interdimension.events.PlayerPassPortalEvents;
+import it.areson.interdimension.events.PlayerEvents;
 import it.areson.interdimension.portals.PortalManager;
 import it.areson.interdimension.utils.ConfigValidator;
 import it.areson.interdimension.utils.FileManager;
@@ -15,7 +15,7 @@ public class AresonInterdimension extends JavaPlugin {
     public FileManager data;
     public PortalManager portalManager;
     public World portalsWorld;
-    public PlayerPassPortalEvents playerPassPortalEvents;
+    public PlayerEvents playerEvents;
     public GeneralTask generalTask;
 
     @Override
@@ -29,8 +29,8 @@ public class AresonInterdimension extends JavaPlugin {
 
     public void init() {
         portalsWorld = getServer().getWorld("world");
-        playerPassPortalEvents = new PlayerPassPortalEvents(this);
-        portalManager = new PortalManager(this, playerPassPortalEvents);
+        playerEvents = new PlayerEvents(this);
+        portalManager = new PortalManager(this, playerEvents);
         generalTask = new GeneralTask(this);
         generalTask.startTask();
     }

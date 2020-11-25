@@ -1,7 +1,7 @@
 package it.areson.interdimension.portals;
 
 import it.areson.interdimension.AresonInterdimension;
-import it.areson.interdimension.events.PlayerPassPortalEvents;
+import it.areson.interdimension.events.PlayerEvents;
 import org.bukkit.Location;
 import org.bukkit.Particle;
 import org.bukkit.Sound;
@@ -16,12 +16,12 @@ public class PortalManager {
 
     private Portal activePortal;
     private AresonInterdimension plugin;
-    private PlayerPassPortalEvents playerPassPortalEvents;
+    private PlayerEvents playerEvents;
     private boolean portalPassed;
     private int goBackTaskId;
 
-    public PortalManager(AresonInterdimension plugin, PlayerPassPortalEvents playerPassPortalEvents) {
-        this.playerPassPortalEvents = playerPassPortalEvents;
+    public PortalManager(AresonInterdimension plugin, PlayerEvents playerEvents) {
+        this.playerEvents = playerEvents;
         this.activePortal = null;
         this.plugin = plugin;
         this.portalPassed = false;
@@ -31,7 +31,7 @@ public class PortalManager {
         if (Objects.isNull(activePortal) && !portalPassed) {
             activePortal = new Portal(plugin, location, destination, secondsTimeout);
             activePortal.activate();
-            playerPassPortalEvents.registerEvents();
+            playerEvents.registerEvents();
             return true;
         }
         return false;
@@ -43,7 +43,7 @@ public class PortalManager {
                 activePortal.deactivate();
             }
             activePortal = null;
-            playerPassPortalEvents.unregisterEvents();
+            playerEvents.unregisterEvents();
         }
     }
 
