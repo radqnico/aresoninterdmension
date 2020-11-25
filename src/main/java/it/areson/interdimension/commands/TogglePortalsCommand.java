@@ -26,7 +26,7 @@ public class TogglePortalsCommand implements CommandExecutor {
             commandSender.sendMessage(plugin.messages.getPlainMessage("portals-deactivated"));
         } else {
             plugin.generalTask.startTask();
-            commandSender.sendMessage("Interdimensional Portals task started!");
+            commandSender.sendMessage(plugin.messages.getPlainMessage("portals-activated"));
         }
         return true;
     }

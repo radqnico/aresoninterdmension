@@ -43,7 +43,8 @@ public class PlayerPassPortalEvents implements Listener {
                 if (toLocation.getChunk().equals(portal.getPortalChunk())) {
                     if (toLocation.distance(portal.getLocation()) < .5 ||
                             e.getPlayer().getEyeLocation().clone().distance(portal.getLocation()) < .5 ||
-                            toLocation.distance(portal.getLocation().clone().subtract(0, 1, 0)) < .5
+                            toLocation.distance(portal.getLocation().clone().subtract(0, 1, 0)) < .5 ||
+                            toLocation.distance(portal.getLocation().clone().subtract(0, 2, 0)) < .5
                     ) {
                         portal.teleport(e.getPlayer());
                         portal.spark();
