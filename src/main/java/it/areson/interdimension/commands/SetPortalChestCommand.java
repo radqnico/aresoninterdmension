@@ -13,6 +13,9 @@ import org.bukkit.loot.LootTable;
 import org.bukkit.loot.LootTables;
 import org.bukkit.loot.Lootable;
 
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
+
 public class SetPortalChestCommand implements CommandExecutor {
 
     private AresonInterdimension plugin;
@@ -35,7 +38,7 @@ public class SetPortalChestCommand implements CommandExecutor {
                 if(state instanceof Chest){
                     Chest chest = (Chest) state;
                     chest.setLootTable(LootTables.END_CITY_TREASURE.getLootTable());
-                    chest.setNextRefill(600);
+                    chest.setNextRefill(ZonedDateTime.now().toInstant().toEpochMilli()+30000);
                     chest.update();
                     player.sendMessage("Chest impostata.");
                 }else{
