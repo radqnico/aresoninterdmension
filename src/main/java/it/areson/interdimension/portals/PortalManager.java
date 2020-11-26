@@ -44,7 +44,6 @@ public class PortalManager {
                 activePortal.deactivate();
             }
             activePortal = null;
-            playerEvents.unregisterEvents();
         }
     }
 
@@ -91,6 +90,7 @@ public class PortalManager {
                     );
                     player.removePotionEffect(PotionEffectType.BLINDNESS);
                     setPortalPassed(false, null);
+                    playerEvents.unregisterEvents();
                 },
                 600
         );
