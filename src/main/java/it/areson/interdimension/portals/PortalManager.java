@@ -19,6 +19,7 @@ public class PortalManager {
     private PlayerEvents playerEvents;
     private boolean portalPassed;
     private int goBackTaskId;
+    private Player player;
 
     public PortalManager(AresonInterdimension plugin, PlayerEvents playerEvents) {
         this.playerEvents = playerEvents;
@@ -47,11 +48,16 @@ public class PortalManager {
         }
     }
 
-    public void setPortalPassed(boolean portalPassed) {
+    public void setPortalPassed(boolean portalPassed, Player player) {
         this.portalPassed = portalPassed;
+        this.player = player;
     }
 
-    public void startGoBackTask(final Location location, final Player player){
+    public boolean isPassedPlayer(Player player){
+        return this.player.getName().equals(player.getName());
+    }
+
+    public void startGoBackTask(final Location location){
         plugin.getServer().getScheduler().scheduleSyncDelayedTask(
                 plugin,
                 () -> {
@@ -83,7 +89,7 @@ public class PortalManager {
                             },
                             2
                     );
-                    setPortalPassed(false);
+                    setPortalPassed(false, null);
                     player.removePotionEffect(PotionEffectType.BLINDNESS);
                 },
                 600

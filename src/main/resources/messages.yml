@@ -2,7 +2,7 @@
 
 # Per calcolare la probabilità di avere almeno un portale a notte usa https://stattrek.com/online-calculator/binomial.aspx o chiama Nico
 
-prefix: "&4[AresonInterdimension] &f"
+prefix: "&4[Areson] &f"
 
 not-player: "Non sei un player"
 probability-not-set: "Non hai impostato il valore 'spawn-probability-every-five-seconds' nella configurazione"
@@ -11,6 +11,7 @@ destination-not-set: "Non hai impostato la destinazione del portale"
 chest-not-set: "Non hai impostato la chest"
 destination-not-valid: "Il valore della destinazione non e' corretto. Impostala con /setdestination"
 reloaded: "Configurazione aggiornata."
+cannot-command: "&cNon puoi eseguire comandi qui."
 
 portal-entered-broadcast: "&c&l%PLAYER%&6 ha appena attraversato uno squarcio spaziale misterioso!"
 

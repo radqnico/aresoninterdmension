@@ -9,6 +9,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.potion.PotionEffect;
@@ -52,8 +53,8 @@ public class PlayerEvents implements Listener {
                 ) {
                     portal.teleport(e.getPlayer());
                     portal.spark();
-                    plugin.portalManager.setPortalPassed(true);
-                    plugin.portalManager.startGoBackTask(portal.getLocation().clone(), e.getPlayer());
+                    plugin.portalManager.setPortalPassed(true, e.getPlayer());
+                    plugin.portalManager.startGoBackTask(portal.getLocation().clone());
                     e.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, Integer.MAX_VALUE, 4, false, false, false));
                     portal.deactivate();
                     plugin.portalManager.removePortal();
@@ -64,5 +65,14 @@ public class PlayerEvents implements Listener {
                 }
             }
         }
+    }
+
+    @EventHandler
+    public void onPlayerChatCommand(PlayerCommandPreprocessEvent e){
+        if(plugin.portalManager.isPassedPlayer(e.getPlayer())){
+            e.setCancelled(true);
+            plugin.messages.sendPlainMessage(e.getPlayer(), "cannot-command");
+        }
+
     }
 }
