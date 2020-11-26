@@ -54,7 +54,7 @@ public class PortalManager {
     }
 
     public boolean isPassedPlayer(Player player){
-        return this.player.getName().equals(player.getName());
+        return player.equals(this.player);
     }
 
     public void startGoBackTask(final Location location){
@@ -89,8 +89,8 @@ public class PortalManager {
                             },
                             2
                     );
-                    setPortalPassed(false, null);
                     player.removePotionEffect(PotionEffectType.BLINDNESS);
+                    setPortalPassed(false, null);
                 },
                 600
         );
