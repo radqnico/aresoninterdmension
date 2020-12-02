@@ -55,7 +55,7 @@ public class PlayerEvents implements Listener {
                     portal.spark();
                     plugin.portalManager.setPortalPassed(true, e.getPlayer());
                     plugin.portalManager.startGoBackTask(portal.getLocation().clone());
-                    e.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, Integer.MAX_VALUE, 4, false, false, false));
+                    e.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 32, 4, false, false, false));
                     portal.deactivate();
                     plugin.portalManager.removePortal();
                     plugin.getServer().broadcastMessage(
