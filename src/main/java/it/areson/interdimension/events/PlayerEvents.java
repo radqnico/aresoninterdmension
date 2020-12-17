@@ -4,18 +4,14 @@ import it.areson.interdimension.AresonInterdimension;
 import it.areson.interdimension.portals.Portal;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
-import org.bukkit.block.Chest;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
-import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerCommandPreprocessEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.inventory.InventoryHolder;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-
-import java.time.ZonedDateTime;
 
 public class PlayerEvents implements Listener {
 
@@ -68,8 +64,18 @@ public class PlayerEvents implements Listener {
     }
 
     @EventHandler
-    public void onPlayerChatCommand(PlayerCommandPreprocessEvent e){
-        if(plugin.portalManager.isPassedPlayer(e.getPlayer())){
+    public void onPlayerQuit(PlayerQuitEvent e) {
+        if (plugin.portalManager.getActivePortal().isPresent()) {
+            Portal portal = plugin.portalManager.getActivePortal().get();
+            if (plugin.portalManager.isPassedPlayer(e.getPlayer())) {
+                plugin.portalManager.goBack(portal.getLocation().clone());
+            }
+        }
+    }
+
+    @EventHandler
+    public void onPlayerChatCommand(PlayerCommandPreprocessEvent e) {
+        if (plugin.portalManager.isPassedPlayer(e.getPlayer())) {
             e.setCancelled(true);
             plugin.messages.sendPlainMessage(e.getPlayer(), "cannot-command");
         }

@@ -28,6 +28,10 @@ public class PortalManager {
         this.portalPassed = false;
     }
 
+    public Player getPlayer() {
+        return player;
+    }
+
     public boolean createNewPortal(Location location, Location destination, int secondsTimeout) {
         if (Objects.isNull(activePortal) && !portalPassed) {
             activePortal = new Portal(plugin, location, destination, secondsTimeout);
@@ -40,7 +44,7 @@ public class PortalManager {
 
     public void removePortal() {
         if (Objects.nonNull(activePortal)) {
-            if(activePortal.isActive()) {
+            if (activePortal.isActive()) {
                 activePortal.deactivate();
             }
             activePortal = null;
@@ -52,15 +56,22 @@ public class PortalManager {
         this.player = player;
     }
 
-    public boolean isPassedPlayer(Player player){
+    public boolean isPassedPlayer(Player player) {
         return player.equals(this.player);
     }
 
-    public void startGoBackTask(final Location location){
+    public void goBack(final Location location) {
+        if(player!=null) {
+            player.teleport(location);
+        }
+    }
+
+    public void startGoBackTask(final Location location) {
         plugin.getServer().getScheduler().scheduleSyncDelayedTask(
                 plugin,
                 () -> {
                     player.teleport(location);
+                    player=null;
                     location.getWorld().spawnParticle(
                             Particle.END_ROD,
                             location,

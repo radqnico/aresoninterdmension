@@ -21,6 +21,7 @@ public class ReloadInterdimensionCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
         plugin.data.reloadConfig();
+        commandSender.sendMessage(plugin.messages.getPlainMessage("reloaded"));
         return true;
     }
 }
