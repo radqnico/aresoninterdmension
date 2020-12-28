@@ -71,7 +71,6 @@ public class PortalManager {
                 plugin,
                 () -> {
                     player.teleport(location);
-                    player=null;
                     location.getWorld().spawnParticle(
                             Particle.END_ROD,
                             location,
@@ -101,6 +100,7 @@ public class PortalManager {
                     );
                     player.removePotionEffect(PotionEffectType.BLINDNESS);
                     setPortalPassed(false, null);
+                    player=null;
                     playerEvents.unregisterEvents();
                 },
                 600
