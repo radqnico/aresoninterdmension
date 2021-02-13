@@ -10,6 +10,7 @@ import org.bukkit.World;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class AresonInterdimension extends JavaPlugin {
+    //TODO Useless commit
 
     public MessageManager messages;
     public FileManager data;
