@@ -40,10 +40,21 @@ pipeline {
                                         transfers: [
                                                 sshTransfer(
                                                         sourceFiles: "**/*.jar",
-                                                        remoteDirectory: "/home/minecraft/amicaSalvos/plugins/",
+                                                        remoteDirectory: "/home/minecraft/test/plugins/",
                                                         flatten: true,
                                                         excludes: "**/*original*.jar"
                                                 )
+                                        ]
+                                )
+                        ]
+                )
+                sshPublisher(
+                        failOnError: false,
+                        publishers: [
+                                sshPublisherDesc(
+                                        configName: "Areson",
+                                        transfers: [
+                                                sshTransfer(execCommand: "screen -S test -X stuff ^['stop'^M")
                                         ]
                                 )
                         ]
