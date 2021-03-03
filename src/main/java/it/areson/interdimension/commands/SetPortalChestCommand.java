@@ -24,22 +24,22 @@ public class SetPortalChestCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
-        if (commandSender instanceof Player) {
-            Player player = (Player) commandSender;
-            Block targetBlockExact = player.getTargetBlockExact(100);
-            if (targetBlockExact != null) {
-                BlockState state = targetBlockExact.getState();
-                if (state instanceof Chest) {
-                    plugin.data.setLocation("chest", targetBlockExact.getLocation());
-                    player.sendMessage("Chest impostata.");
-                } else {
-                    player.sendMessage("Guarda una chest");
-                }
+        if (!(commandSender instanceof Player)) {
+            commandSender.sendMessage("Non sei un player");
+            return true;
+        }
+        Player player = (Player) commandSender;
+        Block targetBlockExact = player.getTargetBlockExact(100);
+        if (targetBlockExact != null) {
+            BlockState state = targetBlockExact.getState();
+            if (state instanceof Chest) {
+                plugin.data.setLocation("chest", targetBlockExact.getLocation());
+                player.sendMessage("Chest impostata.");
             } else {
                 player.sendMessage("Guarda una chest");
             }
         } else {
-            commandSender.sendMessage("Non sei un player");
+            player.sendMessage("Stai guardando il vuoto");
         }
         return true;
     }

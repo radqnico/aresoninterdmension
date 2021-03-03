@@ -26,14 +26,14 @@ public class SetDestinationCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
         if (commandSender instanceof Player) {
-            Player player = (Player) commandSender;
-            Location location = player.getLocation();
-            plugin.data.setLocation("destination", location);
-            plugin.data.save();
-            commandSender.sendMessage("Destinazione portali interdimensionali impostata.");
-        } else {
             commandSender.sendMessage("Non sei un player");
+            return true;
         }
+        Player player = (Player) commandSender;
+        Location location = player.getLocation();
+        plugin.data.setLocation("destination", location);
+        plugin.data.save();
+        commandSender.sendMessage("Destinazione portali interdimensionali impostata.");
         return true;
     }
 }

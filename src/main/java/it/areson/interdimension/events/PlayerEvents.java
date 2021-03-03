@@ -39,26 +39,28 @@ public class PlayerEvents implements Listener {
     @EventHandler
     public void onPlayerMoveEvent(PlayerMoveEvent e) {
         if (plugin.portalManager.getActivePortal().isPresent()) {
-            Portal portal = plugin.portalManager.getActivePortal().get();
-            Location toLocation = e.getTo();
-            if (toLocation.getChunk().equals(portal.getPortalChunk())) {
-                if (toLocation.distance(portal.getLocation()) < .5 ||
-                        e.getPlayer().getEyeLocation().clone().distance(portal.getLocation()) < .5 ||
-                        toLocation.distance(portal.getLocation().clone().subtract(0, 1, 0)) < .5 ||
-                        toLocation.distance(portal.getLocation().clone().subtract(0, 2, 0)) < .5
-                ) {
-                    portal.teleport(e.getPlayer());
-                    portal.spark();
-                    plugin.portalManager.setPortalPassed(true, e.getPlayer());
-                    plugin.portalManager.startGoBackTask(portal.getLocation().clone());
-                    e.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 32, 4, false, false, false));
-                    portal.deactivate();
-                    plugin.portalManager.removePortal();
-                    plugin.getServer().broadcastMessage(
-                            ChatColor.translateAlternateColorCodes('&', plugin.messages.getPlainMessage("portal-entered-broadcast")
-                                    .replaceAll("%PLAYER%", e.getPlayer().getName()))
-                    );
-                }
+            // Non c'è nessun portale
+            return;
+        }
+        Portal portal = plugin.portalManager.getActivePortal().get();
+        Location toLocation = e.getTo();
+        if (toLocation.getChunk().equals(portal.getPortalChunk())) {
+            if (toLocation.distance(portal.getLocation()) < .5 ||
+                    e.getPlayer().getEyeLocation().clone().distance(portal.getLocation()) < .5 ||
+                    toLocation.distance(portal.getLocation().clone().subtract(0, 1, 0)) < .5 ||
+                    toLocation.distance(portal.getLocation().clone().subtract(0, 2, 0)) < .5
+            ) {
+                portal.teleport(e.getPlayer());
+                portal.spark();
+                plugin.portalManager.setPortalPassed(true, e.getPlayer());
+                plugin.portalManager.startGoBackTask(portal.getLocation().clone());
+                e.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 32, 4, false, false, false));
+                portal.deactivate();
+                plugin.portalManager.removePortal();
+                plugin.getServer().broadcastMessage(
+                        ChatColor.translateAlternateColorCodes('&', plugin.messages.getPlainMessage("portal-entered-broadcast")
+                                .replaceAll("%PLAYER%", e.getPlayer().getName()))
+                );
             }
         }
     }
@@ -79,6 +81,5 @@ public class PlayerEvents implements Listener {
             e.setCancelled(true);
             plugin.messages.sendPlainMessage(e.getPlayer(), "cannot-command");
         }
-
     }
 }

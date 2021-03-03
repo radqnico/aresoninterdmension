@@ -3,26 +3,31 @@ package it.areson.interdimension;
 import it.areson.interdimension.commands.*;
 import it.areson.interdimension.events.PlayerEvents;
 import it.areson.interdimension.portals.PortalManager;
-import it.areson.interdimension.utils.ConfigValidator;
+import it.areson.interdimension.utils.AresonConfiguration;
+import it.areson.interdimension.utils.ConfigurationFile;
 import it.areson.interdimension.utils.FileManager;
 import it.areson.interdimension.utils.MessageManager;
 import org.bukkit.World;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class AresonInterdimension extends JavaPlugin {
-
     public MessageManager messages;
     public FileManager data;
     public PortalManager portalManager;
     public World portalsWorld;
     public PlayerEvents playerEvents;
     public GeneralTask generalTask;
+    public ConfigurationFile fileConfiguration = new ConfigurationFile();
 
     @Override
     public void onEnable() {
         messages = new MessageManager(this, "messages.yml");
         data = new FileManager(this, "data.yml");
-        ConfigValidator.setFileConfiguration(data.getFileConfiguration());
+        try {
+            fileConfiguration.setFileConfiguration(data.getFileConfiguration());
+        } catch (AresonConfiguration.InvalidAresonConfigurationException e) {
+            e.printStackTrace();
+        }
         init();
         registerCommands();
     }
@@ -41,27 +46,5 @@ public class AresonInterdimension extends JavaPlugin {
         new TogglePortalsCommand(this);
         new ReloadInterdimensionCommand(this);
         new SetPortalChestCommand(this);
-    }
-
-    public boolean validateConfig() {
-        if (!ConfigValidator.isProbabilityPresent()) {
-            getServer().getLogger().warning(messages.getPlainMessage("probability-not-set"));
-            return false;
-        } else {
-            if (!ConfigValidator.isProbabilityValid()) {
-                getServer().getLogger().warning(messages.getPlainMessage("probability-not-valid"));
-                return false;
-            }
-        }
-        if (!ConfigValidator.isDestinationPresent()) {
-            getServer().getLogger().warning(messages.getPlainMessage("destination-not-set"));
-            return false;
-        } else {
-            if (!ConfigValidator.isDestinationValid()) {
-                getServer().getLogger().warning(messages.getPlainMessage("destination-not-valid"));
-                return false;
-            }
-        }
-        return true;
     }
 }

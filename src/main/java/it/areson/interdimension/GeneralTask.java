@@ -1,14 +1,11 @@
 package it.areson.interdimension;
 
-import it.areson.interdimension.utils.ConfigValidator;
 import it.areson.interdimension.utils.PortalLocationFinder;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Chest;
 import org.bukkit.entity.Player;
-import org.bukkit.loot.LootTable;
-import org.bukkit.loot.LootTables;
 
 import java.util.Collection;
 import java.util.List;
@@ -20,7 +17,7 @@ public class GeneralTask {
 
     private boolean isRunning;
     private int taskId = -1;
-    private AresonInterdimension plugin;
+    private final AresonInterdimension plugin;
 
     public GeneralTask(AresonInterdimension plugin) {
         this.plugin = plugin;
@@ -43,48 +40,48 @@ public class GeneralTask {
         plugin.getLogger().info("Interdimensional Portals task started");
     }
 
-
-    public void trySpawnPortal() {
+    private void trySpawnPortal() {
         if (!plugin.portalManager.getActivePortal().isPresent()) {
-            Optional<Location> chestOptional = plugin.data.getLocation("chest");
-            if (chestOptional.isPresent()) {
-                Collection<? extends Player> onlinePlayers = plugin.getServer().getOnlinePlayers();
-                List<Player> users = onlinePlayers.stream().filter(player -> (player.getGameMode().equals(GameMode.SURVIVAL)) && (!player.isDead())).collect(Collectors.toList());
-                int size = users.size();
-                if (size > 0) {
-                    Random random = new Random();
-                    int randomIndex = random.nextInt(size);
-                    Player selectedPlayer = users.get(randomIndex);
-                    if (ConfigValidator.isProbabilityValid()) {
-                        double probability = plugin.data.getFileConfiguration().getDouble("spawn-probability-every-five-seconds");
-                        if (random.nextDouble() < probability) {
-                            Optional<Location> destinationOptional = plugin.data.getLocation("destination");
-                            if (destinationOptional.isPresent()) {
-                                Location destination = destinationOptional.get();
-                                Location optimalLocationForPortal = PortalLocationFinder.findOptimalLocationForPortal(selectedPlayer);
-                                boolean newPortalIsCreated = plugin.portalManager.createNewPortal(optimalLocationForPortal, destination, 120);
-                                if (newPortalIsCreated) {
-                                    Location chestLocation = chestOptional.get();
-                                    emptyChest(chestLocation);
-                                    plugin.getServer().getLogger().info(plugin.messages.getPlainMessage("console-log-portal-spawned")
-                                            .replaceAll("%player%", selectedPlayer.getName()));
-                                    selectedPlayer.playSound(selectedPlayer.getLocation(), Sound.AMBIENT_NETHER_WASTES_MOOD, SoundCategory.MASTER, 1, 0.7f);
-                                }
-                            } else {
-                                plugin.getLogger().severe(plugin.messages.getPlainMessage("destination-not-set"));
-                            }
-                        }
-                    } else {
-                        plugin.getLogger().warning(plugin.messages.getPlainMessage("probability-not-valid"));
-                    }
-                }
-            } else {
-                plugin.getLogger().warning(plugin.messages.getPlainMessage("chest-not-set"));
-            }
+            // c'è già
+            return;
+        }
+        Optional<Location> chestOptional = plugin.data.getLocation("chest");
+        if (!chestOptional.isPresent()) {
+            plugin.getLogger().warning(plugin.messages.getPlainMessage("chest-not-set"));
+            return;
+        }
+        Collection<? extends Player> onlinePlayers = plugin.getServer().getOnlinePlayers();
+        List<Player> users = onlinePlayers.stream().filter(player -> (player.getGameMode().equals(GameMode.SURVIVAL)) && (!player.isDead())).collect(Collectors.toList());
+        if (users.size() <= 0) {
+            // No online players
+            return;
+        }
+        Random random = new Random();
+        int randomIndex = random.nextInt(users.size());
+        Player selectedPlayer = users.get(randomIndex);
+        double probability = plugin.fileConfiguration.getProbability();
+        if (random.nextDouble() < probability) {
+            // Not this time bro
+            return;
+        }
+        Optional<Location> destinationOptional = plugin.data.getLocation("destination");
+        if (destinationOptional.isPresent()) {
+            plugin.getLogger().severe(plugin.messages.getPlainMessage("destination-not-set"));
+            return;
+        }
+        Location destination = destinationOptional.get();
+        Location optimalLocationForPortal = PortalLocationFinder.findOptimalLocationForPortal(selectedPlayer);
+        boolean newPortalIsCreated = plugin.portalManager.createNewPortal(optimalLocationForPortal, destination, 120);
+        if (newPortalIsCreated) {
+            Location chestLocation = chestOptional.get();
+            emptyChest(chestLocation);
+            plugin.getServer().getLogger().info(plugin.messages.getPlainMessage("console-log-portal-spawned")
+                    .replaceAll("%player%", selectedPlayer.getName()));
+            selectedPlayer.playSound(selectedPlayer.getLocation(), Sound.AMBIENT_NETHER_WASTES_MOOD, SoundCategory.MASTER, 1, 0.7f);
         }
     }
 
-    public void emptyChest(Location location) {
+    private void emptyChest(Location location) {
         Block block = location.getBlock();
         block.setType(Material.CHEST);
         BlockState blockState = block.getState();
@@ -95,7 +92,7 @@ public class GeneralTask {
         }
     }
 
-    public void setChestLootTable(Location location) {
+    private void setChestLootTable(Location location) {
         BlockState blockState = location.getBlock().getState();
         if (blockState instanceof Chest) {
             Chest chest = (Chest) blockState;
