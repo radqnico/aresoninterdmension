@@ -29,9 +29,7 @@ public class PlayerMoveListener extends GeneralEventListener {
         // Check first if any portal is in same chunk as the player that moves.
         boolean anyMatchChunk = portals.parallelStream().anyMatch(portal -> portal.getLocation().getChunk().equals(toLocation.getChunk()));
         if (anyMatchChunk) {
-            Optional<Portal> first = portals.parallelStream()
-                    .filter(portal -> portal.getStatus().equals(Portal.Status.OPEN) && portal.getLocation().getWorld().getName().equals(toLocation.getWorld().getName()) && portal.getLocation().distance(toLocation) < 1)
-                    .findFirst();
+            Optional<Portal> first = portals.parallelStream().filter(portal -> portal.getStatus().equals(Portal.Status.OPEN) && portal.getLocation().distance(toLocation) < 1).findFirst();
             // Check if the player eyes is in the same block of a portal's central block.
             if (first.isPresent()) {
                 Portal portal = first.get();
