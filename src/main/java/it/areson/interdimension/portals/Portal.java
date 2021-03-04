@@ -147,7 +147,7 @@ public class Portal {
     public void returnBackWhoPassed() {
         final int size = whoPassed.size();
         for (int i = 0; i < size; i++) {
-            whoPassed.remove(0).teleportAsync(location, PlayerTeleportEvent.TeleportCause.PLUGIN);
+            whoPassed.remove(0).teleport(location, PlayerTeleportEvent.TeleportCause.PLUGIN);
         }
     }
 

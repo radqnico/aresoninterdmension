@@ -152,7 +152,7 @@ public class PortalHandler implements PortalCountdownEndListener {
      * @see PortalCountdownEndListener
      */
     @Override
-    public void notifyCountdownFinish(Portal portal) {
+    public synchronized void notifyCountdownFinish(Portal portal) {
         portal.closePortal();
         portal.returnBackWhoPassed();
         portals.remove(portal);
