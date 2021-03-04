@@ -2,6 +2,7 @@ package it.areson.interdimension.dungeon;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class DungeonManager {
     private List<Dungeon> dungeons = new ArrayList<>();
@@ -16,11 +17,11 @@ public class DungeonManager {
     }
 
     public boolean removeDungeon(String name) {
-        Dungeon[] filteredDungeons = (Dungeon[]) this.dungeons.stream().filter(d -> d.getName().equals(name)).toArray();
-        if (filteredDungeons.length != 1) {
+        List<Dungeon> filteredDungeons = this.dungeons.stream().filter(d -> d.getName().equals(name)).collect(Collectors.toList());
+        if (filteredDungeons.size() != 1) {
             return false;
         }
-        this.dungeons.remove(filteredDungeons[0]);
+        this.dungeons.remove(filteredDungeons.get(0));
         return true;
     }
 
