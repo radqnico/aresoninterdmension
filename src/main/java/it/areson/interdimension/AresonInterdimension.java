@@ -4,6 +4,7 @@ import it.areson.interdimension.commands.TestPortalCommand;
 import it.areson.interdimension.files.MessageManager;
 import it.areson.interdimension.portals.PortalHandler;
 import it.areson.interdimension.runnables.PortalCountdown;
+import org.bukkit.Location;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class AresonInterdimension extends JavaPlugin {
@@ -22,7 +23,7 @@ public class AresonInterdimension extends JavaPlugin {
         messages = new MessageManager(this, "messages.yml");
         portalHandler = new PortalHandler(this);
         PortalCountdown.registerListener(portalHandler);
-
+        portalHandler.addDestination(new Location(getServer().getWorld("world"), 0, 70, 0));
         // Test command
         getCommand("testportal").setExecutor(new TestPortalCommand());
     }
