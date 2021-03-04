@@ -2,11 +2,17 @@ package it.areson.interdimension.dungeon;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 public class DungeonManager {
     private List<Dungeon> dungeons = new ArrayList<>();
 
+    /**
+     * Get a dungeon by name.
+     * @param name Name of the dungeon
+     * @return Dungeon or null if a dungeon with the given name doesn't exist
+     */
     public Dungeon getDungeon(String name) {
         for (Dungeon d : this.dungeons) {
             if (d.getName().equals(name)) {
@@ -43,6 +49,22 @@ public class DungeonManager {
         return true;
     }
 
+    /**
+     * Pick a random dungeon from the list
+     * @return The randomized dungeon, null if there is no dungeon.
+     */
+    public Dungeon randomizeDungeon() {
+        if (this.dungeons.size() <= 0) {
+            return null;
+        }
+        Random rand = new Random();
+        return this.dungeons.get(rand.nextInt(this.dungeons.size()));
+    }
+
+    /**
+     * Gets the list of all dungeons
+     * @return List of the dungeons
+     */
     public List<Dungeon> getDungeons() {
         return this.dungeons;
     }

@@ -34,6 +34,10 @@ public class Dungeon {
         return location;
     }
 
+    /**
+     * Return a list of locations of the chests in the dungeon
+     * @return List of locations
+     */
     public List<Location> getChests() {
         return chests;
     }

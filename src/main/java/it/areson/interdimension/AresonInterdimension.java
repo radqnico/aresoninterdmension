@@ -70,4 +70,8 @@ public class AresonInterdimension extends JavaPlugin {
         command.setExecutor(parser);
         command.setTabCompleter(parser);
     }
+
+    public DungeonManager getDungeonManager() {
+        return dungeonManager;
+    }
 }
