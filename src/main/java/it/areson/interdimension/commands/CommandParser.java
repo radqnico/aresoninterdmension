@@ -1,5 +1,6 @@
 package it.areson.interdimension.commands;
 
+import it.areson.interdimension.AresonInterdimension;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -53,13 +54,16 @@ public class CommandParser implements CommandExecutor, TabCompleter {
 
     @Override
     public List<String> onTabComplete(CommandSender commandSender, Command command, String s, String[] strings) {
-        if (strings.length > this.depth) {
+        if (strings.length > this.depth + 1) {
             ICommandParserCommand selectedCommand = commands.get(strings[this.depth].toLowerCase());
             if (selectedCommand != null) {
+                plugin.getLogger().info("returning " + strings[this.depth] + " command");
                 return selectedCommand.onTabComplete(commandSender, command, s, strings);
             }
+            plugin.getLogger().info("returning no command");
             return this.noCommand;
         }
+        plugin.getLogger().info("returning base commands");
         return new ArrayList<>(this.commands.keySet());
     }
 }
