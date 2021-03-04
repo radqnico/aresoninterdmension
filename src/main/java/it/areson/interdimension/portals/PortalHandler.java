@@ -50,6 +50,14 @@ public class PortalHandler implements PortalCountdownEndListener {
         playerMoveListener = new PlayerMoveListener(plugin);
     }
 
+    public boolean canPortalSpawnAtPlayer(Player player) {
+        return getPortals().parallelStream().anyMatch(
+                portal -> portal.getWhoPassed().parallelStream().anyMatch(
+                        passedPlayer -> passedPlayer.getName().equals(player.getName())
+                )
+        );
+    }
+
     /**
      * Attempts to spawn a portal near a player.
      *
@@ -61,23 +69,27 @@ public class PortalHandler implements PortalCountdownEndListener {
         if (randomDestination != null) {
             Location portalLocationFromPlayer = LocationFinder.findPortalLocationFromPlayer(player);
             if (portalLocationFromPlayer != null) {
-                // Everything exists, create portal
-                // Register events if first
-                if (portals.size() == 0) {
-                    playerMoveListener.registerEvents();
+                // Everything exists, create portal if player can spawn portals
+                if (canPortalSpawnAtPlayer(player)) {
+                    // Register events if first
+                    if (portals.size() == 0) {
+                        playerMoveListener.registerEvents();
+                    }
+                    Portal portal = new Portal(plugin, portalLocationFromPlayer, randomDestination);
+                    portals.put(portal, new PortalCountdown(plugin, Configuration.portalDurationSeconds, portal));
+                    plugin.getLogger().info(String.format("PORTAL SPAWNING: Portal spawned to player %s", player.getName()));
+                    // Open and start counting
+                    portal.openPortal();
+                    startPortalCountdown(portal);
+                    return true;
+                } else {
+                    plugin.getLogger().warning(String.format("PORTAL SPAWNING: Player %s is already into a portal", player.getName()));
                 }
-                Portal portal = new Portal(plugin, portalLocationFromPlayer, randomDestination);
-                portals.put(portal, new PortalCountdown(plugin, Configuration.portalDurationSeconds, portal));
-                plugin.getLogger().info(String.format("Portal spawned to player %s", player.getName()));
-                // Open and start counting
-                portal.openPortal();
-                startPortalCountdown(portal);
-                return true;
             } else {
-                plugin.getLogger().warning(String.format("Could not find suitable portal location for player %s", player.getName()));
+                plugin.getLogger().warning(String.format("PORTAL SPAWNING: Could not find suitable portal location for player %s", player.getName()));
             }
         } else {
-            plugin.getLogger().warning("No destination has been set.");
+            plugin.getLogger().warning("PORTAL SPAWNING: No destination has been set.");
         }
         return false;
     }
@@ -128,7 +140,7 @@ public class PortalHandler implements PortalCountdownEndListener {
         PortalCountdown portalCountdown = portals.get(portal);
         if (portalCountdown != null) {
             portalCountdown.startCountdown();
-        }else{
+        } else {
             plugin.getLogger().severe("No portal countdown found for a portal");
         }
     }
