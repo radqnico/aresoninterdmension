@@ -1,5 +1,6 @@
 package it.areson.interdimension;
 
+import it.areson.interdimension.commands.TestPortalCommand;
 import it.areson.interdimension.files.MessageManager;
 import it.areson.interdimension.portals.PortalHandler;
 import it.areson.interdimension.runnables.PortalCountdown;
@@ -21,6 +22,9 @@ public class AresonInterdimension extends JavaPlugin {
         messages = new MessageManager(this, "messages.yml");
         portalHandler = new PortalHandler(this);
         PortalCountdown.registerListener(portalHandler);
+
+        // Test command
+        getCommand("testportal").setExecutor(new TestPortalCommand());
     }
 
     public PortalHandler getPortalHandler() {

@@ -5,24 +5,7 @@ author: Areson
 api-version: 1.16
 
 commands:
-  reloadportals:
-    usage: /<command>
-    permission: areson.interdimension.admin
-
-  setportalprobability:
-    usage: /<command>
-    permission: areson.interdimension.admin
-
-  setportaldestination:
-    usage: /<command>
-    permission: areson.interdimension.admin
-
-  toggleportals:
-    usage: /<command>
-    permission: areson.interdimension.admin
-
-  setportalchest:
-    usage: /<command>
+  testportal:
     permission: areson.interdimension.admin
 
 permissions:
