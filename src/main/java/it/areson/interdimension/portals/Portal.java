@@ -154,12 +154,12 @@ public class Portal {
         if (this == o) return true;
         if (!(o instanceof Portal)) return false;
         Portal portal = (Portal) o;
-        return plugin.equals(portal.plugin) && location.equals(portal.location) && destination.equals(portal.destination) && particleRunnables.equals(portal.particleRunnables) && soundRunnables.equals(portal.soundRunnables) && whoPassed.equals(portal.whoPassed) && status == portal.status;
+        return plugin.equals(portal.plugin) && location.equals(portal.location) && destination.equals(portal.destination);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(plugin, location, destination, particleRunnables, soundRunnables, whoPassed, status);
+        return Objects.hash(plugin, location, destination);
     }
 
     // Private
