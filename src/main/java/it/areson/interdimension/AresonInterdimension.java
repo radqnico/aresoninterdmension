@@ -5,6 +5,7 @@ import it.areson.interdimension.files.MessageManager;
 import it.areson.interdimension.portals.PortalHandler;
 import it.areson.interdimension.runnables.PortalCountdown;
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class AresonInterdimension extends JavaPlugin {
@@ -15,6 +16,10 @@ public class AresonInterdimension extends JavaPlugin {
 
     public static AresonInterdimension getInstance() {
         return instance;
+    }
+
+    public static void sendBroadcastEnterPortalMessage(Player player) {
+        instance.getServer().broadcastMessage(String.format("Il giocatore %s ha attraversato un portale!", player.getName()));
     }
 
     @Override
