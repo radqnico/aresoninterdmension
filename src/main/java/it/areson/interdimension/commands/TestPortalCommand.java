@@ -10,7 +10,7 @@ public class TestPortalCommand implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
         if (commandSender instanceof Player) {
-            AresonInterdimension.getInstance().getPortalHandler().spawnPortalNearPlayer(((Player) commandSender));
+            System.out.println(AresonInterdimension.getInstance().getPortalHandler().spawnPortalNearPlayer(((Player) commandSender)));
         }
         return true;
     }
