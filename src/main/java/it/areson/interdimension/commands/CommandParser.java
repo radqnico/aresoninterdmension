@@ -21,8 +21,8 @@ public class CommandParser extends CommandParserCommand {
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
-        if (strings.length > 0) {
-            CommandExecutor selectedCommand = commands.get(strings[0].toLowerCase());
+        if (strings.length > this.depth) {
+            CommandExecutor selectedCommand = commands.get(strings[this.depth].toLowerCase());
             if (selectedCommand != null) {
                 return selectedCommand.onCommand(commandSender, command, s, strings);
             }
