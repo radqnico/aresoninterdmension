@@ -1,5 +1,6 @@
 package it.areson.interdimension.portals;
 
+import it.areson.interdimension.dungeon.Dungeon;
 import it.areson.interdimension.runnables.RepeatingRunnable;
 import org.bukkit.Location;
 import org.bukkit.Particle;
@@ -29,7 +30,7 @@ public class Portal {
     /**
      * Destination of the portal.
      */
-    private final Location destination;
+    private final Dungeon destination;
     /**
      * List of Runnables that show particles.
      */
@@ -57,7 +58,7 @@ public class Portal {
      * @param location    Appearing location of the portal
      * @param destination Destination of the portal
      */
-    public Portal(JavaPlugin plugin, Location location, Location destination) {
+    public Portal(JavaPlugin plugin, Location location, Dungeon destination) {
         this.plugin = plugin;
         this.location = location;
         this.destination = destination;
@@ -91,9 +92,9 @@ public class Portal {
     /**
      * Get the portal's destination.
      *
-     * @return The {@link Location} of the portal's destination.
+     * @return The {@link Dungeon} of the portal's destination.
      */
-    public Location getDestination() {
+    public Dungeon getDestination() {
         return destination;
     }
 
@@ -197,9 +198,9 @@ public class Portal {
         );
         plugin.getServer().getScheduler().scheduleSyncDelayedTask(
                 plugin,
-                () -> destination.getWorld().spawnParticle(
+                () -> destination.getLocation().getWorld().spawnParticle(
                         Particle.END_ROD,
-                        destination,
+                        destination.getLocation(),
                         600,
                         .2, 1, .2,
                         1
@@ -218,8 +219,8 @@ public class Portal {
         );
         plugin.getServer().getScheduler().scheduleSyncDelayedTask(
                 plugin,
-                () -> destination.getWorld().playSound(
-                        destination,
+                () -> destination.getLocation().getWorld().playSound(
+                        destination.getLocation(),
                         Sound.ENTITY_ENDERMAN_TELEPORT,
                         SoundCategory.MASTER,
                         1f,

@@ -3,7 +3,6 @@ package it.areson.interdimension.portals;
 import it.areson.interdimension.AresonInterdimension;
 import it.areson.interdimension.Configuration;
 import it.areson.interdimension.dungeon.Dungeon;
-import it.areson.interdimension.dungeon.DungeonManager;
 import it.areson.interdimension.events.PlayerEventsListener;
 import it.areson.interdimension.locationfinder.LocationFinder;
 import it.areson.interdimension.runnables.PortalCountdown;
@@ -67,8 +66,8 @@ public class PortalHandler implements PortalCountdownEndListener {
      * @return True if the portal spawned, false otherwise.
      */
     public boolean spawnPortalNearPlayer(Player player) {
-        Location randomDestination = getRandomDestination();
-        if (randomDestination != null) {
+        Dungeon randomDestinationDungeon = AresonInterdimension.getInstance().getDungeonManager().randomizeDungeon();
+        if (randomDestinationDungeon != null) {
             Location portalLocationFromPlayer = LocationFinder.findPortalLocationFromPlayer(player);
             if (portalLocationFromPlayer != null) {
                 // Everything exists, create portal if player can spawn portals
@@ -78,11 +77,12 @@ public class PortalHandler implements PortalCountdownEndListener {
                         playerEventsListener.registerEvents();
                         plugin.getLogger().info("Registered move event");
                     }
-                    Portal portal = new Portal(plugin, portalLocationFromPlayer, randomDestination);
+                    Portal portal = new Portal(plugin, portalLocationFromPlayer, randomDestinationDungeon);
                     portals.put(portal, new PortalCountdown(plugin, Configuration.portalDurationSeconds, portal));
                     plugin.getLogger().info(String.format("PORTAL SPAWNING: Portal spawned to player %s", player.getName()));
                     // Open and start counting
                     portal.openPortal();
+                    portal.getDestination().setAlreadyActive(true);
                     startPortalCountdown(portal);
                     return true;
                 } else {
@@ -104,21 +104,6 @@ public class PortalHandler implements PortalCountdownEndListener {
      */
     public Set<Portal> getPortals() {
         return portals.keySet();
-    }
-
-    /**
-     * Get a random destination with uniform probability.
-     *
-     * @return Location of the destination.
-     */
-    public Location getRandomDestination() {
-        DungeonManager dungeonManager = AresonInterdimension.getInstance().getDungeonManager();
-        Dungeon dungeon = dungeonManager.randomizeDungeon();
-        if (dungeon != null) {
-            dungeon.setAlreadyActive(true);
-            return dungeon.getLocation();
-        }
-        return null;
     }
 
     /**
@@ -146,6 +131,7 @@ public class PortalHandler implements PortalCountdownEndListener {
         portal.closePortal();
         portal.returnBackIfPassed();
         portal.playTeleportEffects();
+        portal.getDestination().setAlreadyActive(false);
         portals.remove(portal);
         // Unregister if last
         if (portals.size() == 0) {
