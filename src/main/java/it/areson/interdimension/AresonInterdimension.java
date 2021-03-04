@@ -68,5 +68,6 @@ public class AresonInterdimension extends JavaPlugin {
         parser.addCommand("rm", rmCommands);
         parser.addCommand("setprobability", new SetProbabilityCommand());
         command.setExecutor(parser);
+        command.setTabCompleter(parser);
     }
 }
