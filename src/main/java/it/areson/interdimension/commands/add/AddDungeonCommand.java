@@ -22,12 +22,17 @@ public class AddDungeonCommand extends CommandParserCommand {
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
         if (strings.length < this.depth) {
+            commandSender.sendMessage("Devi inserire un nome");
             return false;
         }
         Dungeon newDungeon = new Dungeon(strings[this.depth]);
         Player player = (Player) commandSender;
         newDungeon.setLocation(player.getLocation());
-        return this.dm.addDungeon(newDungeon);
+        if (this.dm.addDungeon(newDungeon)) {
+            commandSender.sendMessage("Dungeon settato");
+            return true;
+        }
+        return false;
     }
 
     @Override
