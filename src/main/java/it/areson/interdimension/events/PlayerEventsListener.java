@@ -17,17 +17,14 @@ import java.util.Set;
 
 public class PlayerEventsListener extends GeneralEventListener {
 
-    private PortalHandler portalHandler;
-
     public PlayerEventsListener(JavaPlugin plugin) {
         super(plugin);
-        portalHandler = AresonInterdimension.getInstance().getPortalHandler();
     }
 
     @EventHandler
     public void onPlayerMoveEvent(PlayerMoveEvent event) {
         Location toLocation = event.getPlayer().getEyeLocation();
-        Set<Portal> portals = portalHandler.getPortals();
+        Set<Portal> portals = AresonInterdimension.getInstance().getPortalHandler().getPortals();
         // Check first if any portal is in same chunk as the player that moves.
         boolean anyMatchChunk = portals.stream().anyMatch(portal -> portal.getLocation().getChunk().equals(toLocation.getChunk()));
         if (anyMatchChunk) {
@@ -49,7 +46,7 @@ public class PlayerEventsListener extends GeneralEventListener {
     @EventHandler
     public void onPlayerQuitEvent(PlayerQuitEvent event) {
         Player player = event.getPlayer();
-        Set<Portal> portals = portalHandler.getPortals();
+        Set<Portal> portals = AresonInterdimension.getInstance().getPortalHandler().getPortals();
         for (Portal portal : portals) {
             if (portal.returnBackIfPassed(player)) {
                 player.removePotionEffect(PotionEffectType.BLINDNESS);
