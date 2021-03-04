@@ -51,8 +51,8 @@ public class PortalHandler implements PortalCountdownEndListener {
     }
 
     public boolean canPortalSpawnAtPlayer(Player player) {
-        return getPortals().parallelStream().anyMatch(
-                portal -> portal.getWhoPassed().parallelStream().anyMatch(
+        return getPortals().parallelStream().noneMatch(
+                portal -> portal.getWhoPassed().parallelStream().noneMatch(
                         passedPlayer -> passedPlayer.getName().equals(player.getName())
                 )
         );
