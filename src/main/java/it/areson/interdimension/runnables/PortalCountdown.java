@@ -77,7 +77,8 @@ public class PortalCountdown {
      * Starts the countdown.
      */
     public void startCountdown() {
-        runnable.runTaskLater(plugin, seconds * 20L);
+        runnable.runTaskLaterAsynchronously(plugin, seconds * 20L);
+        System.out.println("Started countdown");
     }
 
     /**
