@@ -151,8 +151,28 @@ public class Portal {
         }
     }
 
+    /**
+     * Spawns the teleport particles at both ends of the portal.
+     */
     public void spawnTeleportParticles(){
-
+        location.getWorld().spawnParticle(
+                Particle.END_ROD,
+                location,
+                600,
+                .2, 1, .2,
+                1
+        );
+        plugin.getServer().getScheduler().scheduleSyncDelayedTask(
+                plugin,
+                () -> destination.getWorld().spawnParticle(
+                        Particle.END_ROD,
+                        destination,
+                        600,
+                        .2, 1, .2,
+                        1
+                ),
+                5
+        );
     }
 
     @Override
