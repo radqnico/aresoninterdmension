@@ -7,6 +7,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -14,17 +15,18 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.Optional;
 import java.util.Set;
 
-public class PlayerMoveListener extends GeneralEventListener {
+public class PlayerEventsListener extends GeneralEventListener {
 
-    public PlayerMoveListener(JavaPlugin plugin) {
+    private PortalHandler portalHandler;
+
+    public PlayerEventsListener(JavaPlugin plugin) {
         super(plugin);
+        portalHandler = AresonInterdimension.getInstance().getPortalHandler();
     }
 
     @EventHandler
     public void onPlayerMoveEvent(PlayerMoveEvent event) {
         Location toLocation = event.getPlayer().getEyeLocation();
-        AresonInterdimension instance = AresonInterdimension.getInstance();
-        PortalHandler portalHandler = instance.getPortalHandler();
         Set<Portal> portals = portalHandler.getPortals();
         // Check first if any portal is in same chunk as the player that moves.
         boolean anyMatchChunk = portals.stream().anyMatch(portal -> portal.getLocation().getChunk().equals(toLocation.getChunk()));
@@ -34,12 +36,24 @@ public class PlayerMoveListener extends GeneralEventListener {
             if (first.isPresent()) {
                 Portal portal = first.get();
                 Player player = event.getPlayer();
+                player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 5, 2, false, false, false));
                 player.teleport(portal.getDestination());
                 portal.playerPassedPortal(player);
-                player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 20, 2, false, false, false));
                 AresonInterdimension.sendBroadcastEnterPortalMessage(player);
                 // Effetti
                 portal.playTeleportEffects();
+            }
+        }
+    }
+
+    @EventHandler
+    public void onPlayerQuitEvent(PlayerQuitEvent event) {
+        Player player = event.getPlayer();
+        Set<Portal> portals = portalHandler.getPortals();
+        for (Portal portal : portals) {
+            if (portal.returnBackIfPassed(player)) {
+                player.removePotionEffect(PotionEffectType.BLINDNESS);
+                break;
             }
         }
     }

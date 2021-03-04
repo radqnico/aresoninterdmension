@@ -1,7 +1,7 @@
 package it.areson.interdimension.portals;
 
 import it.areson.interdimension.Configuration;
-import it.areson.interdimension.events.PlayerMoveListener;
+import it.areson.interdimension.events.PlayerEventsListener;
 import it.areson.interdimension.locationfinder.LocationFinder;
 import it.areson.interdimension.runnables.PortalCountdown;
 import it.areson.interdimension.runnables.PortalCountdownEndListener;
@@ -36,7 +36,7 @@ public class PortalHandler implements PortalCountdownEndListener {
     /**
      * Player move event listener. Registered only when needed.
      */
-    private final PlayerMoveListener playerMoveListener;
+    private final PlayerEventsListener playerEventsListener;
 
     /**
      * Create a new PortalHandler.
@@ -47,7 +47,7 @@ public class PortalHandler implements PortalCountdownEndListener {
         this.plugin = plugin;
         this.portals = new HashMap<>();
         destinations = new ArrayList<>();
-        playerMoveListener = new PlayerMoveListener(plugin);
+        playerEventsListener = new PlayerEventsListener(plugin);
     }
 
     /**
@@ -79,7 +79,7 @@ public class PortalHandler implements PortalCountdownEndListener {
                 if (canPortalSpawnAtPlayer(player)) {
                     // Register events if first
                     if (portals.size() == 0) {
-                        playerMoveListener.registerEvents();
+                        playerEventsListener.registerEvents();
                         plugin.getLogger().info("Registered move event");
                     }
                     Portal portal = new Portal(plugin, portalLocationFromPlayer, randomDestination);
@@ -161,12 +161,12 @@ public class PortalHandler implements PortalCountdownEndListener {
     @Override
     public synchronized void notifyCountdownFinish(Portal portal) {
         portal.closePortal();
-        portal.returnBackWhoPassed();
+        portal.returnBackIfPassed();
         portal.playTeleportEffects();
         portals.remove(portal);
         // Unregister if last
         if (portals.size() == 0) {
-            playerMoveListener.unregisterEvents();
+            playerEventsListener.unregisterEvents();
             plugin.getLogger().info("Unregistered move event");
         }
     }

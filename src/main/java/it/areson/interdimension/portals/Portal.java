@@ -144,7 +144,7 @@ public class Portal {
      * Teleport all passed players to the appearing location of the portal (works independently from the status).
      * Also empties the passed players list.
      */
-    public void returnBackWhoPassed() {
+    public void returnBackIfPassed() {
         final int size = whoPassed.size();
         for (int i = 0; i < size; i++) {
             whoPassed.remove(0).teleport(location, PlayerTeleportEvent.TeleportCause.PLUGIN);
@@ -152,9 +152,22 @@ public class Portal {
     }
 
     /**
+     * Teleport one specific passed player to the appearing location of the portal (works independently from the status).
+     * Also empties the passed players list.
+     */
+    public boolean returnBackIfPassed(Player player) {
+        if (whoPassed.contains(player)) {
+            player.teleport(location, PlayerTeleportEvent.TeleportCause.PLUGIN);
+            whoPassed.remove(player);
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * Plays the teleport effects particles and sound
      */
-    public void playTeleportEffects(){
+    public void playTeleportEffects() {
         playTeleportSound();
         spawnTeleportParticles();
     }
