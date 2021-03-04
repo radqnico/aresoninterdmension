@@ -37,7 +37,6 @@ public class AresonInterdimension extends JavaPlugin {
         messages = new MessageManager(this, "messages.yml");
         portalHandler = new PortalHandler(this);
         PortalCountdown.registerListener(portalHandler);
-        portalHandler.addDestination(new Location(getServer().getWorld("world"), 0, 70, 0));
         this.loadCommands();
     }
 
