@@ -1,63 +1,229 @@
 package it.areson.interdimension.portals;
 
+import it.areson.interdimension.runnables.RepeatingRunnable;
 import org.bukkit.Location;
 import org.bukkit.Particle;
+import org.bukkit.Sound;
+import org.bukkit.SoundCategory;
 import org.bukkit.entity.Player;
+import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
+/**
+ * Portal object.
+ * Contains all the portal information needed.
+ */
 public class Portal {
 
-    private JavaPlugin plugin;
-    private Location location;
-    private int durationSeconds;
-    private Player whoPassed;
+    /**
+     * Plugin instance.
+     */
+    private final JavaPlugin plugin;
+    /**
+     * Location of the portal.
+     */
+    private final Location location;
+    /**
+     * Destination of the portal.
+     */
+    private final Location destination;
+    /**
+     * List of Runnables that show particles.
+     */
+    private final ArrayList<RepeatingRunnable> particleRunnables;
+    /**
+     * List of Runnables that play sounds.
+     */
+    private final ArrayList<RepeatingRunnable> soundRunnables;
+    /**
+     * List of Player that passed the portal.
+     */
+    private final ArrayList<Player> whoPassed;
+    /**
+     * Status of the portal.
+     */
     private Status status;
-    private ArrayList<BukkitRunnable> particleRunnables;
-    private ArrayList<BukkitRunnable> soundRunnables;
 
+    /**
+     * Instantiate a new (closed) portal.
+     * Open it with {@link #openPortal() openPortal()}.
+     * Close it with {@link #closePortal() closePortal()}.
+     * Get the status with {@link #getStatus() getStatus()}
+     *
+     * @param plugin      Plugin instance
+     * @param location    Appearing location of the portal
+     * @param destination Destination of the portal
+     */
+    public Portal(JavaPlugin plugin, Location location, Location destination) {
+        this.plugin = plugin;
+        this.location = location;
+        this.destination = destination;
+        status = Status.CLOSED;
+        whoPassed = new ArrayList<>();
+        particleRunnables = new ArrayList<>();
+        soundRunnables = new ArrayList<>();
+    }
+
+    /**
+     * Get the portal's {@link Status status}.
+     *
+     * @return Status of the portal.
+     */
+    public Status getStatus() {
+        return status;
+    }
+
+    /**
+     * Get the portal's location.
+     * Get the middle block location.
+     *
+     * @return Location of the portal.
+     */
+    public Location getLocation() {
+        return location;
+    }
+
+    /**
+     * Get the portal's destination.
+     *
+     * @return The {@link Location} of the portal's destination.
+     */
+    public Location getDestination() {
+        return destination;
+    }
+
+    /**
+     * Open the portal: make it visible and play ambient sounds.
+     * Change the status to OPEN.
+     */
+    public void openPortal() {
+        showParticles();
+        playSounds();
+        status = Status.OPEN;
+    }
+
+    /**
+     * Close the portal: stop particles and sounds.
+     * Change the status to CLOSED.
+     */
+    public void closePortal() {
+        hideParticles();
+        stopSounds();
+        status = Status.CLOSED;
+    }
+
+
+    /**
+     * Get a list of players that passed the portal.
+     *
+     * @return ArrayList of players that passed the portal.
+     */
+    public ArrayList<Player> getWhoPassed() {
+        return whoPassed;
+    }
+
+
+    /**
+     * Notify the portal that a player passed the portal and add it to the {@link #getWhoPassed() getWhoPassed()} list.
+     *
+     * @param player Player that passed the portal.
+     * @return Returns true if it is the first player to pass the portal, false otherwise.
+     */
+    public boolean playerPassedPortal(Player player) {
+        whoPassed.add(player);
+        return whoPassed.size() == 1;
+    }
+
+
+    /**
+     * Teleport all passed players to the appearing location of the portal (works independently from the status).
+     * Also empties the passed players list.
+     */
+    public void returnBackWhoPassed() {
+        final int size = whoPassed.size();
+        for (int i = 0; i < size; i++) {
+            whoPassed.remove(0).teleportAsync(location, PlayerTeleportEvent.TeleportCause.PLUGIN);
+        }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Portal)) return false;
+        Portal portal = (Portal) o;
+        return plugin.equals(portal.plugin) && location.equals(portal.location) && destination.equals(portal.destination) && particleRunnables.equals(portal.particleRunnables) && soundRunnables.equals(portal.soundRunnables) && whoPassed.equals(portal.whoPassed) && status == portal.status;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(plugin, location, destination, particleRunnables, soundRunnables, whoPassed, status);
+    }
+
+    // Private
+
+    private void playSounds() {
+        for (RepeatingRunnable soundRunnable : soundRunnables) {
+            soundRunnable.runRepeatingTask();
+        }
+    }
+
+    private void stopSounds() {
+        stopParticleRunnables();
+        initSoundRunnables();
+    }
+
+    private void showParticles() {
+        for (RepeatingRunnable particleRunnable : particleRunnables) {
+            particleRunnable.runRepeatingTask();
+        }
+    }
+
+    private void hideParticles() {
+        stopParticleRunnables();
+        initParticleRunnables();
+    }
 
     private void stopAllSoundRunnables() {
-        for (int i = 0; i < soundRunnables.size(); i++) {
-            if (!soundRunnables.get(0).isCancelled()) {
-                soundRunnables.get(0).cancel();
-            }
-            soundRunnables.remove(0);
+        final int size = soundRunnables.size();
+        for (int i = 0; i < size; i++) {
+            soundRunnables.remove(0).stopRepeatingTask();
         }
     }
 
     private void initSoundRunnables() {
-        stopAllSoundRunnables();
-
-        soundRunnables.add(new BukkitRunnable() {
+        soundRunnables.add(new RepeatingRunnable(plugin, 0, 80) {
             @Override
             public void run() {
-
+                location.getWorld().playSound(
+                        location,
+                        Sound.AMBIENT_NETHER_WASTES_MOOD,
+                        SoundCategory.MASTER,
+                        1f,
+                        0.6f
+                );
+                location.getWorld().playSound(
+                        location,
+                        Sound.AMBIENT_CRIMSON_FOREST_MOOD,
+                        SoundCategory.MASTER,
+                        1f,
+                        0.6f
+                );
             }
         });
     }
 
-    public void playSounds() {
-        for (BukkitRunnable soundRunnable : soundRunnables) {
-            soundRunnable.runTaskTimer(plugin, 0, 2);
-        }
-    }
-
-    private void stopAllParticleRunnables() {
-        for (int i = 0; i < particleRunnables.size(); i++) {
-            if (!particleRunnables.get(0).isCancelled()) {
-                particleRunnables.get(0).cancel();
-            }
-            particleRunnables.remove(0);
+    private void stopParticleRunnables() {
+        final int size = particleRunnables.size();
+        for (int i = 0; i < size; i++) {
+            particleRunnables.remove(0).stopRepeatingTask();
         }
     }
 
     private void initParticleRunnables() {
-        stopAllParticleRunnables();
-
-        particleRunnables.add(new BukkitRunnable() {
+        particleRunnables.add(new RepeatingRunnable(plugin, 0, 2) {
             @Override
             public void run() {
                 location.getWorld().spawnParticle(
@@ -92,17 +258,9 @@ public class Portal {
         });
     }
 
-    public void showParticles() {
-        for (BukkitRunnable particleRunnable : particleRunnables) {
-            particleRunnable.runTaskTimer(plugin, 0, 2);
-        }
-    }
-
     public enum Status {
         OPEN,
-        CLOSED,
-        PASSED,
-        EXPIRED
+        CLOSED
     }
 
 }

@@ -1,5 +1,12 @@
 package it.areson.interdimension.files;
 
+/**
+ * Just a pair of objects.
+ * Use {@link Pair#of(Object, Object)} to instantiate a new pair.
+ *
+ * @param <A> First type.
+ * @param <B> Second type.
+ */
 public class Pair<A, B> {
 
     private final A left;
