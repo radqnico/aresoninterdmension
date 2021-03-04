@@ -1,9 +1,6 @@
 package it.areson.interdimension;
 
-import it.areson.interdimension.commands.CommandParser;
-import it.areson.interdimension.commands.SetProbabilityCommand;
-import it.areson.interdimension.commands.TestPortalCommand;
-import it.areson.interdimension.commands.LsDungeonCommand;
+import it.areson.interdimension.commands.*;
 import it.areson.interdimension.commands.add.AddChestCommand;
 import it.areson.interdimension.commands.add.AddDungeonCommand;
 import it.areson.interdimension.commands.rm.RmChestsCommand;
@@ -70,6 +67,7 @@ public class AresonInterdimension extends JavaPlugin {
         rmCommands.addCommand("chests", new RmChestsCommand(this.dungeonManager));
         parser.addCommand("setprobability", new SetProbabilityCommand());
         parser.addCommand("ls", new LsDungeonCommand(this.dungeonManager));
+        parser.addCommand("tp", new TpDungeonCommand(this.dungeonManager));
         command.setExecutor(parser);
         command.setTabCompleter(parser);
     }
