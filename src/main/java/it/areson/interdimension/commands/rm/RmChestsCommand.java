@@ -19,11 +19,17 @@ public class RmChestsCommand extends CommandParserCommand {
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
+        if (strings.length < this.depth) {
+            commandSender.sendMessage("Devi inserire un nome");
+            return false;
+        }
         Dungeon dungeon = this.dm.getDungeon(strings[this.depth]);
         if (dungeon == null) {
+            commandSender.sendMessage("Dungeon inesistente");
             return false;
         }
         dungeon.clearChests();
+        commandSender.sendMessage("Chest rimosse dal dungeon");
         return true;
     }
 

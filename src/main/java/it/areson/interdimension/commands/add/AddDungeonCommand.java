@@ -32,6 +32,7 @@ public class AddDungeonCommand extends CommandParserCommand {
             commandSender.sendMessage("Dungeon settato");
             return true;
         }
+        commandSender.sendMessage("Impossibile aggiungere il dungeon");
         return false;
     }
 

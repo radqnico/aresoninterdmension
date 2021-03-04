@@ -24,10 +24,12 @@ public class AddChestCommand extends CommandParserCommand {
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
         if (strings.length < this.depth) {
+            commandSender.sendMessage("Devi inserire un nome");
             return false;
         }
         Dungeon dungeon = this.dm.getDungeon(strings[this.depth]);
         if (dungeon == null) {
+            commandSender.sendMessage("Dungeon inesistente");
             return false;
         }
         Player player = (Player) commandSender;
@@ -37,11 +39,14 @@ public class AddChestCommand extends CommandParserCommand {
             if (state instanceof Chest) {
                 dungeon.addChest(targetBlockExact.getLocation());
             } else {
+                commandSender.sendMessage("Non stai guardando una chest!");
                 return false;
             }
         } else {
+            commandSender.sendMessage("Non stai guardando una chest!");
             return false;
         }
+        commandSender.sendMessage("Chest aggiunta al dungeon");
         return true;
     }
 

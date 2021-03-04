@@ -19,9 +19,15 @@ public class RmDungeonCommand extends CommandParserCommand {
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
         if (strings.length < this.depth) {
+            commandSender.sendMessage("Devi inserire un nome");
             return false;
         }
-        return this.dm.removeDungeon(strings[this.depth]);
+        if (this.dm.removeDungeon(strings[this.depth])) {
+            commandSender.sendMessage("Dungeon rimosso");
+            return true;
+        }
+        commandSender.sendMessage("Impossibile rimuovere dungeon");
+        return false;
     }
 
     @Override

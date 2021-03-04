@@ -3,11 +3,11 @@ package it.areson.interdimension;
 import it.areson.interdimension.commands.CommandParser;
 import it.areson.interdimension.commands.SetProbabilityCommand;
 import it.areson.interdimension.commands.TestPortalCommand;
+import it.areson.interdimension.commands.LsDungeonCommand;
 import it.areson.interdimension.commands.add.AddChestCommand;
 import it.areson.interdimension.commands.add.AddDungeonCommand;
 import it.areson.interdimension.commands.rm.RmChestsCommand;
 import it.areson.interdimension.commands.rm.RmDungeonCommand;
-import it.areson.interdimension.dungeon.Dungeon;
 import it.areson.interdimension.dungeon.DungeonManager;
 import it.areson.interdimension.files.MessageManager;
 import it.areson.interdimension.portals.PortalHandler;
@@ -17,8 +17,6 @@ import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.logging.Level;
 
 public class AresonInterdimension extends JavaPlugin {
@@ -71,6 +69,7 @@ public class AresonInterdimension extends JavaPlugin {
         rmCommands.addCommand("dungeon", new RmDungeonCommand(this.dungeonManager));
         rmCommands.addCommand("chests", new RmChestsCommand(this.dungeonManager));
         parser.addCommand("setprobability", new SetProbabilityCommand());
+        parser.addCommand("ls", new LsDungeonCommand(this.dungeonManager));
         command.setExecutor(parser);
         command.setTabCompleter(parser);
     }
