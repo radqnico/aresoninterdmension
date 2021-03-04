@@ -148,5 +148,6 @@ public class PortalHandler implements PortalCountdownEndListener {
         if (portals.size() == 0) {
             playerMoveListener.unregisterEvents();
         }
+        System.out.println("Portal closed.");
     }
 }

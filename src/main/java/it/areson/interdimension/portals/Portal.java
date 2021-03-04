@@ -171,7 +171,7 @@ public class Portal {
     }
 
     private void stopSounds() {
-        stopParticleRunnables();
+        stopSoundRunnables();
         initSoundRunnables();
     }
 
@@ -186,7 +186,7 @@ public class Portal {
         initParticleRunnables();
     }
 
-    private void stopAllSoundRunnables() {
+    private void stopSoundRunnables() {
         final int size = soundRunnables.size();
         for (int i = 0; i < size; i++) {
             soundRunnables.remove(0).stopRepeatingTask();
