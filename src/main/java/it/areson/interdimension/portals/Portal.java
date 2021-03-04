@@ -16,6 +16,34 @@ public class Portal {
     private Player whoPassed;
     private Status status;
     private ArrayList<BukkitRunnable> particleRunnables;
+    private ArrayList<BukkitRunnable> soundRunnables;
+
+
+    private void stopAllSoundRunnables() {
+        for (int i = 0; i < soundRunnables.size(); i++) {
+            if (!soundRunnables.get(0).isCancelled()) {
+                soundRunnables.get(0).cancel();
+            }
+            soundRunnables.remove(0);
+        }
+    }
+
+    private void initSoundRunnables() {
+        stopAllSoundRunnables();
+
+        soundRunnables.add(new BukkitRunnable() {
+            @Override
+            public void run() {
+
+            }
+        });
+    }
+
+    public void playSounds() {
+        for (BukkitRunnable soundRunnable : soundRunnables) {
+            soundRunnable.runTaskTimer(plugin, 0, 2);
+        }
+    }
 
     private void stopAllParticleRunnables() {
         for (int i = 0; i < particleRunnables.size(); i++) {
@@ -28,6 +56,7 @@ public class Portal {
 
     private void initParticleRunnables() {
         stopAllParticleRunnables();
+
         particleRunnables.add(new BukkitRunnable() {
             @Override
             public void run() {
