@@ -34,16 +34,11 @@ public class PlayerMoveListener extends GeneralEventListener {
             if (first.isPresent()) {
                 Portal portal = first.get();
                 Player player = event.getPlayer();
-                player.teleportAsync(portal.getDestination()).whenComplete((result, ignored) -> {
-                    if (result) {
-                        portal.playerPassedPortal(player);
-                        player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 2, 1, false, false, false));
-                        // Broadcast
-                        // Suoni
-                    } else {
-                        plugin.getLogger().warning(String.format("Could not teleport player %s", player.getName()));
-                    }
-                });
+                player.teleport(portal.getDestination());
+                portal.playerPassedPortal(player);
+                player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 2, 1, false, false, false));
+                // Broadcast
+                // Suoni
             }
         }
     }
