@@ -92,7 +92,7 @@ public class PortalHandler implements PortalCountdownEndListener {
                 plugin.getLogger().warning(String.format("PORTAL SPAWNING: Could not find suitable portal location for player %s", player.getName()));
             }
         } else {
-            plugin.getLogger().warning("PORTAL SPAWNING: No destination has been set.");
+            plugin.getLogger().warning("PORTAL SPAWNING: No valid destination found.");
         }
         return false;
     }
@@ -115,6 +115,7 @@ public class PortalHandler implements PortalCountdownEndListener {
         DungeonManager dungeonManager = AresonInterdimension.getInstance().getDungeonManager();
         Dungeon dungeon = dungeonManager.randomizeDungeon();
         if (dungeon != null) {
+            dungeon.setAlreadyActive(true);
             return dungeon.getLocation();
         }
         return null;

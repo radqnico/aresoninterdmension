@@ -6,12 +6,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Dungeon {
-    private Location location;
     private final List<Location> chests = new ArrayList<>();
     private final String name;
+    private Location location;
+    private boolean alreadyActive;
 
-    public Dungeon (String name) {
+    public Dungeon(String name) {
         this.name = name;
+        this.alreadyActive = false;
+    }
+
+    public boolean isAlreadyActive() {
+        return alreadyActive;
+    }
+
+    public void setAlreadyActive(boolean alreadyActive) {
+        this.alreadyActive = alreadyActive;
     }
 
     public void clearChests() {
@@ -22,10 +32,6 @@ public class Dungeon {
         this.chests.add(location);
     }
 
-    public void setLocation(Location location) {
-        this.location = location;
-    }
-
     public String getName() {
         return name;
     }
@@ -34,8 +40,19 @@ public class Dungeon {
         return location;
     }
 
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
+    public void resetChestsContent() {
+        for (Location location : chests) {
+            ChestContent.emptyChest(location);
+        }
+    }
+
     /**
      * Return a list of locations of the chests in the dungeon
+     *
      * @return List of locations
      */
     public List<Location> getChests() {

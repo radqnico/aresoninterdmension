@@ -10,6 +10,7 @@ public class DungeonManager {
 
     /**
      * Get a dungeon by name.
+     *
      * @param name Name of the dungeon
      * @return Dungeon or null if a dungeon with the given name doesn't exist
      */
@@ -51,18 +52,21 @@ public class DungeonManager {
 
     /**
      * Pick a random dungeon from the list
+     *
      * @return The randomized dungeon, null if there is no dungeon.
      */
     public Dungeon randomizeDungeon() {
-        if (this.dungeons.size() <= 0) {
+        List<Dungeon> filtered = dungeons.parallelStream().filter(dungeon -> !dungeon.isAlreadyActive()).collect(Collectors.toList());
+        if (filtered.size() <= 0) {
             return null;
         }
         Random rand = new Random();
-        return this.dungeons.get(rand.nextInt(this.dungeons.size()));
+        return filtered.get(rand.nextInt(this.dungeons.size()));
     }
 
     /**
      * Gets the list of all dungeons
+     *
      * @return List of the dungeons
      */
     public List<Dungeon> getDungeons() {
