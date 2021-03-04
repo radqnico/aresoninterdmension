@@ -41,6 +41,7 @@ public class CommandParser implements CommandExecutor, TabCompleter {
 
     public void addCommand(String arg, CommandParser parser) {
         parser.setDepth(this.depth + 1);
+        plugin.getLogger().log(Level.WARNING, "Binding depth " + (this.depth + 1) + " command");
         this.addCommand(arg, (ICommandParserCommand) parser);
     }
     public void addCommand(String arg, ICommandParserCommand executor) {
