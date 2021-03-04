@@ -17,6 +17,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.logging.Level;
 
 public class AresonInterdimension extends JavaPlugin {
+
     private static AresonInterdimension instance;
     private final DungeonManager dungeonManager = new DungeonManager();
     private MessageManager messages;

@@ -1,6 +1,9 @@
 package it.areson.interdimension.portals;
 
+import it.areson.interdimension.AresonInterdimension;
 import it.areson.interdimension.Configuration;
+import it.areson.interdimension.dungeon.Dungeon;
+import it.areson.interdimension.dungeon.DungeonManager;
 import it.areson.interdimension.events.PlayerEventsListener;
 import it.areson.interdimension.locationfinder.LocationFinder;
 import it.areson.interdimension.runnables.PortalCountdown;
@@ -9,9 +12,7 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Random;
 import java.util.Set;
 
 /**
@@ -30,10 +31,6 @@ public class PortalHandler implements PortalCountdownEndListener {
      */
     private final JavaPlugin plugin;
     /**
-     * List of possible destinations.
-     */
-    private final ArrayList<Location> destinations;
-    /**
      * Player move event listener. Registered only when needed.
      */
     private final PlayerEventsListener playerEventsListener;
@@ -46,7 +43,6 @@ public class PortalHandler implements PortalCountdownEndListener {
     public PortalHandler(JavaPlugin plugin) {
         this.plugin = plugin;
         this.portals = new HashMap<>();
-        destinations = new ArrayList<>();
         playerEventsListener = new PlayerEventsListener(plugin);
     }
 
@@ -111,31 +107,17 @@ public class PortalHandler implements PortalCountdownEndListener {
     }
 
     /**
-     * Add a possible destination.
-     *
-     * @param destination The new possible destination.
-     */
-    public void addDestination(Location destination) {
-        destinations.add(destination);
-    }
-
-    /**
      * Get a random destination with uniform probability.
      *
      * @return Location of the destination.
      */
     public Location getRandomDestination() {
-        if (destinations.size() == 0) {
-            return null;
+        DungeonManager dungeonManager = AresonInterdimension.getInstance().getDungeonManager();
+        Dungeon dungeon = dungeonManager.randomizeDungeon();
+        if (dungeon != null) {
+            return dungeon.getLocation();
         }
-        return destinations.get(new Random().nextInt(destinations.size()));
-    }
-
-    /**
-     * Clears the list of possible destination.
-     */
-    public void clearDestinations() {
-        destinations.clear();
+        return null;
     }
 
     /**
