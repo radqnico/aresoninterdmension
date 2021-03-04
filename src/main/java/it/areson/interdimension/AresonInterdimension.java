@@ -9,7 +9,6 @@ import it.areson.interdimension.dungeon.DungeonManager;
 import it.areson.interdimension.files.MessageManager;
 import it.areson.interdimension.portals.PortalHandler;
 import it.areson.interdimension.runnables.PortalCountdown;
-import org.bukkit.Location;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -63,10 +62,10 @@ public class AresonInterdimension extends JavaPlugin {
         parser.addCommand("rm", rmCommands);
         rmCommands.addCommand("dungeon", new RmDungeonCommand(this.dungeonManager));
         rmCommands.addCommand("chests", new RmChestsCommand(this.dungeonManager));
-        parser.addCommand("setProbability", new SetProbabilityCommand());
+        parser.addCommand("setprobability", new SetProbabilityCommand());
         parser.addCommand("ls", new LsDungeonCommand(this.dungeonManager));
         parser.addCommand("tp", new TpDungeonCommand(this.dungeonManager));
-        parser.addCommand("spawnPortal", new TestPortalCommand());
+        parser.addCommand("spawnportal", new TestPortalCommand());
         command.setExecutor(parser);
         command.setTabCompleter(parser);
     }
