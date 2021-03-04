@@ -58,7 +58,6 @@ public class AresonInterdimension extends JavaPlugin {
             this.getLogger().log(Level.SEVERE, "Cannot register interdimension commands");
             return;
         }
-        command.setExecutor(parser);
         CommandParser addCommands = new CommandParser(this);
         addCommands.addCommand("dungeon", new AddDungeonCommand());
         addCommands.addCommand("chest", new AddChestCommand());
@@ -68,5 +67,6 @@ public class AresonInterdimension extends JavaPlugin {
         parser.addCommand("add", addCommands);
         parser.addCommand("rm", rmCommands);
         parser.addCommand("setprobability", new SetProbabilityCommand());
+        command.setExecutor(parser);
     }
 }

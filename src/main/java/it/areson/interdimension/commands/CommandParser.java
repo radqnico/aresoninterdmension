@@ -53,7 +53,7 @@ public class CommandParser implements CommandExecutor, TabCompleter {
 
     @Override
     public List<String> onTabComplete(CommandSender commandSender, Command command, String s, String[] strings) {
-        if (strings.length > this.depth + 1) {
+        if (strings.length > this.depth) {
             ICommandParserCommand selectedCommand = commands.get(strings[this.depth].toLowerCase());
             if (selectedCommand != null) {
                 return selectedCommand.onTabComplete(commandSender, command, s, strings);
