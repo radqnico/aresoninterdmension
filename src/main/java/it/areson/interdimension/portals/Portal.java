@@ -65,6 +65,8 @@ public class Portal {
         whoPassed = new ArrayList<>();
         particleRunnables = new ArrayList<>();
         soundRunnables = new ArrayList<>();
+        initParticleRunnables();
+        initSoundRunnables();
     }
 
     /**

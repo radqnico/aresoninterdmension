@@ -22,7 +22,6 @@ public class LocationFinder {
      * @return The center location of a 3-block AIR space.
      */
     public static Location findPortalLocationFromPlayer(Player player) {
-        System.out.println("FIND LOC");
         Location randomLocationInRange = getRandomLocationInRange(player.getLocation(), Configuration.rangeMinPortal, Configuration.rangeMaxPortal);
         return getThreeBlocksSpaceInColumn(randomLocationInRange);
     }
@@ -57,17 +56,14 @@ public class LocationFinder {
      * @return The suitable location, or null if none is found.
      */
     private static Location getThreeBlocksSpaceInColumn(Location location) {
-        System.out.println("getThreeBlocksSpaceInColumn");
         final Location cloned = location.clone().toBlockLocation();
         for (int i = (int) location.getY(); i > 1; i--) {
-            System.out.println("I: " + i);
             cloned.setY(i);
             if (checkThreeBlockAirSpace(cloned)) {
                 return cloned;
             }
         }
         for (int i = (int) location.getY(); i < 254; i++) {
-            System.out.println("I: " + i);
             cloned.setY(i);
             if (checkThreeBlockAirSpace(cloned)) {
                 return cloned;
