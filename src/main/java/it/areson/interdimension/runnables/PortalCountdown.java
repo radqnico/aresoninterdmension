@@ -74,7 +74,7 @@ public class PortalCountdown {
     }
 
     /**
-     * Starts the countdown.
+     * Starts the countdown sync.
      */
     public void startCountdown() {
         runnable.runTaskLater(plugin, seconds * 20L);
