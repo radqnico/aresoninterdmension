@@ -11,10 +11,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Level;
 
-public class CommandParser implements ICommandParserCommand {
+public class CommandParser extends CommandParserCommand {
     private final JavaPlugin plugin;
-    private final HashMap<String, ICommandParserCommand> commands = new HashMap<>();
-    private int depth = 0;
+    private final HashMap<String, CommandParserCommand> commands = new HashMap<>();
 
     public CommandParser(JavaPlugin plugin) {
         this.plugin = plugin;
@@ -25,27 +24,18 @@ public class CommandParser implements ICommandParserCommand {
         if (strings.length > 0) {
             CommandExecutor selectedCommand = commands.get(strings[0].toLowerCase());
             if (selectedCommand != null) {
-                selectedCommand.onCommand(commandSender, command, s, strings);
-                return true;
+                return selectedCommand.onCommand(commandSender, command, s, strings);
             }
         }
         return false;
     }
 
-    public void setDepth(int depth) {
-        this.depth = depth;
-    }
-
-    public void addCommand(String arg, CommandParser parser) {
-        parser.setDepth(this.depth + 1);
-        plugin.getLogger().log(Level.WARNING, "Binding depth " + (this.depth + 1) + " command");
-        this.addCommand(arg, (ICommandParserCommand) parser);
-    }
-    public void addCommand(String arg, ICommandParserCommand executor) {
+    public void addCommand(String arg, CommandParserCommand executor) {
         if (this.commands.containsKey(arg)) {
             plugin.getLogger().log(Level.WARNING, "Already insert " + arg + " command");
             return;
         }
+        executor.setDepth(this.depth + 1);
         this.commands.put(arg, executor);
         plugin.getLogger().log(Level.INFO, "Bind " + arg + " command");
     }
@@ -53,7 +43,7 @@ public class CommandParser implements ICommandParserCommand {
     @Override
     public List<String> onTabComplete(CommandSender commandSender, Command command, String s, String[] strings) {
         if (strings.length > this.depth + 1) {
-            ICommandParserCommand selectedCommand = commands.get(strings[this.depth].toLowerCase());
+            CommandParserCommand selectedCommand = commands.get(strings[this.depth].toLowerCase());
             if (selectedCommand != null) {
                 return selectedCommand.onTabComplete(commandSender, command, s, strings);
             }

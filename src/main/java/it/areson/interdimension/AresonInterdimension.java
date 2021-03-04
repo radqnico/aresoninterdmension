@@ -7,6 +7,8 @@ import it.areson.interdimension.commands.add.AddChestCommand;
 import it.areson.interdimension.commands.add.AddDungeonCommand;
 import it.areson.interdimension.commands.rm.RmChestsCommand;
 import it.areson.interdimension.commands.rm.RmDungeonCommand;
+import it.areson.interdimension.dungeon.Dungeon;
+import it.areson.interdimension.dungeon.DungeonManager;
 import it.areson.interdimension.files.MessageManager;
 import it.areson.interdimension.portals.PortalHandler;
 import it.areson.interdimension.runnables.PortalCountdown;
@@ -15,11 +17,13 @@ import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 
 public class AresonInterdimension extends JavaPlugin {
-
     private static AresonInterdimension instance;
+    private final DungeonManager dungeonManager = new DungeonManager();
     private MessageManager messages;
     private PortalHandler portalHandler;
 
@@ -59,13 +63,13 @@ public class AresonInterdimension extends JavaPlugin {
             return;
         }
         CommandParser addCommands = new CommandParser(this);
-        addCommands.addCommand("dungeon", new AddDungeonCommand());
-        addCommands.addCommand("chest", new AddChestCommand());
-        CommandParser rmCommands = new CommandParser(this);
-        rmCommands.addCommand("dungeon", new RmDungeonCommand());
-        rmCommands.addCommand("chests", new RmChestsCommand());
         parser.addCommand("add", addCommands);
+        addCommands.addCommand("dungeon", new AddDungeonCommand(this.dungeonManager));
+        addCommands.addCommand("chest", new AddChestCommand(this.dungeonManager));
+        CommandParser rmCommands = new CommandParser(this);
         parser.addCommand("rm", rmCommands);
+        rmCommands.addCommand("dungeon", new RmDungeonCommand(this.dungeonManager));
+        rmCommands.addCommand("chests", new RmChestsCommand(this.dungeonManager));
         parser.addCommand("setprobability", new SetProbabilityCommand());
         command.setExecutor(parser);
         command.setTabCompleter(parser);
