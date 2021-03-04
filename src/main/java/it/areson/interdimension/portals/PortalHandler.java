@@ -67,6 +67,8 @@ public class PortalHandler implements PortalCountdownEndListener {
                     playerMoveListener.registerEvents();
                 }
                 Portal portal = new Portal(plugin, portalLocationFromPlayer, randomDestination);
+                System.out.println(portalLocationFromPlayer.toString());
+                System.out.println(randomDestination.toString());
                 portals.put(portal, new PortalCountdown(plugin, Configuration.portalDurationSeconds, portal));
                 plugin.getLogger().fine(String.format("Portal spawned to player %s", player.getName()));
                 // Open and start counting
