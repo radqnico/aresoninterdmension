@@ -130,6 +130,8 @@ public class PortalHandler implements PortalCountdownEndListener {
         PortalCountdown portalCountdown = portals.get(portal);
         if (portalCountdown != null) {
             portalCountdown.startCountdown();
+        }else{
+            plugin.getLogger().severe("No portal countdown found for a portal");
         }
     }
 
