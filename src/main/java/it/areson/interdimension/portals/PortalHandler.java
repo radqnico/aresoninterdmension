@@ -50,6 +50,12 @@ public class PortalHandler implements PortalCountdownEndListener {
         playerMoveListener = new PlayerMoveListener(plugin);
     }
 
+    /**
+     * Checks if the given player is already into a portal.
+     *
+     * @param player Player to check
+     * @return True if the player is inside a portal, false otherwise.
+     */
     public boolean canPortalSpawnAtPlayer(Player player) {
         return getPortals().parallelStream().noneMatch(
                 portal -> portal.getWhoPassed().parallelStream().anyMatch(
