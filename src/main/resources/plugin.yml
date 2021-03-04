@@ -7,6 +7,8 @@ api-version: 1.16
 commands:
   testportal:
     permission: areson.interdimension.admin
+  interdimension:
+    permission: areson.interdimension.admin
 
 permissions:
   areson.interdimension.admin:

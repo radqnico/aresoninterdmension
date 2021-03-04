@@ -1,12 +1,21 @@
 package it.areson.interdimension;
 
+import it.areson.interdimension.commands.CommandParser;
+import it.areson.interdimension.commands.SetProbabilityCommand;
 import it.areson.interdimension.commands.TestPortalCommand;
+import it.areson.interdimension.commands.add.AddChestCommand;
+import it.areson.interdimension.commands.add.AddDungeonCommand;
+import it.areson.interdimension.commands.rm.RmChestsCommand;
+import it.areson.interdimension.commands.rm.RmDungeonCommand;
 import it.areson.interdimension.files.MessageManager;
 import it.areson.interdimension.portals.PortalHandler;
 import it.areson.interdimension.runnables.PortalCountdown;
 import org.bukkit.Location;
+import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.logging.Level;
 
 public class AresonInterdimension extends JavaPlugin {
 
@@ -31,6 +40,7 @@ public class AresonInterdimension extends JavaPlugin {
         portalHandler.addDestination(new Location(getServer().getWorld("world"), 0, 70, 0));
         // Test command
         getCommand("testportal").setExecutor(new TestPortalCommand());
+        this.loadCommands();
     }
 
     public PortalHandler getPortalHandler() {
@@ -39,5 +49,24 @@ public class AresonInterdimension extends JavaPlugin {
 
     public MessageManager messages() {
         return messages;
+    }
+
+    public void loadCommands() {
+        CommandParser parser = new CommandParser(this);
+        PluginCommand command = this.getCommand("interdimension");
+        if (command == null) {
+            this.getLogger().log(Level.SEVERE, "Cannot register interdimension commands");
+            return;
+        }
+        command.setExecutor(parser);
+        CommandParser addCommands = new CommandParser(this);
+        addCommands.addCommand("dungeon", new AddDungeonCommand());
+        addCommands.addCommand("chest", new AddChestCommand());
+        CommandParser rmCommands = new CommandParser(this);
+        rmCommands.addCommand("dungeon", new RmDungeonCommand());
+        rmCommands.addCommand("chests", new RmChestsCommand());
+        parser.addCommand("add", addCommands);
+        parser.addCommand("rm", rmCommands);
+        parser.addCommand("setprobability", new SetProbabilityCommand());
     }
 }
