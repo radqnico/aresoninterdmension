@@ -152,9 +152,29 @@ public class Portal {
     }
 
     /**
-     * Spawns the teleport particles at both ends of the portal.
+     * Plays the teleport effects particles and sound
      */
-    public void spawnTeleportParticles(){
+    public void playTeleportEffects(){
+        playTeleportSound();
+        spawnTeleportParticles();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Portal)) return false;
+        Portal portal = (Portal) o;
+        return plugin.equals(portal.plugin) && location.equals(portal.location) && destination.equals(portal.destination);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(plugin, location, destination);
+    }
+
+    // Private
+
+    private void spawnTeleportParticles() {
         location.getWorld().spawnParticle(
                 Particle.END_ROD,
                 location,
@@ -175,20 +195,27 @@ public class Portal {
         );
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Portal)) return false;
-        Portal portal = (Portal) o;
-        return plugin.equals(portal.plugin) && location.equals(portal.location) && destination.equals(portal.destination);
-    }
+    private void playTeleportSound() {
+        location.getWorld().playSound(
+                location,
+                Sound.ENTITY_ENDERMAN_TELEPORT,
+                SoundCategory.MASTER,
+                1f,
+                0.6f
+        );
+        plugin.getServer().getScheduler().scheduleSyncDelayedTask(
+                plugin,
+                () -> destination.getWorld().playSound(
+                        destination,
+                        Sound.ENTITY_ENDERMAN_TELEPORT,
+                        SoundCategory.MASTER,
+                        1f,
+                        0.6f
+                ),
+                5
+        );
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(plugin, location, destination);
     }
-
-    // Private
 
     private void playSounds() {
         for (RepeatingRunnable soundRunnable : soundRunnables) {

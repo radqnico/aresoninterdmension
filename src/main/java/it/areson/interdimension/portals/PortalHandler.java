@@ -80,6 +80,7 @@ public class PortalHandler implements PortalCountdownEndListener {
                     // Register events if first
                     if (portals.size() == 0) {
                         playerMoveListener.registerEvents();
+                        plugin.getLogger().info("Registered move event");
                     }
                     Portal portal = new Portal(plugin, portalLocationFromPlayer, randomDestination);
                     portals.put(portal, new PortalCountdown(plugin, Configuration.portalDurationSeconds, portal));
@@ -161,10 +162,12 @@ public class PortalHandler implements PortalCountdownEndListener {
     public synchronized void notifyCountdownFinish(Portal portal) {
         portal.closePortal();
         portal.returnBackWhoPassed();
+        portal.playTeleportEffects();
         portals.remove(portal);
         // Unregister if last
         if (portals.size() == 0) {
             playerMoveListener.unregisterEvents();
+            plugin.getLogger().info("Unregistered move event");
         }
     }
 }

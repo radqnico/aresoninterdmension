@@ -38,8 +38,8 @@ public class PlayerMoveListener extends GeneralEventListener {
                 portal.playerPassedPortal(player);
                 player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 20, 2, false, false, false));
                 AresonInterdimension.sendBroadcastEnterPortalMessage(player);
-                portal.spawnTeleportParticles();
-                // Suoni
+                // Effetti
+                portal.playTeleportEffects();
             }
         }
     }
