@@ -4,6 +4,7 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.util.StringUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,11 +14,9 @@ import java.util.logging.Level;
 public class CommandParser implements ICommandParserCommand {
     private final JavaPlugin plugin;
     private final HashMap<String, ICommandParserCommand> commands = new HashMap<>();
-    private final List<String> noCommand = new ArrayList<>();
     private int depth = 0;
 
     public CommandParser(JavaPlugin plugin) {
-        noCommand.add("invalid!");
         this.plugin = plugin;
     }
 
@@ -53,19 +52,13 @@ public class CommandParser implements ICommandParserCommand {
 
     @Override
     public List<String> onTabComplete(CommandSender commandSender, Command command, String s, String[] strings) {
-        for (String string : strings) {
-            plugin.getLogger().info("parsing: " + string);
-        }
         if (strings.length > this.depth + 1) {
             ICommandParserCommand selectedCommand = commands.get(strings[this.depth].toLowerCase());
             if (selectedCommand != null) {
-                plugin.getLogger().info("returning " + strings[this.depth] + " command");
                 return selectedCommand.onTabComplete(commandSender, command, s, strings);
             }
-            plugin.getLogger().info("returning no command");
-            return this.noCommand;
+            return StringUtil.copyPartialMatches(strings[this.depth], this.commands.keySet(), new ArrayList<>());
         }
-        plugin.getLogger().info("returning base commands");
         return new ArrayList<>(this.commands.keySet());
     }
 }
