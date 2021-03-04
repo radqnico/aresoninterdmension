@@ -37,8 +37,6 @@ public class AresonInterdimension extends JavaPlugin {
         portalHandler = new PortalHandler(this);
         PortalCountdown.registerListener(portalHandler);
         portalHandler.addDestination(new Location(getServer().getWorld("world"), 0, 70, 0));
-        // Test command
-        getCommand("testportal").setExecutor(new TestPortalCommand());
         this.loadCommands();
     }
 
@@ -65,9 +63,10 @@ public class AresonInterdimension extends JavaPlugin {
         parser.addCommand("rm", rmCommands);
         rmCommands.addCommand("dungeon", new RmDungeonCommand(this.dungeonManager));
         rmCommands.addCommand("chests", new RmChestsCommand(this.dungeonManager));
-        parser.addCommand("setprobability", new SetProbabilityCommand());
+        parser.addCommand("setProbability", new SetProbabilityCommand());
         parser.addCommand("ls", new LsDungeonCommand(this.dungeonManager));
         parser.addCommand("tp", new TpDungeonCommand(this.dungeonManager));
+        parser.addCommand("spawnPortal", new TestPortalCommand());
         command.setExecutor(parser);
         command.setTabCompleter(parser);
     }
