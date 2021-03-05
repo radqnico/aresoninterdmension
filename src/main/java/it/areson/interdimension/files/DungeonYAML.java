@@ -92,15 +92,15 @@ public class DungeonYAML extends FileManager {
     @ConfigAssert
     public List<String> assertDungeonsChestConfig() {
         List<String> errors = new ArrayList<>();
-        for (String key : fileConfiguration.getKeys(false)) {
-            ConfigurationSection dungeonSection = fileConfiguration.getConfigurationSection(key);
+        for (String dungeonKey : fileConfiguration.getKeys(false)) {
+            ConfigurationSection dungeonSection = fileConfiguration.getConfigurationSection(dungeonKey);
             if (dungeonSection == null) {
-                errors.add(key + " is null");
+                errors.add(dungeonKey + " is null. Maybe there are no chest in dungeon '" + dungeonKey + "'?");
                 break;
             }
-            String path = key + ".chests";
+            String path = dungeonKey + ".chests";
             if (!dungeonSection.isConfigurationSection(path)) {
-                errors.add(path + " is not a ConfigurationSection");
+                errors.add(path + " is not a ConfigurationSection. Maybe there are no chest in dungeon '" + dungeonKey + "'?");
             }
         }
         return errors;
@@ -118,13 +118,13 @@ public class DungeonYAML extends FileManager {
             String chestsSectionPath = dungeonKey + ".chests";
             ConfigurationSection chestSection = dungeonSection.getConfigurationSection(chestsSectionPath);
             if (chestSection == null) {
-                errors.add(chestsSectionPath + " is null");
+                errors.add(chestsSectionPath + " is null. Maybe there are no chest in dungeon '" + dungeonKey + "'?");
                 break;
             }
             for (String chestKey : chestSection.getKeys(false)) {
                 String chestPath = chestsSectionPath + "." + chestKey;
                 if (isNotLocationConfig(chestPath)) {
-                    errors.add(chestPath + " is not a Location");
+                    errors.add(chestPath + " is not a Location. Maybe there are no chest in dungeon '" + dungeonKey + "'?");
                 }
             }
         }
@@ -143,7 +143,7 @@ public class DungeonYAML extends FileManager {
                     List<String> invoke = (List<String>) method.invoke(this);
                     if (invoke.size() > 0) {
                         for (String error : invoke) {
-                            plugin.getLogger().severe("Error in dungeons config. Error in method " + method.getName() + " with comment: " + error);
+                            plugin.getLogger().warning("Error in dungeons config. Error in method " + method.getName() + " with comment: " + error);
                         }
                         isOk = false;
                     } else {
