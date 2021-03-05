@@ -77,6 +77,27 @@ public class FileManager {
         }
     }
 
+    public Optional<Location> getLocation(ConfigurationSection configurationSection, String path) {
+        String worldName = configurationSection.getString(path + ".world");
+        if (worldName != null) {
+            World world = this.plugin.getServer().getWorld(worldName);
+            if (world != null) {
+                return Optional.of(new Location(
+                        world,
+                        configurationSection.getDouble(path + ".x"),
+                        configurationSection.getDouble(path + ".y"),
+                        configurationSection.getDouble(path + ".z"),
+                        (float) configurationSection.getDouble(path + ".yaw"),
+                        (float) configurationSection.getDouble(path + ".pitch")
+                ));
+            } else {
+                return Optional.empty();
+            }
+        } else {
+            return Optional.empty();
+        }
+    }
+
     public void setLocation(String path, Location location) {
         World world = location.getWorld();
         if (world != null) {

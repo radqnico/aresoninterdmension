@@ -40,6 +40,7 @@ public class AresonInterdimension extends JavaPlugin {
         PortalCountdown.registerListener(portalHandler);
         this.loadCommands();
         dungeonsFile = new DungeonYAML(this, "dungeons.yml");
+        dungeonsFile.readDungeons(dungeonManager);
     }
 
     @Override

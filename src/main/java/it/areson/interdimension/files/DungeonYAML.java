@@ -1,6 +1,7 @@
 package it.areson.interdimension.files;
 
 import it.areson.interdimension.dungeon.Dungeon;
+import it.areson.interdimension.dungeon.DungeonManager;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
@@ -14,6 +15,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class DungeonYAML extends FileManager {
@@ -21,6 +23,31 @@ public class DungeonYAML extends FileManager {
     public DungeonYAML(JavaPlugin plugin, String fileName) {
         super(plugin, fileName);
         validateConfig();
+    }
+
+    public void readDungeons(DungeonManager dungeonManager) {
+        for (String dungeonKey : fileConfiguration.getKeys(false)) {
+            ConfigurationSection dungeonSection = fileConfiguration.getConfigurationSection(dungeonKey);
+            if (dungeonSection != null) {
+                String dungeonName = dungeonSection.getString("name");
+                Dungeon dungeon = new Dungeon(dungeonName);
+
+                Optional<Location> location = getLocation(dungeonSection, "location");
+                if (location.isPresent()) {
+                    dungeon.setLocation(location.get());
+
+                    ConfigurationSection chestsSection = dungeonSection.getConfigurationSection("chests");
+                    if (chestsSection != null) {
+                        for (String chestKey : chestsSection.getKeys(false)) {
+                            Optional<Location> chestLocation = getLocation(chestsSection, chestKey);
+                            chestLocation.ifPresent(dungeon::addChest);
+                        }
+                    }
+
+                    dungeonManager.addDungeon(dungeon);
+                }
+            }
+        }
     }
 
     public void saveDungeon(Dungeon dungeon) {

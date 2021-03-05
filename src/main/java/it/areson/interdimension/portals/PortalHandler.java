@@ -82,6 +82,7 @@ public class PortalHandler implements PortalCountdownEndListener {
                     plugin.getLogger().info(String.format("PORTAL SPAWNING: Portal spawned to player %s", player.getName()));
                     // Open and start counting
                     portal.openPortal();
+                    randomDestinationDungeon.resetChestsContent();
                     portal.getDestination().setAlreadyActive(true);
                     startPortalCountdown(portal);
                     return true;
