@@ -25,8 +25,10 @@ public class DungeonYAML extends FileManager {
     }
 
     public void readDungeons(DungeonManager dungeonManager) {
-        if(validateConfig()) {
+        if (validateConfig()) {
+            plugin.getLogger().info(String.format("Found %d dungeons in file", fileConfiguration.getKeys(false).size()));
             for (String dungeonKey : fileConfiguration.getKeys(false)) {
+                plugin.getLogger().info(String.format("Reading dungeon '%s'", dungeonKey));
                 ConfigurationSection dungeonSection = fileConfiguration.getConfigurationSection(dungeonKey);
                 if (dungeonSection != null) {
                     String dungeonName = dungeonSection.getString("name");
@@ -38,17 +40,25 @@ public class DungeonYAML extends FileManager {
 
                         ConfigurationSection chestsSection = dungeonSection.getConfigurationSection("chests");
                         if (chestsSection != null) {
+                            plugin.getLogger().info(String.format("Found %d chests in dungeon '%s'", chestsSection.getKeys(false).size(), dungeonKey));
                             for (String chestKey : chestsSection.getKeys(false)) {
                                 Optional<Location> chestLocation = getLocation(chestsSection, chestKey);
                                 chestLocation.ifPresent(dungeon::addChest);
                             }
+                        } else {
+                            plugin.getLogger().warning(String.format("Dungeon '%s' chests section is null", dungeonKey));
                         }
 
                         dungeonManager.addDungeon(dungeon);
+                    } else {
+                        plugin.getLogger().warning(String.format("Dungeon '%s' location is null", dungeonKey));
                     }
+                } else {
+                    plugin.getLogger().warning(String.format("Dungeon '%s' section is null", dungeonKey));
                 }
             }
-        }else{
+            plugin.getLogger().info(String.format(ChatColor.YELLOW + "%d dungeons read correctly", dungeonManager.getDungeons().size()));
+        } else {
             plugin.getLogger().warning("Config is not valid. Not reading dungeons.");
         }
     }
