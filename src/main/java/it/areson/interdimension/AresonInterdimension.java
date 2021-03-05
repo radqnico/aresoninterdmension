@@ -6,6 +6,7 @@ import it.areson.interdimension.commands.add.AddDungeonCommand;
 import it.areson.interdimension.commands.rm.RmChestsCommand;
 import it.areson.interdimension.commands.rm.RmDungeonCommand;
 import it.areson.interdimension.dungeon.DungeonManager;
+import it.areson.interdimension.files.DungeonYAML;
 import it.areson.interdimension.files.MessageManager;
 import it.areson.interdimension.portals.PortalHandler;
 import it.areson.interdimension.runnables.PortalCountdown;
@@ -20,6 +21,7 @@ public class AresonInterdimension extends JavaPlugin {
     private static AresonInterdimension instance;
     private final DungeonManager dungeonManager = new DungeonManager();
     private MessageManager messages;
+    private DungeonYAML dungeonsFile;
     private PortalHandler portalHandler;
 
     public static AresonInterdimension getInstance() {
@@ -37,6 +39,7 @@ public class AresonInterdimension extends JavaPlugin {
         portalHandler = new PortalHandler(this);
         PortalCountdown.registerListener(portalHandler);
         this.loadCommands();
+        dungeonsFile = new DungeonYAML(this, "dungeons.yml");
     }
 
     public PortalHandler getPortalHandler() {

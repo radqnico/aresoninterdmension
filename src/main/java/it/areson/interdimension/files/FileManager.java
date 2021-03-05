@@ -2,6 +2,7 @@ package it.areson.interdimension.files;
 
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -76,7 +77,7 @@ public class FileManager {
         }
     }
 
-    public void setLocation(Location location, String path) {
+    public void setLocation(String path, Location location) {
         World world = location.getWorld();
         if (world != null) {
             fileConfiguration.set(path + ".world", world.getName());
@@ -85,6 +86,19 @@ public class FileManager {
             fileConfiguration.set(path + ".z", location.getZ());
             fileConfiguration.set(path + ".yaw", location.getYaw());
             fileConfiguration.set(path + ".pitch", location.getPitch());
+        }
+        save();
+    }
+
+    public void setLocation(ConfigurationSection section, String path, Location location) {
+        World world = location.getWorld();
+        if (world != null) {
+            section.set(path + ".world", world.getName());
+            section.set(path + ".x", location.getX());
+            section.set(path + ".y", location.getY());
+            section.set(path + ".z", location.getZ());
+            section.set(path + ".yaw", location.getYaw());
+            section.set(path + ".pitch", location.getPitch());
         }
         save();
     }
