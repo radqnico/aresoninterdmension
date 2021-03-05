@@ -19,7 +19,7 @@ import java.util.logging.Level;
 public class AresonInterdimension extends JavaPlugin {
 
     private static AresonInterdimension instance;
-    private final DungeonManager dungeonManager = new DungeonManager();
+    private DungeonManager dungeonManager;
     private MessageManager messages;
     private DungeonYAML dungeonsFile;
     private PortalHandler portalHandler;
@@ -37,6 +37,7 @@ public class AresonInterdimension extends JavaPlugin {
         instance = this;
         messages = new MessageManager(this, "messages.yml");
         portalHandler = new PortalHandler(this);
+        dungeonManager = new DungeonManager();
         PortalCountdown.registerListener(portalHandler);
         this.loadCommands();
         dungeonsFile = new DungeonYAML(this, "dungeons.yml");
