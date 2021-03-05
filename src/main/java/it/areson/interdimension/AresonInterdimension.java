@@ -31,6 +31,8 @@ public class AresonInterdimension extends JavaPlugin {
     private RepeatingRunnable spawnTask;
     private DataFile dataFile;
 
+    private double portalProbability = Configuration.defaultProbabilityToSpawnEveryFiveSeconds;
+
     public static AresonInterdimension getInstance() {
         return instance;
     }
@@ -50,6 +52,7 @@ public class AresonInterdimension extends JavaPlugin {
         this.loadCommands();
         dungeonsFile = new DungeonYAML(this, "dungeons.yml");
         dungeonsFile.readDungeons(dungeonManager);
+        portalProbability = dataFile.getPortalProbability();
         initSpawnTask();
         spawnTask.runRepeatingTask();
     }
@@ -64,12 +67,12 @@ public class AresonInterdimension extends JavaPlugin {
             @Override
             public void run() {
                 // Should spawn?
-                boolean shouldSpawn = Math.random() <= dataFile.getPortalProbability();
+                boolean shouldSpawn = Math.random() <= portalProbability;
                 if (shouldSpawn) {
                     World world = getServer().getWorld(Configuration.mainWorldName);
                     if (world != null && world.getTime() > 12300 && world.getTime() < 23850) {
                         List<Player> players = world.getPlayers();
-                        if(players.size()>0) {
+                        if (players.size() > 0) {
                             Player selectedPlayer = players.get((int) (Math.random() * players.size()));
                             getLogger().info("Attempting to spawn portal to player " + selectedPlayer.getName());
                             if (portalHandler.spawnPortalNearPlayer(selectedPlayer)) {
@@ -121,5 +124,13 @@ public class AresonInterdimension extends JavaPlugin {
 
     public DataFile getDataFile() {
         return dataFile;
+    }
+
+    public double getPortalProbability() {
+        return portalProbability;
+    }
+
+    public void setPortalProbability(double portalProbability) {
+        this.portalProbability = portalProbability;
     }
 }

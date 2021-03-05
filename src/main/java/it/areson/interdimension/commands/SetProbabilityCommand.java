@@ -23,6 +23,7 @@ public class SetProbabilityCommand extends CommandParserCommand {
                 double newProbability = Double.parseDouble(strings[1]);
                 instance.getDataFile().setPortalProbability(newProbability);
                 instance.getDataFile().save();
+                instance.setPortalProbability(newProbability);
                 commandSender.sendMessage(
                         String.format(
                                 "Probability to have:\n > 1 portal per night: %f\n > 2 portal per night: %f\n > 3 portal per night: %f",
