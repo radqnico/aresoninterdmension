@@ -147,6 +147,7 @@ public class DungeonYAML extends FileManager {
                     }
                 } catch (Exception e) {
                     plugin.getLogger().severe("Exception in dungeons config validation in method " + method.getName());
+                    e.printStackTrace();
                 }
             }
         }
