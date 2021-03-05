@@ -47,9 +47,7 @@ public class DungeonManager {
     }
 
     public boolean addDungeon(Dungeon dungeon) {
-        System.out.println(this.dungeons);
         for (Dungeon d : this.dungeons) {
-            System.out.println(d.getName());
             if (d.getName().equals(dungeon.getName())) {
                 return false;
             }

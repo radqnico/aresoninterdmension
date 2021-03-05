@@ -1,5 +1,7 @@
 package it.areson.interdimension.commands;
 
+import it.areson.interdimension.AresonInterdimension;
+import it.areson.interdimension.Configuration;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 
@@ -15,6 +17,25 @@ public class SetProbabilityCommand extends CommandParserCommand {
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
+        if (strings.length == 1) {
+            try {
+                AresonInterdimension instance = AresonInterdimension.getInstance();
+                double newProbability = Double.parseDouble(strings[0]);
+                instance.getDataFile().setPortalProbability(newProbability);
+                instance.getDataFile().save();
+                commandSender.sendMessage(
+                        String.format(
+                                "Probability to have:\n > 1 portal per night: %f\n > 2 portal per night: %f\n > 3 portal per night: %f",
+                                Configuration.getProbabilityOfPortals(1, newProbability),
+                                Configuration.getProbabilityOfPortals(2, newProbability),
+                                Configuration.getProbabilityOfPortals(3, newProbability)
+                        )
+                );
+            } catch (NumberFormatException exception) {
+                commandSender.sendMessage("Not a number.");
+            }
+        }
+
         return false;
     }
 
