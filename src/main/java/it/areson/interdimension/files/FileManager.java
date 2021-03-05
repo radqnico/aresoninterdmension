@@ -2,6 +2,7 @@ package it.areson.interdimension.files;
 
 import org.bukkit.Location;
 import org.bukkit.World;
+import org.bukkit.WorldCreator;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -60,6 +61,9 @@ public class FileManager {
         String worldName = fileConfiguration.getString(path + ".world");
         if (worldName != null) {
             World world = this.plugin.getServer().getWorld(worldName);
+            if(world==null){
+                world = new WorldCreator(worldName).environment(World.Environment.NORMAL).createWorld();
+            }
             if (world != null) {
                 return Optional.of(new Location(
                         world,
@@ -78,26 +82,7 @@ public class FileManager {
     }
 
     public Optional<Location> getLocation(ConfigurationSection configurationSection, String path) {
-        String worldName = configurationSection.getString(path + ".world");
-        System.out.println(worldName);
-        if (worldName != null) {
-            World world = this.plugin.getServer().getWorld(worldName);
-            System.out.println(world);
-            if (world != null) {
-                return Optional.of(new Location(
-                        world,
-                        configurationSection.getDouble(path + ".x"),
-                        configurationSection.getDouble(path + ".y"),
-                        configurationSection.getDouble(path + ".z"),
-                        (float) configurationSection.getDouble(path + ".yaw"),
-                        (float) configurationSection.getDouble(path + ".pitch")
-                ));
-            } else {
-                return Optional.empty();
-            }
-        } else {
-            return Optional.empty();
-        }
+        return getLocation(configurationSection.getCurrentPath()+"."+path);
     }
 
     public void setLocation(String path, Location location) {
