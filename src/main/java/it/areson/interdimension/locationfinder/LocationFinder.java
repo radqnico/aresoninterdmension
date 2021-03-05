@@ -61,7 +61,7 @@ public class LocationFinder {
         for (double i = startY; i > 1; i -= 1) {
             cloned.setY(i);
 
-            System.out.println(location.getY());
+            System.out.println(cloned.getY());
             if (checkThreeBlockAirSpace(cloned)) {
                 return cloned;
             }
@@ -69,7 +69,7 @@ public class LocationFinder {
         for (double i = startY; i < 254; i += 1) {
             cloned.setY(i);
 
-            System.out.println(location.getY());
+            System.out.println(cloned.getY());
             if (checkThreeBlockAirSpace(cloned)) {
                 return cloned;
             }
