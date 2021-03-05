@@ -5,17 +5,5 @@
 prefix: "&4[Areson] &f"
 
 not-player: "Non sei un player"
-probability-not-set: "Non hai impostato il valore 'spawn-probability-every-five-seconds' nella configurazione"
-probability-not-valid: "Il valore della probabilita' deve essere >0 e <=1"
-destination-not-set: "Non hai impostato la destinazione del portale"
-chest-not-set: "Non hai impostato la chest"
-destination-not-valid: "Il valore della destinazione non e' corretto. Impostala con /setdestination"
-reloaded: "Configurazione aggiornata."
-cannot-command: "&cNon puoi eseguire comandi qui."
 
 portal-entered-broadcast: "&c&l%PLAYER%&6 ha appena attraversato uno squarcio spaziale misterioso!"
-
-console-log-portal-spawned: "&6Portale apparso a &c%player%"
-
-portals-deactivated: "&cPortali interdimensionali disattivati"
-portals-activated: "&4Portali interdimensionali attivati"

@@ -2,7 +2,6 @@ package it.areson.interdimension.events;
 
 import it.areson.interdimension.AresonInterdimension;
 import it.areson.interdimension.portals.Portal;
-import it.areson.interdimension.portals.PortalHandler;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -33,11 +32,11 @@ public class PlayerEventsListener extends GeneralEventListener {
             if (first.isPresent()) {
                 Portal portal = first.get();
                 Player player = event.getPlayer();
-                player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 5, 2, false, false, false));
                 player.teleport(portal.getDestination().getLocation());
                 portal.playerPassedPortal(player);
-                AresonInterdimension.sendBroadcastEnterPortalMessage(player);
+                AresonInterdimension.sendBroadcastEnterPortalMessage();
                 // Effetti
+                player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 5, 2, false, false, true));
                 portal.playTeleportEffects();
             }
         }

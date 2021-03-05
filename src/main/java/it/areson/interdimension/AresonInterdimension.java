@@ -8,6 +8,7 @@ import it.areson.interdimension.commands.rm.RmDungeonCommand;
 import it.areson.interdimension.dungeon.DungeonManager;
 import it.areson.interdimension.files.DataFile;
 import it.areson.interdimension.files.DungeonYAML;
+import it.areson.interdimension.files.Message;
 import it.areson.interdimension.files.MessageManager;
 import it.areson.interdimension.portals.PortalHandler;
 import it.areson.interdimension.runnables.PortalCountdown;
@@ -39,8 +40,8 @@ public class AresonInterdimension extends JavaPlugin {
         return instance;
     }
 
-    public static void sendBroadcastEnterPortalMessage(Player player) {
-        instance.getServer().broadcastMessage(String.format("Il giocatore %s ha attraversato un portale!", player.getName()));
+    public static void sendBroadcastEnterPortalMessage() {
+        instance.getServer().broadcastMessage(AresonInterdimension.getInstance().messages().getMessage(true, Message.BROADCAST_ENTER));
     }
 
     @Override

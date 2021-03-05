@@ -16,25 +16,12 @@ public class MessageManager extends FileManager {
     }
 
     public void sendMessage(boolean putPrefix, Player player, String messageKey) {
-        String message = getFileConfiguration().getString(messageKey);
-        if (Objects.nonNull(message)) {
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', (putPrefix ? (prefix) : "") + message));
-        } else {
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', (putPrefix ? prefix : "") + "&cError: '" + messageKey + "' message does not exists!"));
-        }
+        player.sendMessage(getMessage(putPrefix, messageKey));
     }
 
     @SafeVarargs
     public final void sendMessage(boolean putPrefix, Player player, String messageKey, Pair<String, String>... substitutions) {
-        String message = getFileConfiguration().getString(messageKey);
-        if (Objects.nonNull(message)) {
-            for (Pair<String, String> stringPair : substitutions) {
-                message = message.replaceAll(stringPair.left(), stringPair.right());
-            }
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', (putPrefix ? (prefix) : "") + message));
-        } else {
-            player.sendMessage(ChatColor.translateAlternateColorCodes('&', (putPrefix ? prefix : "") + "&cError: '" + messageKey + "' message does not exists!"));
-        }
+        player.sendMessage(getMessage(putPrefix, messageKey, substitutions));
     }
 
     @SafeVarargs
