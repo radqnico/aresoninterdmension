@@ -41,8 +41,8 @@ public class LocationFinder {
     private static Location getRandomLocationInRange(Location location, int rangeMin, int rangeMax) {
         if (rangeMax > rangeMin) {
             Random random = new Random();
-            int randomX = (Math.random() < 0.5 ? 1 : -1) * random.nextInt(rangeMax - rangeMin) - rangeMin / 2;
-            int randomZ = (Math.random() < 0.5 ? 1 : -1) * random.nextInt(rangeMax - rangeMin) - rangeMin / 2;
+            int randomX = (Math.random() < 0.5 ? 1 : -1) * random.nextInt(rangeMax - rangeMin) + rangeMin;
+            int randomZ = (Math.random() < 0.5 ? 1 : -1) * random.nextInt(rangeMax - rangeMin) + rangeMin;
             return location.clone().add(randomX, 0, randomZ);
         } else {
             throw new IllegalArgumentException("rangeMax cannot be smaller than or equal to rangeMin");
