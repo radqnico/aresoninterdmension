@@ -61,13 +61,13 @@ public class DungeonManager {
      *
      * @return The randomized dungeon, null if there is no dungeon.
      */
-    public synchronized Dungeon randomizeDungeon() {
+    public Dungeon randomizeDungeon() {
         List<Dungeon> filtered = dungeons.parallelStream().filter(dungeon -> !dungeon.isAlreadyActive()).collect(Collectors.toList());
         if (filtered.size() <= 0) {
             return null;
         }
         Random rand = new Random();
-        return filtered.get(rand.nextInt(this.dungeons.size()));
+        return filtered.get(rand.nextInt(filtered.size()));
     }
 
     /**

@@ -76,9 +76,7 @@ public class DungeonYAML extends FileManager {
                 setLocation(chestsSection, "" + i, chests.get(i));
             }
             plugin.getLogger().info("Dungeon " + dungeon.getName() + " saved");
-            if (validateConfig()) {
-                save();
-            }
+            save();
         } else {
             plugin.getLogger().warning("Dungeon passed to save is null");
         }
