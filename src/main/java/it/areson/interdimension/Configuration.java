@@ -1,7 +1,5 @@
 package it.areson.interdimension;
 
-import java.math.BigInteger;
-
 public class Configuration {
 
     public static final int rangeMinPortal = 4;
@@ -13,14 +11,14 @@ public class Configuration {
     public static final String mainWorldName = "world";
 
     public static double getProbabilityOfPortals(int nPortals, double probability) {
-        return ((factorial(60)).divide(factorial(60).multiply(factorial(60 - nPortals)))).longValue() * (Math.pow(probability, nPortals) * Math.pow(1 - probability, 60 - nPortals));
+        return ((double) binomi(115, nPortals)) * Math.pow(probability, nPortals) * Math.pow(1 - probability, 115 - nPortals);
     }
 
-    private static BigInteger factorial(int n) {
-        BigInteger result = BigInteger.ONE;
-        for (int i = 2; i <= n; i++)
-            result = result.multiply(BigInteger.valueOf(i));
-        return result;
+    static long binomi(int n, int k) {
+        if ((n == k) || (k == 0))
+            return 1;
+        else
+            return binomi(n - 1, k) + binomi(n - 1, k - 1);
     }
 
     // Formula per probabilità: (60!/n!(n-60)!) * p^60-p^n = pc

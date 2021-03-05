@@ -69,12 +69,14 @@ public class AresonInterdimension extends JavaPlugin {
                     World world = getServer().getWorld(Configuration.mainWorldName);
                     if (world != null && world.getTime() > 12300 && world.getTime() < 23850) {
                         List<Player> players = world.getPlayers();
-                        Player selectedPlayer = players.get((int) (Math.random() * players.size()));
-                        getLogger().info("Attempting to spawn portal to player " + selectedPlayer.getName());
-                        if (portalHandler.spawnPortalNearPlayer(selectedPlayer)) {
-                            getLogger().info(ChatColor.GREEN + "Attempting to spawn portal to player " + selectedPlayer.getName());
-                        } else {
-                            getLogger().info(ChatColor.RED + "Portal didn't spawn to player " + selectedPlayer.getName());
+                        if(players.size()>0) {
+                            Player selectedPlayer = players.get((int) (Math.random() * players.size()));
+                            getLogger().info("Attempting to spawn portal to player " + selectedPlayer.getName());
+                            if (portalHandler.spawnPortalNearPlayer(selectedPlayer)) {
+                                getLogger().info(ChatColor.GREEN + "Attempting to spawn portal to player " + selectedPlayer.getName());
+                            } else {
+                                getLogger().info(ChatColor.RED + "Portal didn't spawn to player " + selectedPlayer.getName());
+                            }
                         }
                     }
                 }
