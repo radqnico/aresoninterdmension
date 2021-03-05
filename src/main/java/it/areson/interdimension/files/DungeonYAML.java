@@ -31,8 +31,7 @@ public class DungeonYAML extends FileManager {
                 plugin.getLogger().info(String.format("Reading dungeon '%s'", dungeonKey));
                 ConfigurationSection dungeonSection = fileConfiguration.getConfigurationSection(dungeonKey);
                 if (dungeonSection != null) {
-                    String dungeonName = dungeonSection.getString("name");
-                    Dungeon dungeon = new Dungeon(dungeonName);
+                    Dungeon dungeon = new Dungeon(dungeonKey);
 
                     Optional<Location> location = getLocation(dungeonSection, "location");
                     if (location.isPresent()) {
