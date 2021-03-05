@@ -12,7 +12,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class DungeonYAML extends FileManager {
 
@@ -58,7 +60,7 @@ public class DungeonYAML extends FileManager {
     }
 
     @ConfigAssert
-    private List<String> assertDungeonsConfig() {
+    public List<String> assertDungeonsConfig() {
         List<String> errors = new ArrayList<>();
         for (String key : fileConfiguration.getKeys(false)) {
             if (!fileConfiguration.isConfigurationSection(key)) {
@@ -69,7 +71,7 @@ public class DungeonYAML extends FileManager {
     }
 
     @ConfigAssert
-    private List<String> assertDungeonsLocations() {
+    public List<String> assertDungeonsLocations() {
         List<String> errors = new ArrayList<>();
         for (String key : fileConfiguration.getKeys(false)) {
             ConfigurationSection dungeonSection = fileConfiguration.getConfigurationSection(key);
@@ -86,7 +88,7 @@ public class DungeonYAML extends FileManager {
     }
 
     @ConfigAssert
-    private List<String> assertDungeonsChestConfig() {
+    public List<String> assertDungeonsChestConfig() {
         List<String> errors = new ArrayList<>();
         for (String key : fileConfiguration.getKeys(false)) {
             ConfigurationSection dungeonSection = fileConfiguration.getConfigurationSection(key);
@@ -103,7 +105,7 @@ public class DungeonYAML extends FileManager {
     }
 
     @ConfigAssert
-    private List<String> assertDungeonsChests() {
+    public List<String> assertDungeonsChests() {
         List<String> errors = new ArrayList<>();
         for (String dungeonKey : fileConfiguration.getKeys(false)) {
             ConfigurationSection dungeonSection = fileConfiguration.getConfigurationSection(dungeonKey);
@@ -130,16 +132,18 @@ public class DungeonYAML extends FileManager {
     public void validateConfig() {
         plugin.getLogger().info(ChatColor.YELLOW + "Validating config...");
         Method[] methods = this.getClass().getMethods();
+        List<Method> validators = Arrays.stream(methods).filter(method -> method.isAnnotationPresent(ConfigAssert.class)).collect(Collectors.toList());
+        plugin.getLogger().info(ChatColor.YELLOW + "Found " + validators.size() + " validating methods");
         for (Method method : methods) {
             if (method.isAnnotationPresent(ConfigAssert.class)) {
                 try {
-                    List<String> invokes = (List<String>) method.invoke(null, (Object) null);
-                    if (invokes.size() > 0) {
-                        for (String error : invokes) {
+                    List<String> invoke = (List<String>) method.invoke(null, (Object) null);
+                    if (invoke.size() > 0) {
+                        for (String error : invoke) {
                             plugin.getLogger().severe("Error in dungeons config. Error in method " + method.getName() + " with comment: " + error);
                         }
                     } else {
-                        plugin.getLogger().info(ChatColor.GREEN + "Config is valid.");
+                        plugin.getLogger().info(ChatColor.GREEN + method.getName() + " found no errors");
                     }
                 } catch (Exception e) {
                     plugin.getLogger().severe("Exception in dungeons config validation in method " + method.getName());
