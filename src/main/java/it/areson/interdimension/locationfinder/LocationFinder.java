@@ -83,7 +83,7 @@ public class LocationFinder {
      * @param location Central location.
      * @return True if there is a 3-blocks AIR space, false otherwise.
      */
-    private static boolean checkThreeBlockAirSpace(Location location) {
+    public static boolean checkThreeBlockAirSpace(Location location) {
         Block blockCenter = location.getBlock();
         Block blockBottom = location.clone().add(0, -1, 0).getBlock();
         Block blockTop = location.clone().add(0, 1, 0).getBlock();

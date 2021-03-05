@@ -114,6 +114,7 @@ public class AresonInterdimension extends JavaPlugin {
         parser.addCommand("ls", new LsDungeonCommand(this.dungeonManager));
         parser.addCommand("tp", new TpDungeonCommand(this.dungeonManager));
         parser.addCommand("spawnportal", new TestPortalCommand());
+        parser.addCommand("testspace", new TestSpaceCommand());
         command.setExecutor(parser);
         command.setTabCompleter(parser);
     }
