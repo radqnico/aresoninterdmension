@@ -8,7 +8,11 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 public class DungeonManager {
-    private final List<Dungeon> dungeons = new ArrayList<>();
+    private final List<Dungeon> dungeons;
+
+    public DungeonManager() {
+        this.dungeons = new ArrayList<>();
+    }
 
     /**
      * Get a dungeon by name.
@@ -43,6 +47,7 @@ public class DungeonManager {
     }
 
     public boolean addDungeon(Dungeon dungeon) {
+        System.out.println(this.dungeons);
         for (Dungeon d : this.dungeons) {
             if (d.getName().equals(dungeon.getName())) {
                 return false;
