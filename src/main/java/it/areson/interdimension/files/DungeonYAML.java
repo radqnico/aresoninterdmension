@@ -137,7 +137,7 @@ public class DungeonYAML extends FileManager {
         for (Method method : methods) {
             if (method.isAnnotationPresent(ConfigAssert.class)) {
                 try {
-                    List<String> invoke = (List<String>) method.invoke(null, (Object) null);
+                    List<String> invoke = (List<String>) method.invoke(this, (Object) null);
                     if (invoke.size() > 0) {
                         for (String error : invoke) {
                             plugin.getLogger().severe("Error in dungeons config. Error in method " + method.getName() + " with comment: " + error);
