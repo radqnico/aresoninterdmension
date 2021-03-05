@@ -13,6 +13,7 @@ import it.areson.interdimension.portals.PortalHandler;
 import it.areson.interdimension.runnables.PortalCountdown;
 import it.areson.interdimension.runnables.RepeatingRunnable;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.World;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.entity.Player;
@@ -20,6 +21,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.List;
 import java.util.logging.Level;
+import java.util.stream.Collectors;
 
 public class AresonInterdimension extends JavaPlugin {
 
@@ -67,11 +69,10 @@ public class AresonInterdimension extends JavaPlugin {
             @Override
             public void run() {
                 // Should spawn?
-                boolean shouldSpawn = Math.random() <= portalProbability;
-                if (shouldSpawn) {
+                if (Math.random() <= portalProbability) {
                     World world = getServer().getWorld(Configuration.mainWorldName);
                     if (world != null && world.getTime() > 12300 && world.getTime() < 23850) {
-                        List<Player> players = world.getPlayers();
+                        List<Player> players = world.getPlayers().stream().filter(player -> player.getGameMode().equals(GameMode.SURVIVAL)).collect(Collectors.toList());
                         if (players.size() > 0) {
                             Player selectedPlayer = players.get((int) (Math.random() * players.size()));
                             getLogger().info("Attempting to spawn portal to player " + selectedPlayer.getName());
