@@ -15,7 +15,7 @@ public class Configuration {
         for (int i = 0; i <= nPortals; i++) {
             cumulative += ((double) binomi(115, i)) * Math.pow(probability, i) * Math.pow(1 - probability, 115 - i);
         }
-        return cumulative;
+        return 1 - cumulative;
     }
 
     static long binomi(int n, int k) {
