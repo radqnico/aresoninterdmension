@@ -16,6 +16,7 @@ public class TestSpaceCommand extends CommandParserCommand {
             Location location = player.getEyeLocation().toCenterLocation();
             player.sendMessage(location.toString());
             player.sendMessage(LocationFinder.checkThreeBlockAirSpace(location) + "");
+            player.sendMessage(location.getBlock().getType().name());
         }
         return true;
     }
