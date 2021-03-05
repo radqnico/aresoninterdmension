@@ -40,8 +40,8 @@ public class LocationFinder {
     private static Location getRandomLocationInRange(Location location, int rangeMin, int rangeMax) {
         if (rangeMax > rangeMin) {
             Random random = new Random();
-            int randomX = random.nextInt(rangeMax - rangeMin) + rangeMin;
-            int randomZ = random.nextInt(rangeMax - rangeMin) + rangeMin;
+            int randomX = (Math.random() < 0.5 ? 1 : -1) * random.nextInt(rangeMax - rangeMin) - rangeMin / 2;
+            int randomZ = (Math.random() < 0.5 ? 1 : -1) * random.nextInt(rangeMax - rangeMin) - rangeMin / 2;
             return location.clone().add(randomX, 0, randomZ);
         } else {
             throw new IllegalArgumentException("rangeMax cannot be smaller than or equal to rangeMin");
@@ -56,15 +56,20 @@ public class LocationFinder {
      * @return The suitable location, or null if none is found.
      */
     private static Location getThreeBlocksSpaceInColumn(Location location) {
-        final Location cloned = location.clone().toBlockLocation();
-        for (int i = (int) location.getY(); i > 1; i--) {
+        final Location cloned = location.clone().toCenterLocation();
+        double startY = location.getY();
+        for (double i = startY; i > 1; i -= 1) {
             cloned.setY(i);
+
+            System.out.println(location.getY());
             if (checkThreeBlockAirSpace(cloned)) {
                 return cloned;
             }
         }
-        for (int i = (int) location.getY(); i < 254; i++) {
+        for (double i = startY; i < 254; i += 1) {
             cloned.setY(i);
+
+            System.out.println(location.getY());
             if (checkThreeBlockAirSpace(cloned)) {
                 return cloned;
             }
@@ -79,10 +84,9 @@ public class LocationFinder {
      * @return True if there is a 3-blocks AIR space, false otherwise.
      */
     private static boolean checkThreeBlockAirSpace(Location location) {
-        Location cloned = location.clone();
-        Block blockCenter = cloned.getBlock();
-        Block blockBottom = cloned.clone().add(0, -1, 0).getBlock();
-        Block blockTop = cloned.clone().add(0, 1, 0).getBlock();
+        Block blockCenter = location.getBlock();
+        Block blockBottom = location.clone().add(0, -1, 0).getBlock();
+        Block blockTop = location.clone().add(0, 1, 0).getBlock();
         return blockBottom.getType().equals(AIR) && blockCenter.getType().equals(AIR) && blockTop.getType().equals(AIR);
     }
 
