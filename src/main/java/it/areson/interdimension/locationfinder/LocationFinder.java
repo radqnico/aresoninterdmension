@@ -22,7 +22,7 @@ public class LocationFinder {
      * @return The center location of a 3-block AIR space.
      */
     public static Location findPortalLocationFromPlayer(Player player) {
-        Location randomLocationInRange = getRandomLocationInRange(player.getLocation(), Configuration.rangeMinPortal, Configuration.rangeMaxPortal);
+        Location randomLocationInRange = getRandomLocationInRange(player.getEyeLocation(), Configuration.rangeMinPortal, Configuration.rangeMaxPortal);
         return getThreeBlocksSpaceInColumn(randomLocationInRange);
     }
 
