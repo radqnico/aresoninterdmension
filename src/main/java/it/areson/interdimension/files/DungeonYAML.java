@@ -22,31 +22,34 @@ public class DungeonYAML extends FileManager {
 
     public DungeonYAML(JavaPlugin plugin, String fileName) {
         super(plugin, fileName);
-        validateConfig();
     }
 
     public void readDungeons(DungeonManager dungeonManager) {
-        for (String dungeonKey : fileConfiguration.getKeys(false)) {
-            ConfigurationSection dungeonSection = fileConfiguration.getConfigurationSection(dungeonKey);
-            if (dungeonSection != null) {
-                String dungeonName = dungeonSection.getString("name");
-                Dungeon dungeon = new Dungeon(dungeonName);
+        if(validateConfig()) {
+            for (String dungeonKey : fileConfiguration.getKeys(false)) {
+                ConfigurationSection dungeonSection = fileConfiguration.getConfigurationSection(dungeonKey);
+                if (dungeonSection != null) {
+                    String dungeonName = dungeonSection.getString("name");
+                    Dungeon dungeon = new Dungeon(dungeonName);
 
-                Optional<Location> location = getLocation(dungeonSection, "location");
-                if (location.isPresent()) {
-                    dungeon.setLocation(location.get());
+                    Optional<Location> location = getLocation(dungeonSection, "location");
+                    if (location.isPresent()) {
+                        dungeon.setLocation(location.get());
 
-                    ConfigurationSection chestsSection = dungeonSection.getConfigurationSection("chests");
-                    if (chestsSection != null) {
-                        for (String chestKey : chestsSection.getKeys(false)) {
-                            Optional<Location> chestLocation = getLocation(chestsSection, chestKey);
-                            chestLocation.ifPresent(dungeon::addChest);
+                        ConfigurationSection chestsSection = dungeonSection.getConfigurationSection("chests");
+                        if (chestsSection != null) {
+                            for (String chestKey : chestsSection.getKeys(false)) {
+                                Optional<Location> chestLocation = getLocation(chestsSection, chestKey);
+                                chestLocation.ifPresent(dungeon::addChest);
+                            }
                         }
-                    }
 
-                    dungeonManager.addDungeon(dungeon);
+                        dungeonManager.addDungeon(dungeon);
+                    }
                 }
             }
+        }else{
+            plugin.getLogger().warning("Config is not valid. Not reading dungeons.");
         }
     }
 
@@ -143,7 +146,7 @@ public class DungeonYAML extends FileManager {
                 break;
             }
             String chestsSectionPath = dungeonKey + ".chests";
-            ConfigurationSection chestSection = dungeonSection.getConfigurationSection(chestsSectionPath);
+            ConfigurationSection chestSection = dungeonSection.getConfigurationSection("chests");
             if (chestSection == null) {
                 errors.add(chestsSectionPath + " is null. Maybe there are no chest in dungeon '" + dungeonKey + "'?");
                 break;
