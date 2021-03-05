@@ -6,10 +6,7 @@ import it.areson.interdimension.commands.add.AddDungeonCommand;
 import it.areson.interdimension.commands.rm.RmChestsCommand;
 import it.areson.interdimension.commands.rm.RmDungeonCommand;
 import it.areson.interdimension.dungeon.DungeonManager;
-import it.areson.interdimension.files.DataFile;
-import it.areson.interdimension.files.DungeonYAML;
-import it.areson.interdimension.files.Message;
-import it.areson.interdimension.files.MessageManager;
+import it.areson.interdimension.files.*;
 import it.areson.interdimension.portals.PortalHandler;
 import it.areson.interdimension.runnables.PortalCountdown;
 import it.areson.interdimension.runnables.RepeatingRunnable;
@@ -40,8 +37,8 @@ public class AresonInterdimension extends JavaPlugin {
         return instance;
     }
 
-    public static void sendBroadcastEnterPortalMessage() {
-        instance.getServer().broadcastMessage(AresonInterdimension.getInstance().messages().getMessage(true, Message.BROADCAST_ENTER));
+    public static void sendBroadcastEnterPortalMessage(String playerName) {
+        instance.getServer().broadcastMessage(AresonInterdimension.getInstance().messages().getMessage(true, Message.BROADCAST_ENTER, Pair.of("%PLAYER%", playerName)));
     }
 
     @Override

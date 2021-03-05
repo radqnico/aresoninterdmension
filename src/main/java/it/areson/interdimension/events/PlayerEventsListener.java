@@ -34,7 +34,7 @@ public class PlayerEventsListener extends GeneralEventListener {
                 Player player = event.getPlayer();
                 player.teleport(portal.getDestination().getLocation());
                 portal.playerPassedPortal(player);
-                AresonInterdimension.sendBroadcastEnterPortalMessage();
+                AresonInterdimension.sendBroadcastEnterPortalMessage(player.getName());
                 // Effetti
                 player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 5, 2, false, false, true));
                 portal.playTeleportEffects();
