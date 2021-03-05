@@ -2,17 +2,18 @@ package it.areson.interdimension.locationfinder;
 
 import it.areson.interdimension.Configuration;
 import org.bukkit.Location;
-import org.bukkit.block.Block;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
+import org.bukkit.util.Vector;
 
 import java.util.Random;
-
-import static org.bukkit.Material.AIR;
 
 /**
  * Tool class with static methods that find a suitable location for a portal to spawn at.
  */
 public class LocationFinder {
+
+    private static final Material[] validSpawningMaterial = new Material[]{Material.AIR, Material.GRASS, Material.TORCH, Material.TALL_GRASS, Material.CAVE_AIR, Material.REDSTONE_TORCH};
 
     /**
      * Finds a suitable 3-blocks tall space for a portal to spawn in.
@@ -60,16 +61,12 @@ public class LocationFinder {
         double startY = location.getY();
         for (double i = startY; i > 1; i -= 1) {
             cloned.setY(i);
-
-            System.out.println(cloned.toString());
             if (checkThreeBlockAirSpace(cloned)) {
                 return cloned;
             }
         }
         for (double i = startY; i < 254; i += 1) {
             cloned.setY(i);
-
-            System.out.println(cloned.toString());
             if (checkThreeBlockAirSpace(cloned)) {
                 return cloned;
             }
@@ -84,10 +81,22 @@ public class LocationFinder {
      * @return True if there is a 3-blocks AIR space, false otherwise.
      */
     public static boolean checkThreeBlockAirSpace(Location location) {
-        Block blockCenter = location.getBlock();
-        Block blockBottom = location.clone().add(0, -1, 0).getBlock();
-        Block blockTop = location.clone().add(0, 1, 0).getBlock();
-        return blockBottom.getType().equals(AIR) && blockCenter.getType().equals(AIR) && blockTop.getType().equals(AIR);
+        return assertMaterial(location.getBlock().getType(), validSpawningMaterial)
+                && assertMaterialInShiftedBlock(location, new Vector(0, 1, 0), validSpawningMaterial)
+                && assertMaterialInShiftedBlock(location, new Vector(0, -1, 0), validSpawningMaterial);
+    }
+
+    private static boolean assertMaterialInShiftedBlock(Location loc, Vector shifter, Material[] targets) {
+        return assertMaterial(loc.clone().add(shifter).getBlock().getType(), targets);
+    }
+
+    private static boolean assertMaterial(Material blockToCheck, Material[] targets) {
+        for (Material m : targets) {
+            if (blockToCheck.equals(m)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }
