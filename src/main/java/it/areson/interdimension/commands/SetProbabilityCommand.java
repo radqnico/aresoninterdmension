@@ -17,10 +17,10 @@ public class SetProbabilityCommand extends CommandParserCommand {
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
-        if (strings.length == 1) {
+        if (strings.length == 2) {
             try {
                 AresonInterdimension instance = AresonInterdimension.getInstance();
-                double newProbability = Double.parseDouble(strings[0]);
+                double newProbability = Double.parseDouble(strings[1]);
                 instance.getDataFile().setPortalProbability(newProbability);
                 instance.getDataFile().save();
                 commandSender.sendMessage(
@@ -36,7 +36,7 @@ public class SetProbabilityCommand extends CommandParserCommand {
             }
         }
 
-        return false;
+        return true;
     }
 
     @Override
