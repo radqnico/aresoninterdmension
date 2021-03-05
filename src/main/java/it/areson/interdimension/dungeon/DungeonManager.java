@@ -1,5 +1,7 @@
 package it.areson.interdimension.dungeon;
 
+import it.areson.interdimension.files.DungeonYAML;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -71,5 +73,11 @@ public class DungeonManager {
      */
     public List<Dungeon> getDungeons() {
         return this.dungeons;
+    }
+
+    public void saveAllDungeonsToFile(DungeonYAML dungeonYAML) {
+        for (Dungeon dungeon : dungeons) {
+            dungeonYAML.saveDungeon(dungeon);
+        }
     }
 }

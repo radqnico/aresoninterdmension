@@ -37,7 +37,9 @@ public class DungeonYAML extends FileManager {
                 setLocation(chestsSection, "" + i, chests.get(i));
             }
             plugin.getLogger().info("Dungeon " + dungeon.getName() + " saved");
-            validateConfig();
+            if (validateConfig()) {
+                save();
+            }
         } else {
             plugin.getLogger().warning("Dungeon passed to save is null");
         }
@@ -129,7 +131,8 @@ public class DungeonYAML extends FileManager {
         return errors;
     }
 
-    public void validateConfig() {
+    public boolean validateConfig() {
+        boolean isOk = true;
         plugin.getLogger().info(ChatColor.YELLOW + "Validating config...");
         Method[] methods = this.getClass().getMethods();
         List<Method> validators = Arrays.stream(methods).filter(method -> method.isAnnotationPresent(ConfigAssert.class)).collect(Collectors.toList());
@@ -142,6 +145,7 @@ public class DungeonYAML extends FileManager {
                         for (String error : invoke) {
                             plugin.getLogger().severe("Error in dungeons config. Error in method " + method.getName() + " with comment: " + error);
                         }
+                        isOk = false;
                     } else {
                         plugin.getLogger().info(ChatColor.GREEN + method.getName() + " found no errors");
                     }
@@ -151,6 +155,7 @@ public class DungeonYAML extends FileManager {
                 }
             }
         }
+        return isOk;
     }
 
     @Retention(RetentionPolicy.RUNTIME)

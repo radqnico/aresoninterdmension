@@ -42,6 +42,11 @@ public class AresonInterdimension extends JavaPlugin {
         dungeonsFile = new DungeonYAML(this, "dungeons.yml");
     }
 
+    @Override
+    public void onDisable() {
+        dungeonManager.saveAllDungeonsToFile(dungeonsFile);
+    }
+
     public PortalHandler getPortalHandler() {
         return portalHandler;
     }
