@@ -1,5 +1,6 @@
 package it.areson.interdimension.commands.add;
 
+import it.areson.interdimension.commands.AresonCommand;
 import it.areson.interdimension.dungeon.Dungeon;
 import it.areson.interdimension.commands.CommandParserCommand;
 import it.areson.interdimension.dungeon.DungeonManager;
@@ -14,6 +15,7 @@ import org.bukkit.util.StringUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+@AresonCommand("add chest")
 public class AddChestCommand extends CommandParserCommand {
     private final DungeonManager dm;
 

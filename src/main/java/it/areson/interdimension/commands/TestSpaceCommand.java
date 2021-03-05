@@ -8,6 +8,7 @@ import org.bukkit.entity.Player;
 
 import java.util.List;
 
+@AresonCommand("testspace")
 public class TestSpaceCommand extends CommandParserCommand {
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {

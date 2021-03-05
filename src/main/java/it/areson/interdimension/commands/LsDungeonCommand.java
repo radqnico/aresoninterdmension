@@ -7,6 +7,7 @@ import org.bukkit.command.CommandSender;
 import java.util.ArrayList;
 import java.util.List;
 
+@AresonCommand("ls")
 public class LsDungeonCommand extends CommandParserCommand {
     private final DungeonManager dm;
 

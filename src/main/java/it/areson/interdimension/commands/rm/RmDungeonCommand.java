@@ -1,5 +1,6 @@
 package it.areson.interdimension.commands.rm;
 
+import it.areson.interdimension.commands.AresonCommand;
 import it.areson.interdimension.commands.CommandParserCommand;
 import it.areson.interdimension.dungeon.DungeonManager;
 import org.bukkit.command.Command;
@@ -9,6 +10,7 @@ import org.bukkit.util.StringUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+@AresonCommand("rm dungeon")
 public class RmDungeonCommand extends CommandParserCommand {
     private final DungeonManager dm;
 

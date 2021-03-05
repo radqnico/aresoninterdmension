@@ -6,14 +6,14 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.util.StringUtil;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.lang.annotation.Annotation;
+import java.util.*;
 import java.util.logging.Level;
 
 public class CommandParser extends CommandParserCommand {
     private final JavaPlugin plugin;
     private final HashMap<String, CommandParserCommand> commands = new HashMap<>();
+    private final HashMap<String, CommandParserCommand> commandBuffer = new HashMap<>();
 
     public CommandParser(JavaPlugin plugin) {
         this.plugin = plugin;
@@ -30,14 +30,43 @@ public class CommandParser extends CommandParserCommand {
         return false;
     }
 
-    public void addCommand(String arg, CommandParserCommand executor) {
-        if (this.commands.containsKey(arg)) {
-            plugin.getLogger().log(Level.WARNING, "Already insert " + arg + " command");
-            return;
+    public void addAresonCommand(CommandParserCommand executor) throws Exception {
+        Annotation[] ann = executor.getClass().getAnnotations();
+        boolean added = false;
+        for (Annotation a : ann) {
+            if (a instanceof AresonCommand) {
+                commandBuffer.put(((AresonCommand)a).value(), executor);
+                added = true;
+                plugin.getLogger().log(Level.INFO, "Command inserted to buffer " + executor.getClass().getName() + " command");
+            }
         }
-        executor.setDepth(this.depth + 1);
-        this.commands.put(arg, executor);
-        plugin.getLogger().log(Level.INFO, "Bind " + arg + " command");
+        if (!added) {
+            throw new Exception("Class " + executor.getClass().getName() + " doesn't have Annotation");
+        }
+    }
+
+    public void registerCommand(String command, CommandParserCommand executor) {
+        String[] splitted = command.split(" ");
+        if (splitted.length > 1) {
+            CommandParserCommand selectedCommand = commands.get(splitted[0]);
+            if (selectedCommand != null) {
+                ((CommandParser) selectedCommand).registerCommand(String.join(" ", Arrays.copyOfRange(splitted, 1, splitted.length)), executor);
+            } else {
+                CommandParser parser = new CommandParser(plugin);
+                parser.setDepth(this.depth + 1);
+                parser.registerCommand(String.join(" ", Arrays.copyOfRange(splitted, 1, splitted.length)), executor);
+                this.commands.put(splitted[0], parser);
+            }
+        } else {
+            executor.setDepth(this.depth + 1);
+            this.commands.put(command, executor);
+        }
+    }
+
+    public void registerCommands() {
+        for (Map.Entry<String, CommandParserCommand> s : commandBuffer.entrySet()) {
+            registerCommand(s.getKey(), s.getValue());
+        }
     }
 
     @Override

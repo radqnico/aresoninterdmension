@@ -1,5 +1,6 @@
 package it.areson.interdimension.commands.add;
 
+import it.areson.interdimension.commands.AresonCommand;
 import it.areson.interdimension.dungeon.Dungeon;
 import it.areson.interdimension.commands.CommandParserCommand;
 import it.areson.interdimension.dungeon.DungeonManager;
@@ -10,6 +11,7 @@ import org.bukkit.entity.Player;
 import java.util.ArrayList;
 import java.util.List;
 
+@AresonCommand("add dungeon")
 public class AddDungeonCommand extends CommandParserCommand {
     private final List<String> suggestions = new ArrayList<>();
     private final DungeonManager dm;

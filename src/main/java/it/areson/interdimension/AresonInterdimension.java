@@ -101,19 +101,33 @@ public class AresonInterdimension extends JavaPlugin {
             this.getLogger().log(Level.SEVERE, "Cannot register interdimension commands");
             return;
         }
-        CommandParser addCommands = new CommandParser(this);
-        parser.addCommand("add", addCommands);
-        addCommands.addCommand("dungeon", new AddDungeonCommand(this.dungeonManager));
-        addCommands.addCommand("chest", new AddChestCommand(this.dungeonManager));
-        CommandParser rmCommands = new CommandParser(this);
-        parser.addCommand("rm", rmCommands);
-        rmCommands.addCommand("dungeon", new RmDungeonCommand(this.dungeonManager));
-        rmCommands.addCommand("chests", new RmChestsCommand(this.dungeonManager));
-        parser.addCommand("setprobability", new SetProbabilityCommand());
-        parser.addCommand("ls", new LsDungeonCommand(this.dungeonManager));
-        parser.addCommand("tp", new TpDungeonCommand(this.dungeonManager));
-        parser.addCommand("spawnportal", new TestPortalCommand());
-        parser.addCommand("testspace", new TestSpaceCommand());
+        try {
+            parser.addAresonCommand(new AddDungeonCommand(this.dungeonManager));
+            parser.addAresonCommand(new AddChestCommand(this.dungeonManager));
+            parser.addAresonCommand(new RmChestsCommand(this.dungeonManager));
+            parser.addAresonCommand(new RmDungeonCommand(this.dungeonManager));
+            parser.addAresonCommand(new SetProbabilityCommand());
+            parser.addAresonCommand(new LsDungeonCommand(this.dungeonManager));
+            parser.addAresonCommand(new TpDungeonCommand(this.dungeonManager));
+            parser.addAresonCommand(new TestPortalCommand());
+            parser.addAresonCommand(new TestSpaceCommand());
+            parser.registerCommands();
+        } catch (Exception ignored) {
+
+        }
+//        CommandParser addCommands = new CommandParser(this);
+//        parser.addCommand("add", addCommands);
+//        addCommands.addCommand("dungeon", new AddDungeonCommand(this.dungeonManager));
+//        addCommands.addCommand("chest", new AddChestCommand(this.dungeonManager));
+//        CommandParser rmCommands = new CommandParser(this);
+//        parser.addCommand("rm", rmCommands);
+//        rmCommands.addCommand("dungeon", new RmDungeonCommand(this.dungeonManager));
+//        rmCommands.addCommand("chests", new RmChestsCommand(this.dungeonManager));
+//        parser.addCommand("setprobability", new SetProbabilityCommand());
+//        parser.addCommand("ls", new LsDungeonCommand(this.dungeonManager));
+//        parser.addCommand("tp", new TpDungeonCommand(this.dungeonManager));
+//        parser.addCommand("spawnportal", new TestPortalCommand());
+//        parser.addCommand("testspace", new TestSpaceCommand());
         command.setExecutor(parser);
         command.setTabCompleter(parser);
     }

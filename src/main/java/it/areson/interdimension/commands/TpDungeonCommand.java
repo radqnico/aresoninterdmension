@@ -10,6 +10,7 @@ import org.bukkit.util.StringUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+@AresonCommand("tp")
 public class TpDungeonCommand extends CommandParserCommand {
     private final DungeonManager dm;
 

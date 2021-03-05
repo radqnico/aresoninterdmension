@@ -8,6 +8,7 @@ import org.bukkit.command.CommandSender;
 import java.util.ArrayList;
 import java.util.List;
 
+@AresonCommand("setprobability")
 public class SetProbabilityCommand extends CommandParserCommand {
     private final List<String> suggestions = new ArrayList<>();
 
