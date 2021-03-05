@@ -8,7 +8,7 @@ import java.util.Random;
 import java.util.stream.Collectors;
 
 public class DungeonManager {
-    private List<Dungeon> dungeons = new ArrayList<>();
+    private final List<Dungeon> dungeons = new ArrayList<>();
 
     /**
      * Get a dungeon by name.
