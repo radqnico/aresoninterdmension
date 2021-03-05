@@ -11,7 +11,11 @@ public class Configuration {
     public static final String mainWorldName = "world";
 
     public static double getProbabilityOfPortals(int nPortals, double probability) {
-        return ((double) binomi(115, nPortals)) * Math.pow(probability, nPortals) * Math.pow(1 - probability, 115 - nPortals);
+        double cumulative = 0;
+        for (int i = 0; i <= nPortals; i++) {
+            cumulative += ((double) binomi(115, i)) * Math.pow(probability, i) * Math.pow(1 - probability, 115 - i);
+        }
+        return cumulative;
     }
 
     static long binomi(int n, int k) {
