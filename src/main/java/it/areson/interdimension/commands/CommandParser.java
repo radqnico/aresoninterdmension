@@ -30,6 +30,12 @@ public class CommandParser extends CommandParserCommand {
         return false;
     }
 
+    /**
+     * Add a command to the buffer, for generate the tree call registerCommands().
+     * The command is not effectively added, but ony buffered!
+     * @param executor The command executor
+     * @throws Exception The provided command doesn't have the annotation @AresonCommand
+     */
     public void addAresonCommand(CommandParserCommand executor) throws Exception {
         Annotation[] ann = executor.getClass().getAnnotations();
         boolean added = false;
@@ -45,6 +51,11 @@ public class CommandParser extends CommandParserCommand {
         }
     }
 
+    /**
+     * RESERVED
+     * @param command Name of the command
+     * @param executor Executor of the command
+     */
     public void registerCommand(String command, CommandParserCommand executor) {
         String[] splitted = command.split(" ");
         if (splitted.length > 1) {
@@ -63,10 +74,14 @@ public class CommandParser extends CommandParserCommand {
         }
     }
 
+    /**
+     * Create the command tree of the buffered commands.
+     */
     public void registerCommands() {
         for (Map.Entry<String, CommandParserCommand> s : commandBuffer.entrySet()) {
             registerCommand(s.getKey(), s.getValue());
         }
+        commandBuffer.clear();
     }
 
     @Override
