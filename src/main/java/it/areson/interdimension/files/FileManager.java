@@ -79,8 +79,10 @@ public class FileManager {
 
     public Optional<Location> getLocation(ConfigurationSection configurationSection, String path) {
         String worldName = configurationSection.getString(path + ".world");
+        System.out.println(worldName);
         if (worldName != null) {
             World world = this.plugin.getServer().getWorld(worldName);
+            System.out.println(world);
             if (world != null) {
                 return Optional.of(new Location(
                         world,
