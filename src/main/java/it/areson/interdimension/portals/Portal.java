@@ -9,6 +9,7 @@ import org.bukkit.SoundCategory;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.potion.PotionEffectType;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -145,10 +146,12 @@ public class Portal {
      * Teleport all passed players to the appearing location of the portal (works independently from the status).
      * Also empties the passed players list.
      */
-    public void returnBackIfPassed() {
+    public void returnBackWhoPassed() {
         final int size = whoPassed.size();
         for (int i = 0; i < size; i++) {
-            whoPassed.remove(0).teleport(location, PlayerTeleportEvent.TeleportCause.PLUGIN);
+            Player remove = whoPassed.remove(0);
+            remove.teleport(location, PlayerTeleportEvent.TeleportCause.PLUGIN);
+            remove.removePotionEffect(PotionEffectType.BLINDNESS);
         }
     }
 
@@ -156,9 +159,10 @@ public class Portal {
      * Teleport one specific passed player to the appearing location of the portal (works independently from the status).
      * Also empties the passed players list.
      */
-    public boolean returnBackIfPassed(Player player) {
+    public boolean returnBackWhoPassed(Player player) {
         if (whoPassed.contains(player)) {
             player.teleport(location, PlayerTeleportEvent.TeleportCause.PLUGIN);
+            player.removePotionEffect(PotionEffectType.BLINDNESS);
             whoPassed.remove(player);
             return true;
         }

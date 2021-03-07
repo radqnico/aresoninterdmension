@@ -130,7 +130,7 @@ public class PortalHandler implements PortalCountdownEndListener {
     @Override
     public synchronized void notifyCountdownFinish(Portal portal) {
         portal.closePortal();
-        portal.returnBackIfPassed();
+        portal.returnBackWhoPassed();
         portal.playTeleportEffects();
         portal.getDestination().setAlreadyActive(false);
         portals.remove(portal);

@@ -2,9 +2,9 @@ package it.areson.interdimension;
 
 public class Configuration {
 
-    public static final int rangeMinPortal = 4;
-    public static final int rangeMaxPortal = 10;
-    public static final int portalDurationSeconds = 120;
+    public static final int rangeMinPortal = 2;
+    public static final int rangeMaxPortal = 8;
+    public static final int portalDurationSeconds = 60;
 
     public static final double defaultProbabilityToSpawnEveryFiveSeconds = 0.0285;
 

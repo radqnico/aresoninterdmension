@@ -25,7 +25,7 @@ public class ChestContent {
         BlockState blockState = location.getBlock().getState();
         if (blockState instanceof Chest) {
             Chest chest = (Chest) blockState;
-            NamespacedKey namespacedKey = new NamespacedKey(AresonInterdimension.getInstance(), "loot_portal");
+            NamespacedKey namespacedKey = NamespacedKey.minecraft("chests/woodland_mansion");
             chest.setLootTable(AresonInterdimension.getInstance().getServer().getLootTable(namespacedKey));
             chest.update();
         }

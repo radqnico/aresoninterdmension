@@ -36,7 +36,7 @@ public class PlayerEventsListener extends GeneralEventListener {
                 portal.playerPassedPortal(player);
                 AresonInterdimension.sendBroadcastEnterPortalMessage(player.getName());
                 // Effetti
-                player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 5, 2, false, false, true));
+                plugin.getServer().getScheduler().runTaskLater(plugin, () -> player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, Integer.MAX_VALUE, 2, false, false, true)), 20);
                 portal.playTeleportEffects();
             }
         }
@@ -47,7 +47,7 @@ public class PlayerEventsListener extends GeneralEventListener {
         Player player = event.getPlayer();
         Set<Portal> portals = AresonInterdimension.getInstance().getPortalHandler().getPortals();
         for (Portal portal : portals) {
-            if (portal.returnBackIfPassed(player)) {
+            if (portal.returnBackWhoPassed(player)) {
                 player.removePotionEffect(PotionEffectType.BLINDNESS);
                 break;
             }
