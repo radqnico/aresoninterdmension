@@ -1,5 +1,6 @@
 package it.areson.interdimension.portals;
 
+import it.areson.interdimension.Configuration;
 import it.areson.interdimension.dungeon.Dungeon;
 import it.areson.interdimension.runnables.RepeatingRunnable;
 import org.bukkit.Location;
@@ -11,8 +12,13 @@ import org.bukkit.event.player.PlayerTeleportEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffectType;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.TemporalUnit;
 import java.util.ArrayList;
 import java.util.Objects;
+
+import static java.time.temporal.ChronoUnit.SECONDS;
 
 /**
  * Portal object.
@@ -48,6 +54,7 @@ public class Portal {
      * Status of the portal.
      */
     private Status status;
+    private LocalDateTime closingTime;
 
     /**
      * Instantiate a new (closed) portal.
@@ -107,6 +114,7 @@ public class Portal {
         showParticles();
         playSounds();
         status = Status.OPEN;
+        closingTime = LocalDateTime.now().plus(Configuration.portalDurationSeconds, SECONDS);
     }
 
     /**
@@ -327,6 +335,10 @@ public class Portal {
                 );
             }
         });
+    }
+
+    public LocalDateTime getClosingTime() {
+        return closingTime;
     }
 
     public enum Status {

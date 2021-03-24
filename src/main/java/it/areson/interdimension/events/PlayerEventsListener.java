@@ -1,6 +1,8 @@
 package it.areson.interdimension.events;
 
 import it.areson.interdimension.AresonInterdimension;
+import it.areson.interdimension.files.Message;
+import it.areson.interdimension.files.Pair;
 import it.areson.interdimension.portals.Portal;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
@@ -11,6 +13,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.Set;
 
@@ -38,6 +42,8 @@ public class PlayerEventsListener extends GeneralEventListener {
                 // Effetti
                 plugin.getServer().getScheduler().runTaskLater(plugin, () -> player.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, Integer.MAX_VALUE, 2, false, false, true)), 20);
                 portal.playTeleportEffects();
+                long seconds = Duration.between(LocalDateTime.now(), portal.getClosingTime()).getSeconds();
+                player.sendMessage(AresonInterdimension.getInstance().messages().getMessage(true, Message.PORTAL_PASS, Pair.of("%seconds%", seconds + "")));
             }
         }
     }

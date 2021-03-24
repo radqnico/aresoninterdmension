@@ -13,4 +13,6 @@ public interface TreeNode {
 
     Optional<? extends TreeNode> getChild(String key);
 
+    boolean isLeaf();
+
 }

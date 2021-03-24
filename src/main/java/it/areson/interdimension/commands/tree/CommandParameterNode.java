@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-public abstract class CommandParameterNode implements TreeNode, CommandExecutor {
+public abstract class CommandParameterNode implements TreeNode {
 
     private TreeNode parent;
     private final String parameter;
@@ -65,8 +65,4 @@ public abstract class CommandParameterNode implements TreeNode, CommandExecutor 
     public int hashCode() {
         return Objects.hash(parameter);
     }
-
-    @SuppressWarnings("NullableProblems")
-    @Override
-    public abstract boolean onCommand(CommandSender commandSender, Command command, String alias, String[] arguments);
 }

@@ -7,3 +7,4 @@ prefix: "&4[Areson] &f"
 not-player: "Non sei un player"
 
 portal-entered-broadcast: "&c&l%PLAYER%&6 ha appena attraversato uno squarcio spaziale misterioso!"
+portal-pass-message: "&e&lIl portale si chiudera' tra %seconds% secondi"
